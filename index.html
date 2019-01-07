@@ -22,28 +22,95 @@
 		</script>
 	</head>
 	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+	  <div class="reveal">
+	    <div class="slides">
+	      <section data-markdown>
+		<textarea data-template>
+		  ### Welcome to 
+		  ## ITEC 4220 - Advanced Data Analytics
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+		  #### Cengiz Gunay, Spring 2019
+		</textarea>
+	      </section>
+	      <section data-markdown>
+		<textarea data-template>
+		  Let's start with a quiz!
+		  		  
+		</textarea>
+	      </section>
+	      <section data-markdown>
+	      <section data-markdown>
+		<textarea data-template>
+		  ## Important Dates for Presenting and Attending
+		  
+		  - Tue April 9th - GGC STaRS Symposium poster/talk presentations		  
+		  - April 11-12 - [Southern Data Science
+		  Conference](https://www.southerndatascience.com/),
+		  $200 for students		  
+		  - Fri April 26th - Kennesaw State Univ [Analytics
+		  Day](https://ccpe.kennesaw.edu/sasday/) poster
+		  presentations
+		  
+		</textarea>
+	      </section>
+	      <section data-markdown>
+		<textarea data-template>
+		  ## First half of semester
+		  
+		  1. Data scrubbing/regexp
+		  1. Hypothesis testing and visualization with R/Matlab
+		  1. Data sources: SQL vs noSQL 
+		  1. Interactive computing with Python Jupyter Notebooks
+		  1. MapReduce in Apache Hadoop and Querying in Spark
+		</textarea>
+	      </section>
+	      <section data-markdown>
+		<textarea data-template>
+		  ## Second half: algorithms
+		  
+		  1. Clustering, association mining
+		  1. PCA/ICA, Bayes, Expectation Maximization
+		  1. Classification, neural nets, deep nets
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
-		</script>
+		  If time permits: <!-- .element: class="fragment" data-fragment-index="2" -->
+		  - time series analysis and text analysis <!-- .element: class="fragment" data-fragment-index="2" -->
+		</textarea>
+	      </section>
+	      <section data-markdown>
+		<textarea data-template>
+		  ### GGC IT Concentration in Data Science & Analytics [(graph)](https://vida.io/documents/2o5v9Su2AarvutjRr)
+		  
+		  - MATH 2200 Calculus I/MATH 2450 Linear Algebra
+		  - ITEC 2150 Int Prog/ITEC 3150 Adv Prog
+		  - ITEC 3100 Intro the Networks/ITEC 3200 Intro DB
+		  - ITEC 3700 System Analysis and Design
+		  - ITEC 3860 Software Development 1
+		  - ITEC 3900 Ethics
+		  - ITEC 4210 Info Analytics
+		  - ITEC 4220 Adv Data Analytics
+		  - ITEC 4700 Artificial Intelligence
+		  - ITEC 4xxx Capstone Project (NEW)
+		</textarea>
+	      </section>
+	    </div>
+	  </div>
+	  
+	  <script src="lib/js/head.min.js"></script>
+	  <script src="js/reveal.js"></script>
+
+	  <script>
+	    // More info about config & dependencies:
+	    // - https://github.com/hakimel/reveal.js#configuration
+	    // - https://github.com/hakimel/reveal.js#dependencies
+	    Reveal.initialize({
+	      dependencies: [
+		{ src: 'plugin/markdown/marked.js' },
+		{ src: 'plugin/markdown/markdown.js' },
+		{ src: 'plugin/notes/notes.js', async: true },
+		{ src: 'plugin/highlight/highlight.js',
+		  async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+	      ]
+	    });
+	  </script>
 	</body>
 </html>
