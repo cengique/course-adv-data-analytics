@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Class 1 - ITEC 4220 Advanced Data Analytics</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
@@ -40,15 +40,27 @@
 	      </section>
 	      <section data-markdown>
 		<textarea data-template>
-		  ## Important Dates for Presenting and Attending
+		  ## Summary
+
+		  1. Several small assignments
+		  1. One larger project throughout the semester
+		  1. Present at local symposia
+		  1. Final exam or [aCAP certification](https://www.certifiedanalytics.org/associate_cap.php)
+		  		  
+		</textarea>
+	      </section>
+	      <section data-markdown>
+		<textarea data-template>
+		  ## Important dates for presenting or simply attending
 		  
-		  - Tue April 9th - GGC STaRS Symposium poster/talk presentations		  
+		  - Tue April 9th, noon-3pm - GGC STaRS Symposium
+		  poster/talk presentations (need to stay 1 hour max)		  
 		  - April 11-12 - [Southern Data Science
 		  Conference](https://www.southerndatascience.com/),
 		  $200 for students		  
 		  - Fri April 26th - Kennesaw State Univ [Analytics
 		  Day](https://ccpe.kennesaw.edu/sasday/) poster
-		  presentations
+		  presentations at 8am, followed by talks and networking
 		  
 		</textarea>
 	      </section>
@@ -102,6 +114,19 @@
 	    // - https://github.com/hakimel/reveal.js#configuration
 	    // - https://github.com/hakimel/reveal.js#dependencies
 	    Reveal.initialize({
+	      // The "normal" size of the presentation, aspect ratio will be preserved
+	      // when the presentation is scaled to fit different resolutions. Can be
+	      // specified using percentage units.
+	      width: 1280, // 960
+	      height: 720, // 700
+
+	      // Factor of the display size that should remain empty around the content
+	      margin: 0.1,
+	      
+	      // Bounds for smallest/largest possible scale to apply to content
+	      minScale: 0.2,
+	      maxScale: 1.5,
+	      
 	      dependencies: [
 		{ src: 'plugin/markdown/marked.js' },
 		{ src: 'plugin/markdown/markdown.js' },
