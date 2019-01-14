@@ -1,0 +1,219 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Module 2 - Obtaining and scrubbing data - ITEC 4220 Advanced Data Analytics</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+	  <div class="reveal">
+	    <div class="slides">	      
+	      <section data-markdown>
+		<textarea data-template>
+		  <img src="images/DS_cmdline_cover.png" style="float: right; max-width: auto; height: 600px;"/>
+		  ## ITEC 4220 - Advanced Data Analytics
+
+		  ### Module 2 - Obtaining and scrubbing data
+		  
+		  #### Cengiz Gunay, Spring 2019
+		</textarea>
+	      </section>
+	      <section>
+	      <section data-markdown>
+		<textarea data-template>
+		  ### Data Science is OSEMN: Anatomy of a project
+
+1. Start with a question or hypothesis that is testable with existing data		  
+2. (O)btain data and (S)crub it for relevant parts
+1. (E)xplore data to understand what can be done
+3. Convert question into statistical (M)odel
+4. Select and use a technique to optimize or test model with data
+5. Interpret results: visualize, summarize, make a recommendation
+1. Go back to 1 and revisit/modify/repeat
+		  
+		</textarea>
+	      </section>
+	      <section data-markdown>
+		<textarea data-template>
+		  ### Obtaining data
+
+		  - Download
+		  - Query database
+		  - Extract from sources (e.g., HTML crawl/parse)
+		  - Generate yourself (reading sensors)
+		</textarea>
+	      </section>
+	      <section data-markdown>
+		<textarea data-template>
+		  ### Scrubbing data
+
+		  Prepping for analysis
+
+		  - Filtering lines
+		  - Extracting only some columns
+		  - Replacing values
+		  - Extracting words
+		  - Handling missing values
+		  - Converting data formats
+		</textarea>
+	      </section>
+	      <section data-markdown>
+		<textarea data-template>
+		  ### Exploring data
+
+		  To understand nature of data and what can be done with it
+
+		  - Browse and look at data
+		  - Derive statistics
+		  - Visualize
+		</textarea>
+	      </section>
+	      <section data-markdown>
+		<textarea data-template>
+		  ### Modeling data
+
+		  To predict from data
+
+		  - Example 1: testing whether global warming exists;
+		  check for correlation between time and temperature
+		  
+		  - Example 2: if person A buys book X, would person B also buy it?
+
+		</textarea>
+	      </section>
+	      <section data-markdown>
+		<textarea data-template>
+		  ### Interpret data
+
+		  - Draw conclusions
+		  - Evaluate meaning of results
+		  - Communicate results
+
+		</textarea>
+	      </section>
+	      </section> <!-- end of vertical slides -->
+	      <section data-markdown>
+		<textarea data-template>
+		  ### What is the command line?
+
+		  - Endless text flow <img src="images/DS_cmdline_terminal.png" style="float: right; max-width: auto; height: 500px;"/>	
+		  - Allows streaming operations
+		  - More flexible than UI		  
+		  - Ready-made packages: [Data Science
+		  Toolbox](http://datasciencetoolbox.org/) virtual
+		  machine image to install at home
+		  - We will use Jetstream in class
+
+		</textarea>
+	      </section>
+	      <section data-markdown>
+		<textarea data-template>
+		  ### Why command line?
+
+		  - Use it in addition to UI
+		  - Scalable
+		  - Extensible: 40 years running
+		  - Ubiquitous: 95% of top 500 supercomputers
+
+		</textarea>
+	      </section>
+	      <section data-markdown>
+		<textarea data-template>
+		  ### An example
+
+		  Finding out when is the next Fashion Week using New York Times web API:
+		  
+		  ```bash
+		  $ cd ~/book/ch01/data
+		  $ parallel -j1 --progress --delay 0.1 --results results "curl -sL "\
+		  > "'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=New+York+'"\
+		  > "'Fashion+Week&begin_date={1}0101&end_date={1}1231&page={2}&api-key='"\
+		  > "'<your-api-key>'" ::: {2009..2013} ::: {0..99} > /dev/null
+
+		  Computers / CPU cores / Max jobs to run
+		  1:local / 4 / 1
+		  Computer:jobs running/jobs completed/%of started jobs/Average seconds to
+		  complete
+		  local:1/9/100%/0.4s
+		  ```
+
+		  Ran 500 parallel queries to receive 1000 articles in JSON format.
+		    
+		</textarea>
+	      </section>
+	      <section data-markdown>
+		<textarea data-template>
+		  ### An example (Cont'd)
+
+		  <div><img src="images/DS_cmdline_tree_results.png" style="float: right; height: 200px; margin-right: 200px; margin-bottom: 50px;"/>
+		    Looking at the output <br>directories under `results`:		    
+		  </div>
+		  
+		  <p style="clear: both;">Combine and process:</p>
+		  ```bash
+		  $ cat results/1/*/2/*/stdout |
+		  > jq -c '.response.docs[] | {date: .pub_date, type: .document_type, '\
+		  > 'title: .headline.main }' | json2csv -p -k date,type,title > fashion.csv
+		  ```
+
+		  1. `cat`: Outputs contents of files
+		  1. `jq`: Parses JSON content
+		  1. `json2csv`: Converts to CSV
+	 
+		</textarea>
+	      </section>
+
+
+
+	      
+	    </div>
+	  </div>
+	  
+	  <script src="lib/js/head.min.js"></script>
+	  <script src="js/reveal.js"></script>
+
+	  <script>
+	    // More info about config & dependencies:
+	    // - https://github.com/hakimel/reveal.js#configuration
+	    // - https://github.com/hakimel/reveal.js#dependencies
+	    Reveal.initialize({
+	      // The "normal" size of the presentation, aspect ratio will be preserved
+	      // when the presentation is scaled to fit different resolutions. Can be
+	      // specified using percentage units.
+	      width: 1280, // 960
+	      height: 720, // 700
+
+	      // Factor of the display size that should remain empty around the content
+	      margin: 0.1,
+	      
+	      // Bounds for smallest/largest possible scale to apply to content
+	      minScale: 0.2,
+	      maxScale: 1.5,
+	      
+	      dependencies: [
+		{ src: 'plugin/markdown/marked.js' },
+		{ src: 'plugin/markdown/markdown.js' },
+		{ src: 'plugin/notes/notes.js', async: true },
+		{ src: 'plugin/highlight/highlight.js',
+		  async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+	      ]
+	    });
+	  </script>
+	</body>
+</html>
