@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Class 1 - ITEC 4220 Advanced Data Analytics</title>
+		<title>Module 3 - R practice and linear algebra basics - ITEC 4220 Advanced Data Analytics</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
@@ -23,17 +23,61 @@
 	</head>
 	<body>
 	  <div class="reveal">
-	    <div class="slides">	      
+	    <div class="slides">
 	      <section data-markdown>
 		<textarea data-template>
 		  ## ITEC 4220 - Advanced Data Analytics
 
-		  - Schedule (TBA)
-		  - [Module 1 - Introduction](module1-intro.html)
-		  - [Module 2 - Obtaining and scrubbing data](module2-data-scrub.html)
-		  - [Module 3 - R practice and linear algebra basics](module3-R-linear-algebra.html)
+		  ### Module 3 - R practice and linear algebra basics
+		  
+		  #### Cengiz Gunay, Spring 2019
 		</textarea>
 	      </section>
+
+	      <section> <!-- two slides together -->
+
+	      <section data-markdown>
+		<textarea data-template>
+		  ### Linear algebra basics
+
+		  - inner/dot product: `x⋅y`
+		    => multiply elements and sum to result in scalar
+
+		  - outer product: `x*y`
+		    => element-by-element multiplication, results in same size vector
+
+		</textarea>
+	      </section>
+
+	      <section data-markdown>
+		<textarea data-template>
+		  ### Linear algebra basics (cont)
+
+		  - matrix multiplication: `A(mxn)*B(nxj)`
+		    => two matrices with inner dimensions aligned, results in `(mxj)` matrix
+
+		</textarea>
+	      </section>
+	      </section>
+
+	      <section data-markdown>
+		<textarea data-template>
+		  ### R practice looping
+
+		  Loop through your data and calculate (e.g. regression, mean, max).
+		  
+		</textarea>
+	      </section>
+
+      	      <section data-markdown>
+		<textarea data-template>
+		  ### R 
+
+		  Use vector operations to do it shorter and more efficiently.
+		  
+		</textarea>
+	      </section>
+
 	    </div>
 	  </div>
 	  
@@ -45,6 +89,16 @@
 	    // - https://github.com/hakimel/reveal.js#configuration
 	    // - https://github.com/hakimel/reveal.js#dependencies
 	    Reveal.initialize({
+
+	      math: {
+		mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+		config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
+	      },
+
+	      dependencies: [
+		{ src: 'plugin/math/math.js', async: true }
+	      ],
+	      
 	      // The "normal" size of the presentation, aspect ratio will be preserved
 	      // when the presentation is scaled to fit different resolutions. Can be
 	      // specified using percentage units.
