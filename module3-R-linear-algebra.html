@@ -40,11 +40,11 @@
 		<textarea data-template>
 		  ### Linear algebra basics
 
-		  - inner/dot product: `x⋅y`
-		    => multiply elements and sum to result in scalar
-
-		  - outer product: `x*y`
-		    => element-by-element multiplication, results in same size vector
+		  - Vectors: `$ \vec{x} = [ 1, 2, 3 ]$`
+		  - inner/dot product: `$ x \cdot y = \sum x_i y_i$`
+		     => multiply elements and sum to result in scalar		  
+		  - outer product: `$x \times y = [x_i y_i]_i$`
+		     => element-by-element multiplication, results in same size vector
 
 		</textarea>
 	      </section>
@@ -53,29 +53,48 @@
 		<textarea data-template>
 		  ### Linear algebra basics (cont)
 
-		  - matrix multiplication: `A(mxn)*B(nxj)`
-		    => two matrices with inner dimensions aligned, results in `(mxj)` matrix
+		  - matrix multiplication: `$ A_{m\times n} \times B_{n\times o} = C_{m\times o}$`
+		     => two matrices with inner dimensions aligned, results a matrix
 
 		</textarea>
 	      </section>
 	      </section>
 
+	      <section> <!-- two slides together -->
 	      <section data-markdown>
 		<textarea data-template>
-		  ### R practice looping
+		  ### R: conventional looping versus vector operations
 
-		  Loop through your data and calculate (e.g. regression, mean, max).
+		  Loop through your data and calculate mean and standard deviation (or regression, min, max, etc.).
+
+		  ```R
+		  vector <- c(1,2,3)
+		  sum <- 0
 		  
+		  for (element in vector) {
+		    sum <- sum + element
+		  }
+		  mean <- sum / length(vector)
+		  ```
+		  
+		  Use vector operations to do it shorter and more efficiently. <!-- .element: class="fragment" data-fragment-index="1" -->
+		  ```R 
+		  vector <- c(1,2,3)
+		  sum(vector) / length(vector)
+		  ``` 
+		  <!-- .element: class="fragment" data-fragment-index="1" -->
+			    
 		</textarea>
 	      </section>
 
       	      <section data-markdown>
 		<textarea data-template>
-		  ### R 
+		  ### R exercise
 
-		  Use vector operations to do it shorter and more efficiently.
-		  
+		  Calculate standard deviation
+
 		</textarea>
+	      </section>
 	      </section>
 
 	    </div>
@@ -91,12 +110,11 @@
 	    Reveal.initialize({
 
 	      math: {
-		mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+		mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js', // https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js
 		config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
 	      },
 
 	      dependencies: [
-		{ src: 'plugin/math/math.js', async: true }
 	      ],
 	      
 	      // The "normal" size of the presentation, aspect ratio will be preserved
@@ -117,7 +135,9 @@
 		{ src: 'plugin/markdown/markdown.js' },
 		{ src: 'plugin/notes/notes.js', async: true },
 		{ src: 'plugin/highlight/highlight.js',
-		  async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+		  async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+		// MathJax
+		{ src: 'plugin/math/math.js', async: true }
 	      ]
 	    });
 	  </script>
