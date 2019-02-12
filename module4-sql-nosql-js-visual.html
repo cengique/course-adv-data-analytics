@@ -38,7 +38,38 @@
 		<textarea data-template>
 		  ### Good old relational databases: Simple Query Language
 
+		  - SQL has been around for a while
+		  - Good for relational data
+		  - **Strengths:** Efficient with large data, join operations, expressive query language
+		  - **Weaknesses:** Requires data transformation into rigid table structures, not easily distributed
 		  
+		  Example retrieval query with conditions, grouping, and sorting:
+
+		  ```sql
+		  SELECT * FROM MyData WHERE date < 2019 GROUP BY course ORDER BY name DESC;
+		  ```
+                  
+		</textarea>
+	      </section>
+	      <section data-markdown>
+		<textarea data-template>
+                  ### An alternative: noSQL databases with JSON
+
+                  - JSON: JavaScript Object Notation for describing name-value pairs
+                  ```javascript
+                  { "name": "Gunay", "room": "W-2117" }
+                  ```
+
+                  - **Strengths**: Simple text format to describe structures, good for streaming
+                  - **Weaknesses**: No schema checking, no datatypes, no relationships
+
+                  - More complex example with arrays and nesting:
+                  ```javascript
+                  [ { "name": "Gunay",
+                        "pets": [ { "name": "fluffy", "age": "2"},
+                                  { "name": "mike", "type": "dog"} ] }, { "name": "..." } ]
+                  ```
+
 		</textarea>
 	      </section>
 	      
