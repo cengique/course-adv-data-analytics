@@ -63,27 +63,26 @@
 	      <section> <!-- two slides together -->
 	      <section data-markdown>
 		<textarea data-template>
-		  ### R: conventional looping versus vector operations
+                  ### R: conventional looping versus vector operations
 
-		  Loop through your data and calculate mean and standard deviation (or regression, min, max, etc.).
+                  Loop through your data and calculate mean and standard deviation (or regression, min, max, etc.).
 
-		  ```R
-		  vector <- c(1,2,3)
-		  sum <- 0
+                  ```R
+                  vector <- c(1,2,3)
+                  sum <- 0
+                  
+                  for (element in vector) {
+                    sum <- sum + element
+                  }
+                  mean <- sum / length(vector)
+                  ```
 		  
-		  for (element in vector) {
-		    sum <- sum + element
-		  }
-		  mean <- sum / length(vector)
-		  ```
-		  
-		  Use vector operations to do it shorter and more efficiently. <!-- .element: class="fragment" data-fragment-index="1" -->
-		  ```R 
-		  vector <- c(1,2,3)
-		  sum(vector) / length(vector)
-		  ``` 
-		  <!-- .element: class="fragment" data-fragment-index="1" -->
-			    
+                  Use vector operations to do it shorter and more efficiently. <!-- .element: class="fragment" data-fragment-index="1" -->
+                  ```R 
+                  vector <- c(1,2,3)
+                  sum(vector) / length(vector)
+                  ``` 
+                  <!-- .element: class="fragment" data-fragment-index="1" -->
 		</textarea>
 	      </section>
 
