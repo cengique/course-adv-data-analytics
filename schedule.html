@@ -6,20 +6,6 @@
 
 		<title>Schedule - ITEC 4220 Advanced Data Analytics</title>
 
-		<!--link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css"-->
-
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
-
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
 		<style>
 		  body {
 		    background-color: lightgray;
@@ -42,66 +28,54 @@
 	<body>
 	  <div class="content">
 	    <table class="schedule-table">
-	      <tr><th>#</th><th>Date</th><th>Module</th><th>Topic</th><th>Assignment</th></tr>
+	      <tr><th>#</th><th>Date</th><th>Module</th><th>Topic</th><th>Reading</th><th>Assignment</th></tr>
 	    </table>
 	  </div>
 	  
-	  <script src="lib/js/head.min.js"></script>
-	  <script src="js/reveal.js"></script>
-
 	  <script>
-	    // More info about config & dependencies:
-	    // - https://github.com/hakimel/reveal.js#configuration
-	    // - https://github.com/hakimel/reveal.js#dependencies
-	    /*Reveal.initialize({
-	      // The "normal" size of the presentation, aspect ratio will be preserved
-	      // when the presentation is scaled to fit different resolutions. Can be
-	      // specified using percentage units.
-	      width: 1280, // 960
-	      height: 720, // 700
-	      
-	      // Factor of the display size that should remain empty around the content
-	      margin: 0.1,
-	      
-	      // Bounds for smallest/largest possible scale to apply to content
-	      minScale: 0.2,
-	      maxScale: 1.5,
-	      
-	      dependencies: [
-		{ src: 'plugin/markdown/marked.js' },
-		{ src: 'plugin/markdown/markdown.js' },
-		{ src: 'plugin/notes/notes.js', async: true },
-		{ src: 'plugin/highlight/highlight.js',
-		  async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-	      ]
-	    });*/
 	    //Reveal.addEventListener( 'schedule', , false );
-	    //document.onreadystatechange = function() {
-	      // Fill in schedule table with JSON data
-	      var modules = [
-		{name: "Introduction",
-		 topic: "Intro to DS and BDA. Anatomy of a data science project: hypothesis testing, model development, visualization.",
-		 assignment: "Research data sources and problem questions"},
-		{name: "Introduction",
-		 topic: "Intro to DS and BDA. Anatomy of a data science project: hypothesis testing, model development, visualization.",
-		 assignment: "Research data sources and problem questions"}
-	      ];
+
+	    // Fill in schedule table with JSON data
+	    var modules = [
+	      {name: "Introduction",
+	       topic: "Intro to DS and BDA. Anatomy of a data science project: hypothesis testing, model development, visualization.",
+               reading: "",
+	       assignment: "Research data sources and problem questions", days: 7},
+	      {name: "Data scrubbing",
+	       topic: "Exploration and filtering with command line tools and regular expressions.",
+               reading: "DS at Command Line, Ch 1",
+	       assignment: "Fetch and scrub data", days: 9},
+              {name: "R language introduction",
+               topic: "Basic hypothesis testing, regression, other statistical tests, plotting.",
+               reading: "R in a Nutshell, Ch 3",
+               assignment: "R scripting and Rstudio", days: 7 },
+              {name: "Linear algebra basics with R",
+               topic: "Loop vs vector operations. Vector inner and outer products, matrix multiplication. Probability distributions and statistical tests.",
+               reading: "R cheatsheet",
+               assignment: "R data exploration and plotting in Gist", days: 7},
+              {name: "SQL databases",
+               topic: "Relational databases, data normalization, cloud connectivity and practice.",
+               reading: "SQL language tutorial", assignment: "Populating SQL tables and running queries", days: 7},
+              {name: "noSQL (JSON) databases and interactive Javascript visualization",
+               topic: "JSON format, cloud databases, JS visualization libraries.",
+               reading: "D3.js interactive graphs usage", assignment: "Forming JSON, connecting to JSON/SQL data sources and visualization in JS", days: 7}
+	    ];
 	      
 
-	      var moduleNum = 1;
-	      var startDate = new Date("2019/01/07");
-	      modules.forEach(item => {
-		var row = document.createElement("tr");
-		row.innerHTML = "<td>" + moduleNum + "</td><td>"
-		  + (startDate.getMonth() + 1) + "/" + startDate.getDate() + "</td><td>"
-		  + item.name + "</td><td>" + item.topic + "</td>" +
-		  "<td>" + item.assignment + "</td>";
-		document.getElementsByClassName("schedule-table")[0].append(row);
-		moduleNum = moduleNum + 1;
-		startDate.setDate(startDate.getDate() + 7);
-	      });
+	    var moduleNum = 1;
+	    var startDate = new Date("2019/01/07");
+	    modules.forEach(item => {
+	      var row = document.createElement("tr");
+	      row.innerHTML = "<td>" + moduleNum + "</td><td>"
+		+ (startDate.getMonth() + 1) + "/" + startDate.getDate() + "</td><td>"
+		+ item.name + "</td><td>" + item.topic + "</td>" +
+		"<td>" + item.reading + "</td>" +
+		"<td>" + item.assignment + "</td>";
+	      document.getElementsByClassName("schedule-table")[0].append(row);
+	      moduleNum = moduleNum + 1;
+	      startDate.setDate(startDate.getDate() + item.days);
+	    });
 	      
-	    //};
 	  </script>
 	</body>
 </html>
