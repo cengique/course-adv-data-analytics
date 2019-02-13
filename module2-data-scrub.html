@@ -181,21 +181,21 @@
 
 	      <section data-markdown>
 		<textarea data-template>
-		  ### An example: exploring (Cont'd)
+                  ### An example: exploring (Cont'd)
 
-		  Count number of rows in result:
-		  ```bash
-		  $ wc -l fashion.csv
-		  4856 fashion.csv
-		  ```
-
-		  Select and browse some columns:
-```
+                  Count number of rows in result:
+                  ```bash
+                  $ wc -l fashion.csv
+                  4856 fashion.csv
+                  ```
+                  
+                  Select and browse some columns:
+```bash
 $ < fashion.csv cols -c date cut -dT -f1 | head | csvlook
-|-------------+------------+-----------------------------------------|
-| date | type | title |
-|-------------+------------+-----------------------------------------|
-| 2009-02-15 | multimedia | Michael Kors |
+|------------+------------+-----------------------------------------|
+| date       | type       | title                 |
+|------------+------------+-----------------------------------------|
+| 2009-02-15 | multimedia | Michael Kors          |
 | 2009-02-20 | multimedia | Recap: Fall Fashion Week, New York |
 | 2009-09-17 | multimedia | UrbanEye: Backstage at Marc Jacobs |
 | 2009-02-16 | multimedia | Bill Cunningham on N.Y. Fashion Week |
@@ -206,8 +206,8 @@ $ < fashion.csv cols -c date cut -dT -f1 | head | csvlook
 | 2009-09-12 | multimedia | On the Street | Catwalk |
 |-------------+------------+-----------------------------------------|
 ```
-		      
-		</textarea>
+
+    </textarea>
 	      </section>
 	      <section data-markdown>
 		<textarea data-template>
