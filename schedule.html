@@ -11,7 +11,7 @@
 		    background-color: lightgray;
 		  }
 		  div.content {
-		    max-width: 60em;
+		    max-width: 80em;
 		    margin-left: auto;
 		    margin-right: auto;
 		    background-color: white;
@@ -58,7 +58,15 @@
                reading: "SQL language tutorial", assignment: "Populating SQL tables and running queries", days: 7},
               {name: "noSQL (JSON) databases and interactive Javascript visualization",
                topic: "JSON format, cloud databases, JS visualization libraries.",
-               reading: "D3.js interactive graphs usage", assignment: "Forming JSON, connecting to JSON/SQL data sources and visualization in JS", days: 7}
+               reading: "D3.js interactive graphs usage", assignment: "Forming JSON, connecting to JSON/SQL data sources and visualization in JS", days: 7},
+              {special: "Mid-term exam", days: 5},
+              {name: "Python for data science",
+               topic: "Python data science programming and interactive visualization Jupyter notebooks.",
+               reading: "Python language tutorial", assignment: "Jupyter notebook", days: 7},
+              {special: "Spring break", days: 7},
+              {name: "MapReduce, Hadoop, Spark",
+               topic: "High performance computing cluster operations. HDFS and other distributed storage and processing methods.",
+               reading: "Hadoop and Spark resources", assignment: "Hadoop/Spark MapReduce", days: 7}
 	    ];
 	      
 
@@ -66,14 +74,21 @@
 	    var startDate = new Date("2019/01/07");
 	    modules.forEach(item => {
 	      var row = document.createElement("tr");
-	      row.innerHTML = "<td>" + moduleNum + "</td><td>"
-		+ (startDate.getMonth() + 1) + "/" + startDate.getDate() + "</td><td>"
-		+ item.name + "</td><td>" + item.topic + "</td>" +
-		"<td>" + item.reading + "</td>" +
-		"<td>" + item.assignment + "</td>";
+
+              if (item.special) {
+                row.innerHTML = "<td></td><td>"
+		  + (startDate.getMonth() + 1) + "/" + startDate.getDate() + "</td><td>"
+		  + item.special + "</td><td></td><td></td><td></td>";
+              } else {
+	        row.innerHTML = "<td>" + moduleNum + "</td><td>"
+		  + (startDate.getMonth() + 1) + "/" + startDate.getDate() + "</td><td>"
+		  + item.name + "</td><td>" + item.topic + "</td>" +
+		  "<td>" + item.reading + "</td>" +
+		  "<td>" + item.assignment + "</td>";
+	        moduleNum = moduleNum + 1;
+              }
 	      document.getElementsByClassName("schedule-table")[0].append(row);
-	      moduleNum = moduleNum + 1;
-	      startDate.setDate(startDate.getDate() + item.days);
+	      startDate.setDate(startDate.getDate() + item.days);              
 	    });
 	      
 	  </script>
