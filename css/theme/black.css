@@ -153,13 +153,14 @@ body {
 
 .reveal code {
   font-family: monospace;
+  background: #3f3f3f;
   text-transform: none; }
 
 .reveal pre code {
   display: block;
   padding: 5px;
   overflow: auto;
-  max-height: 400px;
+  max-height: 600px;
   word-wrap: normal; }
 
 .reveal table {
