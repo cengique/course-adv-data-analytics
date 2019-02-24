@@ -325,10 +325,13 @@ Bytes Written=29
 	        </section>
               </section>
               
-              <section> <!-- Start a new right-direction slide -->
+              <section> <!-- Start a new right-direction slide for exercise-->
                 <section data-markdown>
                   <textarea data-template>
                     ### Hadoop MapReduce Exercise time!
+
+                    - Book word count [Apache MapReduce tutorial](http://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html)
+                    <img src="images/ursus.jpg" style="float: right; max-width: auto; height: 200px; margin: 10px;"/>
 
                     - Log into Ursus.ggc.edu with given credentials and change passwords
                     (only works on campus or through Ursus VPN - stay tuned for instructions)
@@ -342,7 +345,7 @@ Bytes Written=29
                     # Add the Hadoop bin folder to your path
                     export PATH=${PATH}:~hadoop/hadoop/bin
                     ```
-                    (To make these permanent, add these lines to the end of your `.bashrc` file!)
+                    (To make permanent, add these lines to the end of your `.bashrc` file!)
                   </textarea>
 	        </section>
 
@@ -364,15 +367,27 @@ Bytes Written=29
                     # Copy Ursus files to your HDFS folder
                     hadoop fs -put file01.txt /users/IntroParComp/cgunay/input01/file01
                     ```
-                    Note: Replace `cgunay` with your username
+                    (Replace `cgunay` with your username)
                   </textarea>
 	        </section>
 
                 <section data-markdown>
                   <textarea data-template>
-                    More info:
-                    - [Apache MapReduce tutorial](http://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html)
-                    - See Hadoop jobs status in browser by forwarding your local ports with:
+                    ### Running the tutorial                    
+                    
+                    ```bash
+                    # Run your code with input and output folders
+                    hadoop jar wc.jar WordCount /users/IntroParComp/cgunay/input01 \
+                      /users/IntroParComp/cgunay/output
+                    
+                    # Copy from HDFS back onto Ursus
+                    hadoop fs -get /users/IntroParComp/cgunay/output/outfile
+                    
+                    # Show contents of HDFS file
+                    hadoop fs -cat /users/IntroParComp/cgunay/output/outfile
+                    ```
+
+                    - Watch progress and see Hadoop jobs status in browser by forwarding your local ports with:
                     ```bash
                     ssh -L 8088:ursus.ggc.edu:8088 -L 50070:ursus.ggc.edu:50070 ursus.ggc.edu
                     ```
@@ -380,9 +395,64 @@ Bytes Written=29
 
                   </textarea>
 	        </section>
-              </section>
 
-              
+              </section> <!-- end of exercise down-direction -->
+
+              <section> <!-- Start a new right-direction slide for HDFS splitting -->
+                <section data-markdown>
+                  <textarea data-template>
+                    ### HDFS: Hadoop Distributed Filesystem
+
+                    - Optimized to work on parallel hardware:
+                    
+                    <img src="images/hpc-image.jpg" style="max-width: auto; height: 500px; margin-left: auto;"/>
+
+                  </textarea>
+	        </section>                
+
+                <section data-markdown>
+                  <textarea data-template>
+                    ### HDFS _local_ data replication
+
+                    - Data shipped out to each machine via _input splits_ for Map tasks
+                    
+                    <img src="images/Hadoop_Ch2_figure2-2.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
+
+                  </textarea>
+	        </section>                
+
+                <section data-markdown>
+                  <textarea data-template>
+                    ### HDFS input _splits_ merged into output _part_
+                    
+                    <img src="images/Hadoop_Ch2_figure2-3.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
+
+                  </textarea>
+	        </section>                
+
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Workflow with multiple Reduce tasks
+
+                    - Output of Map can be used for different calculations:
+                    
+                    <img src="images/Hadoop_Ch2_figure2-4.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
+
+                  </textarea>
+	        </section>                
+
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Reduce step can be omitted
+
+                    - Sometimes Map is all you need:
+                    
+                    <img src="images/Hadoop_Ch2_figure2-5.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
+
+                  </textarea>
+	        </section>                
+              </section> <!-- end of HDFS splitting down-section -->
+                            
 	    </div>
 	  </div>
 	  
