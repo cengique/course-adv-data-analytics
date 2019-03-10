@@ -524,21 +524,142 @@ Bytes Written=29
 
               </section> <!-- End right-section: Hadoop streaming -->
 
-              <section data-markdown>
+              <section> <!-- Post-hadoop -->
+                <section data-markdown>
                   <textarea data-template>
-                    ### Next time on Data Science with Gunay
+                    ### What comes after Hadoop?
 
-                    <img src="images/Spark_cover.png" style="float: right; max-width: auto; height: 500px;"/>
-                    
-                    Choice is yours:
-                    1. More Big Data with Apache Spark
-                    1. Or start coding data mining<br> algorithms with Python
-
-                    (if you choose Spark, we delay Python by another week)
+                    - Hadoop created an ecosystem of projects
+                    - Hive, Pig, Spark, ...
+                    - We will give a brief intro to Spark
                     
                   </textarea>
-	        </section>                
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    <img src="images/Spark_cover.png" style="float: right; max-width: auto; height: 500px;"/>
+                    ### Spark
 
+                    - Since 2009
+                    - 10x-20x faster than Hadoop
+                    - Written in Scala running on JVM
+                    - Can be programmed in Scala, Java, and Python
+                    
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Spark works with _resilient distributed datasets_ (RDDs)
+
+                    - To use Python for Spark, run: `pyspark`
+                    - A line count program example:
+                    ```python
+                    >>> lines = sc.textFile("README.md") # Create an RDD called lines
+                    >>> lines.count() # Count the number of items in this RDD
+                    127
+                    >>> lines.first() # First item in this RDD, i.e. first line of README.md
+                    u'# Apache Spark'
+                    ```
+                    - Parallel operation completely transparent!
+                    - <!-- .element: class="fragment" data-fragment-index="2" --> `sc` is the `SparkContext` _driver_ to access Spark
+                    and create RDDs
+                    -  <!-- .element: class="fragment" data-fragment-index="3" --> RDD is broken into pieces to run `count()` in parallel
+
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Inside Spark 
+
+                    <img src="images/Spark_Ch2_fig2-3_components.png" style="max-width: auto; height: 300px;"/>
+                    - Another example with custom filter function: <!-- .element: class="fragment" data-fragment-index="2" -->
+                    
+                    ```python
+                    >>> lines = sc.textFile("README.md")
+                    >>> pythonLines = lines.filter(lambda line: "Python" in line)
+                    >>> pythonLines.first()
+                    u'## Interactive Python Shell'
+                    ```
+                    <!-- .element: class="fragment" data-fragment-index="2" -->
+                    
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Working with RDDs
+
+                    _Transformations_ create new RDDs; e.g.:
+                    
+                    ```python
+                    >>> pythonLines = lines.filter(lambda line: "Python" in line)
+                    ```
+                    _Actions_ calculate results from RDDs; e.g.:
+                    
+                    ```python
+                    >>> pythonLines.first()
+                    ```
+                   
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### RDD transformations
+
+                    - Most commonly used: `map()` and `filter()`
+                    <img src="images/Spark_Ch3_fig3-2_map-filter.png" style="max-width: auto; height: 300px;"/>
+                    - <!-- .element: class="fragment" data-fragment-index="2" -->
+                    If multiple outputs for each input, then use `flatMap()`
+                    - <!-- .element: class="fragment" data-fragment-index="3" -->
+                    Set operations: `distinct()`, `union()`, `intersection()`, `subtract()`, `cartesian()` (expensive)
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### RDD actions
+
+                    - Most common `reduce()`: Takes two inputs and outputs one
+                    ```python
+                    sum = rdd.reduce(lambda x, y: x + y)
+                    ```
+                    - <!-- .element: class="fragment" data-fragment-index="2" -->
+                    `fold()` also asks a _zero_ value for initialization
+                    ```python
+                    sum = rdd.fold(0, lambda x, y: x + y)
+                    ```
+                    <!-- .element: class="fragment" data-fragment-index="2" -->
+                    - <!-- .element: class="fragment" data-fragment-index="3" -->
+                    `aggregate()` asks for accummulation and combine functions. Example that calculates a running sum and count of elements to calculate an average value:
+                    
+                    ```python
+                    sumCount = nums.aggregate((0, 0),
+                      (lambda acc, value: (acc[0] + value, acc[1] + 1)),
+                      (lambda acc1, acc2: (acc1[0] + acc2[0], acc1[1] + acc2[1])))
+                    return sumCount[0] / float(sumCount[1])
+                    ```
+                    <!-- .element: class="fragment" data-fragment-index="3" -->
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### RDD actions (continued)
+
+                    - `collect()`: Return all elements
+                    - `count()`: Number of elements
+                    - `countByValue()`: Number of times each element occurs in RDD (histogram)
+                    - and more...
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### More resources
+                    <img src="images/Spark_cover.png" style="float: right; max-width: auto; height: 500px;"/>
+
+                    - [Book's Github repo with examples](https://github.com/databricks/learning-spark)
+                  </textarea>
+                </section>
+
+              </section> <!-- beyond Hadoop: Spark -->
+              
 	    </div>
 	  </div>
 	  
