@@ -651,10 +651,35 @@ Bytes Written=29
                 </section>
                 <section data-markdown>
                   <textarea data-template>
-                    ### More resources
+                    ### Spark SQL
+
+                    - Uses _DataFrame_ RDD objects that hold semi-structured data
+                    - Can read/write data in JSON, Hive Tables, and Parquet
+                    - SQL interface to be used inside or outside Spark (e.g. JDBC connection or from Tableau)
+                    ```python
+                    hiveCtx = HiveContext(sc)
+                    input = hiveCtx.jsonFile(inputFile)
+                    # Register the input DataFrame
+                    input.registerTempTable("tweets")
+                    # Select tweets based on the retweetCount
+                    topTweets = hiveCtx.sql("""SELECT text, retweetCount FROM tweets 
+                      ORDER BY retweetCount LIMIT 10""")
+                    ```
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Closing notes for Spark
                     <img src="images/Spark_cover.png" style="float: right; max-width: auto; height: 500px;"/>
 
+                    Spark also provides:
+                    - Real-time processing via streaming (Chapter 10)
+                    - Machine learning library _MLlib_ (Chapter 11)
+
+                    More resources:
                     - [Book's Github repo with examples](https://github.com/databricks/learning-spark)
+                    - [Spark 2.3.2 API documentation](https://spark.apache.org/docs/2.3.2/api.html) - <br>
+                    JetStream image version
                   </textarea>
                 </section>
 
