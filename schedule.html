@@ -39,56 +39,65 @@
 	    var modules = [
 	      {name: "Introduction",
 	       topic: "Intro to DS and BDA. Anatomy of a data science project: hypothesis testing, model development, visualization.",
-               reading: "",
+               reading: "", module: 1, 
 	       assignment: "Research data sources and problem questions", days: 7},
 	      {name: "Data scrubbing",
 	       topic: "Exploration and filtering with command line tools and regular expressions.",
-               reading: "DS at Command Line, Ch 1",
+               reading: "DS at Command Line, Ch 1", module: 1, 
 	       assignment: "Fetch and scrub data", days: 9},
               {name: "R language introduction",
                topic: "Basic hypothesis testing, regression, other statistical tests, plotting.",
-               reading: "R in a Nutshell, Ch 3",
+               reading: "R in a Nutshell, Ch 3", module: 1, 
                assignment: "R scripting and Rstudio", days: 7 },
               {name: "Linear algebra basics with R",
                topic: "Loop vs vector operations. Vector inner and outer products, matrix multiplication. Probability distributions and statistical tests.",
-               reading: "R cheatsheet",
+               reading: "R cheatsheet", module: 0, 
                assignment: "R data exploration and plotting in Gist", days: 7},
               {name: "SQL databases",
                topic: "Relational databases, data normalization, cloud connectivity and practice.",
-               reading: "SQL language tutorial", assignment: "Populating SQL tables and running queries", days: 7},
+               reading: "SQL language tutorial", module: 1, 
+               assignment: "Populating SQL tables and running queries", days: 7},
               {name: "noSQL (JSON) databases and interactive Javascript visualization",
                topic: "JSON format, cloud databases, JS visualization libraries.",
-               reading: "D3.js interactive graphs usage", assignment: "Forming JSON, connecting to JSON/SQL data sources and visualization in JS", days: 7},
+               reading: "D3.js interactive graphs usage",  module: 0, 
+               assignment: "Forming JSON, connecting to JSON/SQL data sources and visualization in JS", days: 7},
               {special: "Mid-term exam", days: 5},
               {name: "MapReduce, Hadoop, Spark",
                topic: "High performance computing cluster operations. HDFS and other distributed storage and processing methods.",
-               reading: "Hadoop and Spark resources", assignment: "Hadoop/Spark MapReduce", days: 7},
+               reading: "Hadoop and Spark resources", module: 1, 
+               assignment: "Hadoop/Spark MapReduce", days: 7},
               {special: "Spring break", days: 9},
               {name: "Python for data science",
                topic: "Python data science programming and interactive visualization Jupyter notebooks.",
-               reading: "Python language tutorial", assignment: "Jupyter notebook", days: 7},
+               reading: "Python language tutorial",  module: 1, 
+               assignment: "Jupyter notebook", days: 7},
               {name: "Clustering algorithms",
                topic: "K-means and hierarchical clustering and visualization in Python.",
-               reading: "Zaki and Meira, Chs 13-14", assignment: "Cluster columns from dataset", days: 7},
+               reading: "Zaki and Meira, Chs 13-14", module: 1, 
+               assignment: "Cluster columns from dataset", days: 7},
               {name: "Dimensionality reduction",
                topic: "Principal/independent component analyses, factor analysis",
-               reading: "Zaki and Meira, Ch 7", assignment: "Find principal components", days: 7},
+               reading: "Zaki and Meira, Ch 7", module: 1, 
+               assignment: "Find principal components", days: 7},
               {name: "Classification 1",
-               topic: "Linear vs non-linear methods, Generalized Linear Model, support vector machines, decision trees, random forest, boosting",
-               reading: "Zaki and Meira, Chs 18,19,21", assignment: "Train classifier", days: 7},
+               topic: "Linear vs non-linear methods, Generalized Linear Model, support vector machines, decision trees, random forest, boosting, evaluation methods",
+               reading: "Zaki and Meira, Chs 18,19,21", module: 1, 
+               assignment: "Train classifier", days: 7},
               {name: "Classification 2",
                topic: "Naive Bayes, Recommender Systems, Expectation Maximization",
-               reading: "Zaki and Meira, Chs 13,18", assignment: "Train classifier", days: 7},
+               reading: "Zaki and Meira, Chs 13,18", module: 0, 
+               assignment: "Train classifier", days: 7},
               {name: "Association analysis",
                topic: "Frequent itemsets, anomaly detection, long-tail distributions",
-               reading: "Zaki and Meira, Ch 8", assignment: "Find frequent itemsets and anomalies", days: 7},
+               reading: "Zaki and Meira, Ch 8", module: 1, 
+               assignment: "Find frequent itemsets and anomalies", days: 7},
               {name: "Neural networks",
                topic: "Multi-layer perceptrons, backpropagation, autoassociative, recursive, deep nets",
-               reading: "Zaki and Meira, Ch 8", assignment: "Train neural nets", days: 7},
+               reading: "TBA", module: 1,  assignment: "Train neural nets", days: 7},
 	    ];
 	      
 
-	    var moduleNum = 1;
+	    var moduleNum = 0;
 	    var startDate = new Date("2019/01/07");
 	    modules.forEach(item => {
 	      var row = document.createElement("tr");
@@ -98,12 +107,12 @@
 		  + (startDate.getMonth() + 1) + "/" + startDate.getDate() + "</td><td>"
 		  + item.special + "</td><td></td><td></td><td></td>";
               } else {
-	        row.innerHTML = "<td>" + moduleNum + "</td><td>"
+	        moduleNum = moduleNum + item.module;
+	        row.innerHTML = "<td>" + (item.module?moduleNum:"") + "</td><td>"
 		  + (startDate.getMonth() + 1) + "/" + startDate.getDate() + "</td><td>"
 		  + item.name + "</td><td>" + item.topic + "</td>" +
 		  "<td>" + item.reading + "</td>" +
 		  "<td>" + item.assignment + "</td>";
-	        moduleNum = moduleNum + 1;
               }
 	      document.getElementsByClassName("schedule-table")[0].append(row);
 	      startDate.setDate(startDate.getDate() + item.days);              
