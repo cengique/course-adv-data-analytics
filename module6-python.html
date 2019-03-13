@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Module 5 - Big Data algorithms and tools: MapReduce - ITEC 4220 Advanced Data Analytics</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+	  <div class="reveal">
+	    <div class="slides">	      
+	      <section data-markdown>
+                <textarea data-template>
+                  <img src="images/DS_scratch_cover.png" style="float: right; max-width: auto; height: 500px; margin: 1em;"/>
+                  ## ITEC 4220 - Advanced Data Analytics
+                  
+                  ### Module 6 - A crash course into Python
+		  
+                  #### Cengiz Gunay, Spring 2019
+
+                  #### Reading: Ch 2 Data Science from Scratch
+                </textarea>
+              </section>
+	      <section data-markdown>
+                <textarea data-template>
+                  ### Installing Python
+
+                  - Book is focused on data science from scratch, so
+                  recommends [Python 2.7](http://www.python.org). But that was in 2015, so
+                  these days modules seem to be compatible with both 2.7 and up to 3.6
+                  - [Anaconda](https://www.anaconda.com/distribution/) is a package
+                  that includes many useful utilities, but it's big.
+                  - If you can't afford to install Anaconda, install these at least:
+                    - Python itself
+                    - [pip](https://pypi.python.org/pypi/pip) - Python package manager
+                    - [IPython](http://ipython.org/) - an interactive Python shell
+                  (Once you have `pip`, you could just run `pip install ipython`)
+                </textarea>
+              </section>
+	      <section data-markdown>
+                <textarea data-template>
+                  ### A Crash Course in Python 
+                  
+                  Basic language features (Ch 2 from book)
+
+                  - Whitespace usage
+                  - Modules and importing
+                  - Syntax for functions, arithmetic, etc.
+                  - Lists, tuples, dictionaries, and sets
+                  - Sorting and list comprehension
+                  - Object-oriented programming
+                </textarea>
+              </section>
+              <section> <!-- jupyter -->
+	        <section data-markdown>
+                  <textarea data-template>
+                    ### A more visual editor for Python: Jupyter
+                  
+                    <img src="images/jupyter-notebook.png" style="max-width: auto; height: 600px; margin: 1em;"/>
+
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Jupyter
+
+                    - Included in the Anaconda distribution
+                    - Start Anaconda from menu or run `anaconda-navigator` on command line
+                    - Install the Jupyter Notebook application in Anaconda
+                    - If it's already installed, click on Launch to start it
+                  </textarea>
+                </section>
+              
+              </section>
+
+              <section data-markdown>
+                <textarea data-template>
+                  ### Other significant Python modules
+
+                  - [NumPy](https://docs.scipy.org/doc/numpy/user/quickstart.html) - Allows defining N-dimensinoal arrays
+                  - [pandas](https://pandas.pydata.org/) - R's notorious _DataFrame_ object makes a comeback. Based on NumPy
+                  - [scikit-learn](http://scikit-learn.org) - Machine learning library
+                  - [keras](https://keras.io/) - Neural network/deep learning library
+                  - [TensorFlow](https://www.tensorflow.org/overview) - More advanced ML library, based on Keras API standard.
+                </textarea>
+              </section>
+              
+	    </div>
+	  </div>
+	  
+	  <script src="lib/js/head.min.js"></script>
+	  <script src="js/reveal.js"></script>
+
+	  <script>
+	    // More info about config & dependencies:
+	    // - https://github.com/hakimel/reveal.js#configuration
+	    // - https://github.com/hakimel/reveal.js#dependencies
+	    Reveal.initialize({
+	      math: {
+		mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js', // https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js
+		config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
+	      },
+
+	      // The "normal" size of the presentation, aspect ratio will be preserved
+	      // when the presentation is scaled to fit different resolutions. Can be
+	      // specified using percentage units.
+	      width: 1280, // 960
+	      height: 720, // 700
+
+	      // Factor of the display size that should remain empty around the content
+	      margin: 0.1,
+	      
+	      // Bounds for smallest/largest possible scale to apply to content
+	      minScale: 0.2,
+	      maxScale: 1.5,
+	      
+	      dependencies: [
+		{ src: 'plugin/markdown/marked.js' },
+		{ src: 'plugin/markdown/markdown.js' },
+		{ src: 'plugin/notes/notes.js', async: true },
+		{ src: 'plugin/highlight/highlight.js',
+		  async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                // MathJax
+		{ src: 'plugin/math/math.js', async: true }
+	      ]
+	    });
+	  </script>
+	</body>
+</html>
