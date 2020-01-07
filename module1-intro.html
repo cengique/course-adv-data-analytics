@@ -12,13 +12,58 @@
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<!-- Printing and PDF exports -->
+                <!-- Printing and PDF exports and PDF viewer -->
+                <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
 		<script>
 			var link = document.createElement( 'link' );
 			link.rel = 'stylesheet';
 			link.type = 'text/css';
 			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		  document.getElementsByTagName( 'head' )[0].appendChild( link );
+
+                  function showPDFPage(pdfUrl, page, canvasId) {
+
+                    // Loaded via <script> tag, create shortcut to access PDF.js exports.
+                    var pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+                    // The workerSrc property shall be specified.
+                    pdfjsLib.GlobalWorkerOptions.workerSrc =
+                      'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
+
+                    // Asynchronous download of PDF
+                    var loadingTask = pdfjsLib.getDocument(pdfUrl);
+                    loadingTask.promise.then(function(pdf) {
+                      console.log('PDF loaded: ' + pdfUrl);
+                      
+                      // Fetch the first page
+                      var pageNumber = page;
+                      pdf.getPage(pageNumber).then(function(page) {
+                        console.log('Page loaded');
+                        
+                        var scale = 1.5;
+                        var viewport = page.getViewport({scale: scale});
+
+                        // Prepare canvas using PDF page dimensions
+                        var canvas = document.getElementById(canvasId);
+                        var context = canvas.getContext('2d');
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+
+                        // Render PDF page into canvas context
+                        var renderContext = {
+                          canvasContext: context,
+                          viewport: viewport
+                        };
+                        var renderTask = page.render(renderContext);
+                        renderTask.promise.then(function () {
+                          console.log('Page rendered');
+                        });
+                      });
+                    }, function (reason) {
+                      // PDF loading error
+                      console.error(reason);
+                    });
+                  }
 		</script>
 	</head>
 	<body>
@@ -29,7 +74,7 @@
 		  ### Welcome to 
 		  ## ITEC 4220 - Advanced Data Analytics
 
-		  #### Cengiz Gunay, Spring 2019
+		  #### Cengiz Gunay, Spring 2020
 		</textarea>
 	      </section>
 	      <section data-markdown>
@@ -44,8 +89,8 @@
 
 		  1. Several small assignments
 		  1. One larger project throughout the semester
-		  1. Present at local symposia
-		  1. Final exam or [aCAP certification](https://www.certifiedanalytics.org/associate_cap.php)
+		  1. Present at local/nearby symposia
+		  1. Final exam
 		  		  
 		</textarea>
 	      </section>
@@ -53,12 +98,12 @@
 		<textarea data-template>
 		  ## Important dates for presenting or simply attending
 		  
-		  - Tue April 9th, noon-3pm - GGC STaRS Symposium
+		  - Tue April 7th (TBA), noon-3pm - GGC STaRS Symposium
 		  poster/talk presentations (need to stay 1 hour max)		  
-		  - April 11-12 - [Southern Data Science
+		  - April 16-17 - [Southern Data Science
 		  Conference](https://www.southerndatascience.com/),
-		  $200 for students		  
-		  - Fri April 26th - Kennesaw State Univ [Analytics
+		  $200 for students (sold-out)
+		  - End of April (TBA) - Kennesaw State Univ [Analytics
 		  Day](https://ccpe.kennesaw.edu/sasday/) poster
 		  presentations at 8am, followed by talks and networking
 		  
@@ -87,22 +132,12 @@
 		  - time series analysis and text analysis <!-- .element: class="fragment" data-fragment-index="2" -->
 		</textarea>
 	      </section>
-	      <section data-markdown>
-		<textarea data-template>
-		  ### GGC IT Concentration in Data Science & Analytics [(graph)](https://vida.io/documents/2o5v9Su2AarvutjRr)
-		  
-		  - MATH 2200 Calculus I/MATH 2450 Linear Algebra
-		  - ITEC 2150 Int Prog/ITEC 3150 Adv Prog
-		  - ITEC 3100 Intro the Networks/ITEC 3200 Intro DB
-		  - ITEC 3700 System Analysis and Design
-		  - ITEC 3860 Software Development 1
-		  - ITEC 3900 Ethics
-		  - ITEC 4210 Info Analytics
-		  - ITEC 4220 Adv Data Analytics
-		  - ITEC 4700 Artificial Intelligence
-		  - ITEC 4xxx Capstone Project (NEW)
-		</textarea>
-	      </section>
+	      <section style="padding: 0px;">
+                <canvas id="page-1" style="width: 1280px; height: 720px;"></canvas>
+                <script>
+                  showPDFPage("original/DSA-course-map-fall2019.pdf", 1, "page-1");
+                </script>                  
+              </section>
 	    </div>
 	  </div>
 	  
