@@ -263,15 +263,16 @@
                     
                     - A [regular expression](https://en.wikipedia.org/wiki/Regular_expression) (or regex) is a language for forming search/replace patterns for text processing.
                     - Succinct and powerful tool to extract information from text input
-                    - Fast implementations in many languages/frameworks/platforms                    
+                    - Fast implementations in many languages/frameworks/platforms
+                    - Practice on [RegExr](https://regexr.com/)
 
 		  </textarea>
 	        </section>
 	        <section data-markdown>
 		  <textarea data-template>
-                    ### [Regexp commands](https://www.regular-expressions.info/quickstart.html)
+                    ### [Commands in a regexp pattern](https://www.regular-expressions.info/quickstart.html)
 
-                    - `/` start or end a regular expression pattern
+                    - `/` default quoting character at start or end a regex pattern
                     - `.` matches any character
                     - `[]` denotes accepted character lists or ranges: `[abc]`, `[0-9]`, or `[a-zA-Z_]`
                     - `\X` shortcut character lists: `\w` all word characters, `\s` all whitespace characters, so on
@@ -304,14 +305,39 @@
 	        </section>
 	        <section data-markdown>
 		  <textarea data-template>
-                    ### Escaping and anchoring
+                    ### Escaping, grouping, and anchoring
                     
                     - `\` will help you _escape_ the commands to search literal characters: `\++` will match `+`, `++`, so on
                     - `^` and `$` will match the beginning and end of line (or string), respectively
+                    - `()` groups parts of the pattern, to specify repetitions, or used in replacement
+                    - `|` logical OR operation that allows matching one of the possible patterns
+ressions)
+		  </textarea>
+	        </section>
+	        <section data-markdown>
+		  <textarea data-template>
+                    ### Replacing text
 
-                    Learn more about
+                    Very useful feature, general form: `s/search/replace/flags`
+
+                    - `search` is the regexp that may contain grouping `()`
+                    - `replace` is the replacement text, and can insert matched groups using `\1`, `\2`, and so on, according to order of matched groups
+                    - `flags` are single characters indicating:
+                        - `i`: case insensitive match
+                        - `g`: replace multiple times, globally
+                        - `m`: multi-line application; `^$` matches beginning and end of multi-line string and `.` can match end of line (`\n`) characters
+
+		  </textarea>
+	        </section>
+	        <section data-markdown>
+		  <textarea data-template>
+                    ### Next steps
+
+                    - Look at assignment
+                    - [Practice](https://regexr.com)
+                    - Read more about
                     [regexp](https://www.regular-expressions.info/quickstart.html)
-                    or [Javascript Regexp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)
+                    or [Javascript Regexp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Exp)
                     
 		  </textarea>
 	        </section>
