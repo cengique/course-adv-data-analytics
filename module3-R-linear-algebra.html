@@ -38,25 +38,38 @@
 
 	      <section data-markdown>
 		<textarea data-template>
-                  ### Linear algebra basics
+                  ### Linear algebra basics: Vectors
                   
                   - Vectors: `$ \vec{x} = [ 1, 2, 3 ]$`
-                  - inner/[dot product](http://mathworld.wolfram.com/DotProduct.html): `$ \vec{x} \cdot \vec{y} = \sum x_i y_i$`
-                      - calculates "length of projection" 
-                      - multiply corresponding elements and sum to result in scalar
-                  - outer product: `$ \vec{x} \times \vec{y} = [x_i y_j]_{ij}$`
+                      - Why? Most data comes in vectors
+                      - Can do bulk operations using math magic
+                  - <!-- .element: class="fragment" data-fragment-index="1" --> inner/[dot product](http://mathworld.wolfram.com/DotProduct.html): `$ \vec{x} \cdot \vec{y} = \sum x_i y_i$`
+                      - Calculates "length of projection" 
+                      - Multiply corresponding elements and sum to result in scalar
+                      - Useful in calculating weighted sums, scaling data elements, etc.
+                  - <!-- .element: class="fragment" data-fragment-index="2" --> [outer product](https://en.wikipedia.org/wiki/Outer_product):
+                  `$ \vec{x} \times \vec{y} = [x_i y_j]_{ij}$`
                       - element-by-element multiplication, results in $ n \times m $ size matrix
-
+                      - useful when duplicating rows or columns, or scaling them
+                  
 		</textarea>
 	      </section>
 
 	      <section data-markdown>
 		<textarea data-template>
-		  ### Linear algebra basics (cont)
+                  ### Basics: Matrices
 
-		  - matrix multiplication: `$ A_{m\times n} \times B_{n\times o} = C_{m\times o}$`
-		     => two matrices with inner dimensions aligned, results a matrix
-
+                  `$$ A=\left[ \begin{array}{ccc}
+                  a_{11} & \cdots & a_{1n} \\
+                  \vdots & \ddots & \vdots \\
+                  a_{m1} & \cdots & a_{mn} \\
+                  \end{array} \right] $$`
+                  - <!-- .element: class="fragment" data-fragment-index="1" --> Matrix multiplication:
+                  `$$ A_{m\times n} \times B_{n\times o} = C_{m\times o} $$`
+                  `$$ c_{ij} = \sum_k a_{ik} b_{kj} $$`
+                      - Must have matching inner dimensions, results in a matrix
+                      - Useful transforming rows of data, 3D rotations, machine learning, etc.
+                  
 		</textarea>
 	      </section>
 	      </section>
