@@ -134,6 +134,83 @@
 	        </section>
               </section>
 
+              <section>
+      	        <section data-markdown>
+		  <textarea data-template>
+                    ### Statistics refresher: Hypothesis Testing
+
+                    Statistical hypothesis - testable by model of random variables:
+                    - Hypothesis for statistical relationship between two datasets
+                    - Compared to idealized *null hypothesis* that says no relationship
+                    - Comparison is *statistically significant* if null hypothesis can be rejected 
+                    - Threshold of rejection certainty indicate *significance level* of test
+
+                    [Wikipedia](https://en.wikipedia.org/wiki/Statistical_hypothesis_testing)
+                    
+		  </textarea>
+	        </section>
+      	        <section data-markdown>
+		  <textarea data-template>
+                    ### Testing Process
+
+                    - State initial hypothesis whose truth is unknown <br> (e.g. are two distributions different?)
+                    - Null hypothesis will oppose the hypothesis <br> (e.g., distributions are equal)
+                    - Investigate assumptions <br> (e.g., statistical independence, normal distribution, etc.)
+                    - Choose appropriate statistical test
+                    - Select a significance level ($\alpha$), the probability level under which the null hypothesis will be rejected (e.g., 1% or 5%)
+                    - Compute observed value of statistic, or directly the $p$-value
+                    - Decide whether to reject null hypothesis in favor of the *alternative* hypothesis
+                    
+                  </textarea>
+                </section>
+      	        <section data-markdown>
+		  <textarea data-template>
+                    ### Example: Human Sex Ratio
+
+                    > whether male and female births are equally likely (null hypothesis)
+
+                    - Birth records in London between 1629-1710
+                    - Applied "sign test"
+                    - Every year more men born than women
+                    - Male and female births likely with $p=0.5^{82}=1/4\times10^{18}$      
+                    - Can't be due to chance!
+
+                  </textarea>
+                </section>
+      	        <section data-markdown>
+		  <textarea data-template>
+                    ### Common statistical tests in R
+
+                    - **One-sample t-test**: Check is a normal distribution has a specific mean
+                      `t.test(data, mean)` - usually used to see if subtraction of two distributions 
+                      have a non-zero mean
+                    - **Wilcoxon signed rank test**: Similar to above, but when distribution is not normal, e.g. this is a *non-parametric test*. <br>
+                      `wilcox.test(data, mu=mean, conf.int = TRUE)`
+                    - **Two-sample t-test** and **Wilcoxon Rank Sum Test**: Test means of two distributions. Latter is non-parameteric. <br>
+                      `t.test(data1, y = data2)` <br>
+                      `wilcox.test(data1, data2, alternative = "g")`
+
+                    [from R-Statistics.co](http://r-statistics.co/Statistical-Tests-in-R.html)
+                  </textarea>
+                </section>
+      	        <section data-markdown>
+		  <textarea data-template>
+                    ### Common statistical tests in R (cont'd)
+
+                    - **Shapiro test**: If data follows normal distribution. <br>
+                      `shapiro.test(data)`
+                    - **Kolmogorov and Smirnov**: Non-parametric test; if 2 samples follow same distribution. <br>
+                      `ks.test(data1, data2)`
+                    - **Fisher's F-test**: Checks for equal variance in two distributions <br>
+                      `var.test(data1, data2)`
+                    - **Chi Squared Test**: Whether two categorical variables are dependent. <br>
+                      `chisq.test(table(cat1, cat2), correct = FALSE)`
+                    - **Correlation**: Linear relationship of two continuous variables
+                      `cor.test(data1, data2)`
+                  </textarea>
+                </section>
+              </section>
+
 	    </div>
 	  </div>
 	  
