@@ -77,30 +77,28 @@
 		  </textarea>
 	        </section>
 
-                <section>
-              	  <section data-markdown>
-		    <textarea data-template>
-                      ### JSON is the de-facto language for API calls
+              	<section data-markdown>
+		  <textarea data-template>
+                    ### JSON is the de-facto language for API calls
 
-                      - Used a lot for big data, streaming, API lookups
-                      - [Here is a list of public APIs](https://github.com/toddmotto/public-apis)
-                      
-                      Example CoinLore cryptocurrency exchange:
-                      
-                      ```bash
-                      curl -sL https://api.coinlore.com/api/tickers/?start=1&limit=10
+                    - Used a lot for big data, streaming, API lookups
+                    - [Here is a list of public APIs](https://github.com/toddmotto/public-apis)
+                    
+                    Example CoinLore cryptocurrency exchange:
+                    
+                    ```bash
+                    curl -sL https://api.coinlore.com/api/tickers/?start=1&limit=10
 
-                      ```
-                      Result:
-                      
-                      ```json
-                      {"data":[{"id":"488","symbol":"POLY","name":"Polymath",
-                       "nameid":"polymath-network","rank":101,"price_usd":"0.088209",
-                       "percent_change_24h":"-2.43","percent_change_1h":...
-                      ```
-                      
-                    </textarea>
-                  </section>
+                    ```
+                    Result:
+                    
+                    ```json
+                    {"data":[{"id":"488","symbol":"POLY","name":"Polymath",
+                    "nameid":"polymath-network","rank":101,"price_usd":"0.088209",
+                    "percent_change_24h":"-2.43","percent_change_1h":...
+                    ```
+                    
+                  </textarea>
                 </section>
 
 	        <section data-markdown>
@@ -108,9 +106,19 @@
                     ### noSQL databases
 
                     - Many to choose from: MongoDB, AWS DocumentDB, Cassandra, CouchDB
-                    - Online services: mLab, MongoDB, Firebase
+                    - Online services: mLab, AtlasDB, Firebase
                     - JSON not exclusive to Javascript; pervasive in many languages
                     - JSON made data _visualization_ with Javascript convenient
+                    
+                  </textarea>
+                </section>
+
+	        <section data-markdown>
+		  <textarea data-template>
+                    ### JSON Practice
+
+                    - Watch [introduction to JSON data video](https://lagunita.stanford.edu/courses/DB/JSON/SelfPaced/courseware/ch-json_data/seq-vid-json_introduction/)
+                    - Watch [JSON demo](https://lagunita.stanford.edu/courses/DB/JSON/SelfPaced/courseware/ch-json_data/seq-vid-json_demo/)
                     - Try to get more than 70% in this [JSON Quiz](https://lagunita.stanford.edu/courses/DB/JSON/SelfPaced/courseware/ch-json_data/seq-quiz-json/?child=last)
 		  </textarea>
 	        </section>
