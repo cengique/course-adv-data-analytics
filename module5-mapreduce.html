@@ -615,6 +615,9 @@ Bytes Written=29
 
                     - Most commonly used: `map()` and `filter()`
                     <img src="images/Spark_Ch3_fig3-2_map-filter.png" style="max-width: auto; height: 300px;"/>
+                    ```python
+                    mapex = rdd.map(lambda x: x * x)
+                    ```
                     - <!-- .element: class="fragment" data-fragment-index="2" -->
                     If multiple outputs for each input, then use `flatMap()`
                     - <!-- .element: class="fragment" data-fragment-index="3" -->
