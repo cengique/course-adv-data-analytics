@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Module 5 - Big Data algorithms and tools: MapReduce - ITEC 4220 Advanced Data Analytics</title>
+		<title>Module 6 - Crash course into Python - ITEC 4220 Advanced Data Analytics</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
@@ -40,9 +40,11 @@
                 <textarea data-template>
                   ### Installing Python
 
-                  - Book is focused on data science from scratch, so
-                  recommends [Python 2.7](http://www.python.org). But that was in 2015, so
-                  these days modules seem to be compatible with both 2.7 and up to 3.6
+                  - Data Science from Scratch originally suggested
+                  Python 2.7, but that is now obsolete as of Jan 1, 2020.
+                  In the updated edition of the book,
+                  recommended version is now [Python
+                  3.6](http://www.python.org) or above.                  
                   - [Anaconda](https://www.anaconda.com/distribution/) is a package
                   that includes many useful utilities, but it's big.
                   - If you can't afford to install Anaconda, install these at least:
@@ -88,16 +90,72 @@
               
               </section>
 
-              <section data-markdown>
-                <textarea data-template>
-                  ### Other significant Python modules
+              <section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Other significant Python modules
 
-                  - [NumPy](https://docs.scipy.org/doc/numpy/user/quickstart.html) - Allows defining N-dimensinoal arrays
-                  - [pandas](https://pandas.pydata.org/) - R's notorious _DataFrame_ object makes a comeback. Based on NumPy
-                  - [scikit-learn](http://scikit-learn.org) - Machine learning library
-                  - [keras](https://keras.io/) - Neural network/deep learning library
-                  - [TensorFlow](https://www.tensorflow.org/overview) - More advanced ML library, based on Keras API standard.
-                </textarea>
+                    Our Focus here:
+                    - [NumPy](https://numpy.org/doc/stable) - Allows defining N-dimensional arrays
+                    - [pandas](https://pandas.pydata.org/) - Similar to R's _DataFrame_ object, requires _NumPy_
+                    - [Matplotlib](https://matplotlib.org/) - Standard plotting library (default for _pandas_)
+
+                    You should also know about:
+                    - [scikit-learn](http://scikit-learn.org) - Machine learning library
+                    - [keras](https://keras.io/) - Neural network/deep learning library
+                    - [TensorFlow](https://www.tensorflow.org/overview) - More advanced ML library, based on Keras API standard.
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### An example numerical analysis in Python
+
+                    Load your CSV file using the [Pandas method](https://pandas.pydata.org/docs/getting_started/intro_tutorials/02_read_write.html#how-do-i-read-and-write-tabular-data):
+
+                    ```python
+                    >> import pandas as pd
+                    >> mydata = pd.read_csv("myfile.csv")
+                    ```
+
+                    Then print the first and last 5 rows like this:
+                    ```python
+                    >> mydata
+                    ```
+
+                    Show the inferred data types of each of your columns:
+                    ```python
+                    >> mydata.dtypes
+                    ```
+
+                    And see a technical summary:
+                    ```python
+                    >> mydata.info()
+                    ```
+
+                    (also see the [10-minutes to Pandas
+                    tutorial](https://pandas.pydata.org/docs/getting_started/10min.html). alternatively,
+                    you can also use [plain Python to load a CSV
+                    file](https://docs.python.org/3/library/csv.html).)
+
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Calculate average of a data column
+
+                    Pick a data column:
+                    ```python
+                    >> for age in mydata["age"]
+                    >>   sum += age
+                    >> print sum/mydata.shape[0]
+                    ```
+                    (see [my Colab notebook](https://colab.research.google.com/drive/1c9GTC1k3krc13Lq0QxZKEyRMUygifUv_#scrollTo=2QVofHAaLbPc))
+                    
+                    ### Plot <!-- .element: class="fragment" data-fragment-index="2" -->
+                    https://pandas.pydata.org/docs/getting_started/intro_tutorials/04_plotting.html
+                    
+                  </textarea>
+                </section>
               </section>
               
 	    </div>
