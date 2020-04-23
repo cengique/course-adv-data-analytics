@@ -148,11 +148,22 @@
                     >> for age in mydata["age"]
                     >>   sum += age
                     >> print sum/mydata.shape[0]
-                    ```
-                    (see [my Colab notebook](https://colab.research.google.com/drive/1c9GTC1k3krc13Lq0QxZKEyRMUygifUv_#scrollTo=2QVofHAaLbPc))
+                    ```                    
                     
-                    ### Plot <!-- .element: class="fragment" data-fragment-index="2" -->
-                    https://pandas.pydata.org/docs/getting_started/intro_tutorials/04_plotting.html
+                    Vectorized version: <!-- .element: class="fragment" data-fragment-index="2" -->
+                    ```python
+                    >> mydata["age"].sum()/mydata.shape[0]
+                    ```
+                    <!-- .element: class="fragment" data-fragment-index="2" -->
+
+                    One-step solution: <!-- .element: class="fragment" data-fragment-index="3" -->
+                    ```python
+                    >> mydata["age"].mean()
+                    ```
+                    <!-- .element: class="fragment" data-fragment-index="3" -->
+
+                    (see [my Colab notebook](https://colab.research.google.com/drive/1c9GTC1k3krc13Lq0QxZKEyRMUygifUv_#scrollTo=2QVofHAaLbPc) and [plotting in pandas using
+                    matplotlib](https://pandas.pydata.org/docs/getting_started/intro_tutorials/04_plotting.html).)
                     
                   </textarea>
                 </section>
