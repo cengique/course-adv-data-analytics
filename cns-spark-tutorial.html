@@ -61,7 +61,7 @@
                 <textarea data-template>
                   ### Data!
 
-                  - Prediction: the world will have 44 _zettabytes_ by year 2020
+                  - Prediction: the world will have 44 _zettabytes_ by year 2020`$^*$`
                   - Scale: mega, giga, tera, peta, exa, zetta (`$10^{21}$`)
                   
                   Data producers: 
@@ -69,43 +69,82 @@
                   - Facebook: 7 petabytes/month
                   - Ancestry.com: 10 petabytes
                   - Internet Archive: 18 petabytes
+                  - Computational neuroscience: ???
 
-                  `$^*$` Numbers from textbook, circa 2013-2014
+                  `$^*$` Hadoop: The definitive guide (2015); seem to match [current data](https://techjury.net/blog/big-data-statistics/#gref)
 
                 </textarea>
               </section>
-              <section data-markdown>
-                <textarea data-template>
-                  ### The need for parallel and distributed processing
+              <section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Large-scale simulations and data analysis in computational neuroscience
 
-                  - Large data requires more than one machine
-                  - Parallelization is painful
-                  - Load balancing is a problem, otherwise you wait for the slowest one
-                  - **MapReduce** algorithm implementation in **Hadoop** provides a solution
-                  - Has been widely adopted in industry
-                  - Hadoop comes with an ecosystem of tools: YARN, HDFS, Pig, Spark
+                    Workflows in historical order:
+                    1. High-performance computing clusters (SGE, PBS, NSG, ...)
+                    2. Cloud deployment of virtual machines (AWS, GCP, Azure, ...)
+                    3. Specialized distributed computing platforms (Hadoop, Spark, ...)
+                    
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### High-performance computing (HPC)
 
-                  <img src="images/hadoop-logo.png" style="max-width: auto; height: 100px; margin: 10px;"/>
+                    Classical *scientific computing* environment:
+                    - Cluster of similar computers
+                    - Submit "jobs", scheduler software will run on available nodes
+                    - Results can be collected on network drives, or collected at end
 
-		</textarea>
-	      </section>
-              <section data-markdown>
-                <textarea data-template>
-                  ### MapReduce compared to traditional RDBMS
+                    Cons:
+                    - Cluster usually administered by central authority
+                    - Can't install custom programs into OS, except in home folder
+                    - Must compete with other users and wait turn in queue
+                    - Errors come with delay
+                    
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Cloud deployment of virtual machines
 
-                  ||Traditional RDBMS|MapReduce
-                  |-|-|-
-                  |Data size|Gigabytes|Petabytes
-                  |Access|Interactive and Batch|Batch only
-                  |Updates|Read and write many times|Write once, read many times
-                  |Transactions|ACID|None
-                  |Structure|Schema-on-write|Schema-on-read
-                  |Scaling|Nonlinear|Linear
+                    Popular and "easy" method on several vendors:
+                    - Amazon Web Services, Google Cloud Platform, Microsoft Azure, etc
+                    - Freedom to deploy own virtual machine (VM) "images"
+                    - Can quickly create copies of same machine
+                    - No waiting, but have to pay
 
-                  - **RDBMS**: Relational database management system
-                  - **ACID**: Atomicity, Consistency, Isolation, Durability
-		</textarea>
-	      </section>
+                    Cons:
+                    - More expensive than the HPC approach
+                    - More administrative work needed to orchestrate VMs
+                    - Not efficient because it involves creating whole machines
+                    
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Data science field has parallel computing solutions
+
+                    Not unique to computational neuroscience:
+                    - Large data requires more than one machine
+                    - Parallelization is painful
+                    - Load balancing is a problem, otherwise you wait for the slowest one
+
+                    A general solution:
+                    - **MapReduce** algorithm, implemented in **Apache Hadoop** 
+                    - Has been widely adopted in industry
+                    - Hadoop comes with an ecosystem of tools: YARN, HDFS, Pig, Spark
+
+                    <img src="images/hadoop-logo.png" style="max-width: auto; height: 100px; margin: 10px;"/>
+
+		  </textarea>
+	        </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    <img src="images/mapreduce-example-oreilly.png" style="max-width: auto; height: 90%;"/>
+		  </textarea>
+	        </section>
+              </section>
               <section>
                 <section data-markdown>
                   <textarea data-template>
@@ -113,7 +152,7 @@
 
                     A weather dataset from White Chapter 2
 
-                    - Data from weather stations all around world
+                    - Live streaming data from weather stations all around world
                     - Each row is one reading from one station at a time
                     
                     <img src="images/Hadoop_Ch2_example2-1.png" style="max-width: auto; height: 300px; margin-left: auto;"/>
@@ -345,80 +384,6 @@ Bytes Written=29
                   </textarea>
 	        </section>
               </section>
-              
-              <section> <!-- Start a new right-direction slide for exercise-->
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Hadoop MapReduce Exercise time!
-
-                    - Book word count [Apache MapReduce tutorial](http://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html) ([Computerphile video](https://youtu.be/cvhKoniK5Uo))
-                    <img src="images/ursus.jpg" style="float: right; max-width: auto; height: 200px; margin: 10px;"/>
-
-                    - SSH into Ursus.ggc.edu with given credentials and change passwords
-                    (only works on campus or through Ursus VPN - stay tuned for instructions)
-                    - Once on Ursus, you can setup your environment:
-                    
-                    ```bash
-                    # Set Java & Hadoop environment
-                    module load java-1.6.0
-                    export HADOOP_HOME=${JAVA_HOME}/lib/tools.jar
-                    
-                    # Add the Hadoop bin folder to your path
-                    export PATH=${PATH}:~hadoop/hadoop/bin
-                    ```
-                    (To make permanent, add these lines to the end of your `.bashrc` file!)
-                  </textarea>
-	        </section>
-
-                <section data-markdown>
-                  <textarea data-template>
-                    ### The Hadoop Distributed Filesystem (HDFS)
-                    
-                    Hadoop works on files in the HDFS that is different than your folders on Ursus.
-                    ```bash
-                    # List files on HDFS
-                    hadoop fs -ls /users/IntroParComp/
-                    
-                    # Create your user folder inside HDFS
-                    hadoop fs -mkdir /users/IntroParComp/cgunay
-                    
-                    # Create an input subfolder (all files will be used as input)
-                    hadoop fs -mkdir /users/IntroParComp/cgunay/input01
-                    
-                    # Copy Ursus files to your HDFS folder
-                    hadoop fs -put file01.txt /users/IntroParComp/cgunay/input01/file01
-                    ```
-                    (Replace `cgunay` with your username)
-                  </textarea>
-	        </section>
-
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Running the tutorial                    
-                    
-                    ```bash
-                    # Run your code with input and output folders
-                    hadoop jar wc.jar WordCount /users/IntroParComp/cgunay/input01 \
-                      /users/IntroParComp/cgunay/output
-                    
-                    # Copy from HDFS back onto Ursus
-                    hadoop fs -get /users/IntroParComp/cgunay/output/outfile
-                    
-                    # Show contents of HDFS file
-                    hadoop fs -cat /users/IntroParComp/cgunay/output/outfile
-                    ```
-
-                    - Watch progress and see Hadoop jobs status in browser by forwarding your local ports with:
-                    ```bash
-                    ssh -L 8088:ursus.ggc.edu:8088 -L 50070:ursus.ggc.edu:50070 ursus.ggc.edu
-                    ```
-                    and then pointing any browser to http://localhost:8088 and http://localhost:50070
-
-                  </textarea>
-	        </section>
-
-              </section> <!-- end of exercise down-direction -->
-
               <section> <!-- Start a new right-direction slide for HDFS splitting -->
                 <section data-markdown>
                   <textarea data-template>
@@ -466,84 +431,13 @@ Bytes Written=29
                   <textarea data-template>
                     ### Reduce step can be omitted
 
-                    - Sometimes Map is all you need:
+                    - Sometimes Map is enough for "embarassingly parallel" simulations!
                     
                     <img src="images/Hadoop_Ch2_figure2-5.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
 
                   </textarea>
 	        </section>                
               </section> <!-- end of HDFS splitting down-section -->
-
-              <section> <!-- Start right-section: Hadoop streaming -->
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Hadoop streaming: Unleash yourself from Java!
-
-                    - Uses Unix standard streams (|) that allows any language to be used for map and reduce tasks!
-                    - Streaming is naturally suited for text processing
-                    - Map/Reduce input is passed as input to your program, and you write to standard output (print)
-                    - Key-value pairs separated with tab characters
-                  </textarea>
-	        </section>                
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Python example for Hadoop streaming
-
-                    ```python
-                    # Map function
-                    import re
-                    import sys
-                    
-                    for line in sys.stdin:
-                      val = line.strip()
-                      (year, temp, q) = (val[15:19], val[87:92], val[92:93])
-                      if (temp != "+9999" and re.match("[01459]", q)):
-                        print "%s\t%s" % (year, temp)
-                    ```
-                    
-                    ```python
-                    # Reduce function
-                    import sys
-
-                    (last_key, max_val) = (None, -sys.maxint)
-                    for line in sys.stdin:
-                      (key, val) = line.strip().split("\t")
-                      if last_key and last_key != key:
-                        print "%s\t%s" % (last_key, max_val)
-                        (last_key, max_val) = (key, int(val))
-                      else:
-                        (last_key, max_val) = (key, max(max_val, int(val)))
-
-                    if last_key:
-                      print "%s\t%s" % (last_key, max_val)
-                    ```
-                  </textarea>
-	        </section>                
-                <section data-markdown>
-                  <textarea data-template>
-                    ### How to run it
-
-                    On the command line without Hadoop:
-                    ```bash
-                    % cat input/ncdc/sample.txt | \
-                      ch02-mr-intro/src/main/python/max_temperature_map.py | \
-                      sort | ch02-mr-intro/src/main/python/max_temperature_reduce.py
-                    1949 111
-                    1950 22
-                    ```
-
-                    With Hadoop:
-                    ```bash
-                    % hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-*.jar \
-                      -input input/ncdc/sample.txt \
-                      -output output \
-                      -mapper ch02-mr-intro/src/main/python/max_temperature_map.py \
-                      -reducer ch02-mr-intro/src/main/python/max_temperature_reduce.py
-                    ```
-                  </textarea>
-	        </section>                
-
-              </section> <!-- End right-section: Hadoop streaming -->
 
               <section> <!-- Post-hadoop -->
                 <section data-markdown>
