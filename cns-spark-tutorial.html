@@ -24,7 +24,7 @@
 	</head>
 	<body>
 	  <div class="reveal">
-	    <div class="slides">	      
+	    <div class="slides"> <!-- 30 slides so far? -->
 	      <section data-markdown>
                 <textarea data-template>
                   ### CNS*2020 Tutorial #6
@@ -142,6 +142,22 @@
                 <section data-markdown>
                   <textarea data-template>
                     <img src="images/mapreduce-example-oreilly.png" style="max-width: auto; height: 90%;"/>
+		  </textarea>
+	        </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Your turn!
+
+                    Type on Zoom chat<!--[NeuroStars](https://neurostars.org/t/cns-2020-tutorial-t6-methods-from-data-science-for-model-simulation-analysis-and-visualization/13337)  .element: target="_blank" --> your research use case for MapReduce.
+
+                    Identify steps for:
+                    
+                    - **map**: extract information from each item
+                    - **reduce**: combine/process mapped information to produce output
+
+                    **Example:** *map* to select a parameter set, and *reduce* to average it
+                    
+                    <img src="images/mapreduce-example-oreilly.png" style="max-width: auto; height: 300px;"/>
 		  </textarea>
 	        </section>
               </section>
@@ -420,7 +436,7 @@ Bytes Written=29
                   <textarea data-template>
                     ### Workflow with multiple Reduce tasks
 
-                    - Output of Map can be used for different calculations:
+                    - Output of *map* can be used for different *reduce* steps:
                     
                     <img src="images/Hadoop_Ch2_figure2-4.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
 
@@ -431,7 +447,7 @@ Bytes Written=29
                   <textarea data-template>
                     ### Reduce step can be omitted
 
-                    - Sometimes Map is enough for "embarassingly parallel" simulations!
+                    - Sometimes *map* is enough for "embarassingly parallel" simulations!
                     
                     <img src="images/Hadoop_Ch2_figure2-5.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
 
@@ -442,7 +458,7 @@ Bytes Written=29
               <section> <!-- Post-hadoop -->
                 <section data-markdown>
                   <textarea data-template>
-                    ### What comes after Hadoop?
+                    ### Hadoop is dead. Long live Hadoop!
 
                     - Hadoop created an ecosystem of projects:
                         - Avro: Data serialization system
@@ -468,6 +484,50 @@ Bytes Written=29
                     - Written in Scala running on JVM
                     - Can be programmed in Scala, Java, and Python
                     
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Practice time! Connect to our Spark server
+
+                    - See our [Sched page](https://cns2020online.sched.com/event/a1f62dac60f1e6d93a34724500d3ff66) for the IP address and downloads
+                    
+                    On Mac and Linux:
+                    - Download `spark-key` from [Sched](https://cns2020online.sched.com/event/a1f62dac60f1e6d93a34724500d3ff66)
+                    - Open terminal and run:
+                    ```bash
+                    $ ssh -i spark-key cnsuser@IP address
+                    ```
+
+                    On Windows:
+                    - Download `spark-windows.ppk` from [Sched](https://cns2020online.sched.com/event/a1f62dac60f1e6d93a34724500d3ff66)
+                    - Download [Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/)
+                    - Follow [instructions](https://devops.ionos.com/tutorials/use-ssh-keys-with-putty-on-windows/#connect-to-server-with-private-key) to use ppk key file
+                    - Open SSH connection to IP address on Putty ([help](https://www.ssh.com/ssh/putty/windows/))
+                    
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Practice time! (Cont)
+
+                    Once connected to Spark server, run:
+                    ```bash
+                    $ docker exec -it klt-spark-wwym bin/pyspark
+                    Python 3.6.11 (default, Jul 15 2020, 18:47:56) 
+                    [GCC 8.3.0] on linux
+                    Type "help", "copyright", "credits" or "license" for more information.
+                    Welcome to
+                       ____              __
+                      / __/__  ___ _____/ /__
+                     _\ \/ _ \/ _ `/ __/  '_/
+                    /__ / .__/\_,_/_/ /_/\_\   version 3.0.0
+                       /_/
+
+                    Using Python version 3.6.11 (default, Jul 15 2020 18:47:56)
+                    SparkSession available as 'spark'.
+                    >>> 
+                    ```                    
                   </textarea>
                 </section>
                 <section data-markdown>
@@ -509,7 +569,7 @@ Bytes Written=29
                 </section>
                 <section data-markdown>
                   <textarea data-template>
-                    ### Working with RDDs
+                    ### Map-Reduce operations generalize to <br/> Transformation-Action with RDDs
 
                     _Transformations_ create new RDDs; e.g.:
                     
@@ -548,7 +608,7 @@ Bytes Written=29
                     sum = rdd.reduce(lambda x, y: x + y)
                     ```
                     - <!-- .element: class="fragment" data-fragment-index="2" -->
-                    `fold()` also asks a _zero_ value for initialization
+                    `fold()` also takes a _zero_ value for initialization
                     ```python
                     sum = rdd.fold(0, lambda x, y: x + y)
                     ```
@@ -577,19 +637,49 @@ Bytes Written=29
                 </section>
                 <section data-markdown>
                   <textarea data-template>
-                    ### Spark SQL
+                    ### RRDs can act as DataFrames!
 
-                    - Uses _DataFrame_ RDD objects that hold semi-structured data
-                    - Can read/write data in JSON, Hive Tables, and Parquet
-                    - SQL interface to be used inside or outside Spark (e.g. JDBC connection or from Tableau)
+                    - Can read/write data in JSON, CSV, Hive Tables, and Parquet
+                    - _DataFrame_ objects hold semi-structured data
                     ```python
-                    hiveCtx = HiveContext(sc)
-                    input = hiveCtx.jsonFile(inputFile)
-                    # Register the input DataFrame
-                    input.registerTempTable("tweets")
-                    # Select tweets based on the retweetCount
-                    topTweets = hiveCtx.sql("""SELECT text, retweetCount FROM tweets 
-                      ORDER BY retweetCount LIMIT 10""")
+                    df = spark.read.json("people.json") # also see read.csv()
+                    # Displays the content of the DataFrame to stdout
+                    df.show()
+                    # +----+-------+
+                    # | age|   name|
+                    # +----+-------+
+                    # |null|Michael|
+                    # |  30|   Andy|
+                    # |  19| Justin|
+                    # +----+-------+
+                    ```                    
+                    - SQL-like syntax
+                    ```python
+                    # Select only the "name" column
+                    df.select("name").show()
+                    # Select people older than 21
+                    df.filter(df['age'] > 21).show()
+                    ```
+                    
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Spark can run SQL queries in parallel
+
+                    - SQL interface to be used inside or outside Spark <br/> (e.g. JDBC connection or from Tableau)
+                    ```python
+                    # Register the DataFrame as a SQL temporary view
+                    df.createOrReplaceTempView("people")
+                    sqlDF = spark.sql("SELECT * FROM people")
+                    sqlDF.show()
+                    # +----+-------+
+                    # | age|   name|
+                    # +----+-------+
+                    # |null|Michael|
+                    # |  30|   Andy|
+                    # |  19| Justin|
+                    # +----+-------+
                     ```
                   </textarea>
                 </section>
@@ -604,7 +694,7 @@ Bytes Written=29
 
                     More resources:
                     - [Book's Github repo with examples](https://github.com/databricks/learning-spark)
-                    - [Spark 2.4.4 API documentation](https://spark.apache.org/docs/2.4.4/) - <br>
+                    - [Spark API documentation](https://spark.apache.org/docs/latest/) - <br>
                     JetStream image version
                     - [Spark Quick Start](https://spark.apache.org/docs/latest/quick-start.html)
                     - [RDD Programming Guide](https://spark.apache.org/docs/latest/rdd-programming-guide.html)
@@ -638,6 +728,12 @@ Bytes Written=29
 	      // Factor of the display size that should remain empty around the content
 	      margin: 0.1,
 	      
+              // Display the page number of the current slide
+	      //slideNumber: true,
+
+              // Push each slide change to the browser history
+	      history: true,
+
 	      // Bounds for smallest/largest possible scale to apply to content
 	      minScale: 0.2,
 	      maxScale: 1.5,
