@@ -1,0 +1,763 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>CNS*2020 Tutorial #6: Methods from Data Science for Model Simulation,
+                  Analysis, and Visualization</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+	  <div class="reveal">
+	    <div class="slides">	      
+	      <section data-markdown>
+                <textarea data-template>
+                  ### CNS*2020 Tutorial #6
+
+                  ## Methods from Data Science for Model Simulation, Analysis, and Visualization
+
+                  **Organizers:** Cengiz Gunay and Anca Doloc-Mihu
+
+                  **Schedule:** 7-10pm Berlin time on July 18, 2020
+
+                  1. *C Gunay*, "From High Performance Computing to Hadoop and Spark"
+                  2. *A Doloc-Mihu*, "High-dimensional data visualizations"
+                  3. *H Dinh, J Walton, and A Morariu*, "Analysim.org: A data sharing site for crowdsourcing analysis of parameter-search datasets"
+
+                  (each hands-on session is 50 min followed by break of 10 min)
+
+                </textarea>
+              </section>
+	      <section data-markdown>
+                <textarea data-template>
+
+                  ### CNS*2020 Tutorial #6 - Session 1
+
+                  ## From High Performance Computing to Hadoop and Spark
+
+                  #### Cengiz Gunay, July 18, 2020
+
+                  <img src="images/hadoop-logo.png" style="max-width: auto; height: 100px; margin: 1em;"/>
+                  <img src="images/apache-spark-logo.jpg" style="max-width: auto; height: 100px; margin: 1em;"/>
+
+                </textarea>
+              </section>
+              <section data-markdown>
+                <textarea data-template>
+                  ### Data!
+
+                  - Prediction: the world will have 44 _zettabytes_ by year 2020
+                  - Scale: mega, giga, tera, peta, exa, zetta (`$10^{21}$`)
+                  
+                  Data producers: 
+                  - NY Stock Exchange: 4-5 terabytes/day
+                  - Facebook: 7 petabytes/month
+                  - Ancestry.com: 10 petabytes
+                  - Internet Archive: 18 petabytes
+
+                  `$^*$` Numbers from textbook, circa 2013-2014
+
+                </textarea>
+              </section>
+              <section data-markdown>
+                <textarea data-template>
+                  ### The need for parallel and distributed processing
+
+                  - Large data requires more than one machine
+                  - Parallelization is painful
+                  - Load balancing is a problem, otherwise you wait for the slowest one
+                  - **MapReduce** algorithm implementation in **Hadoop** provides a solution
+                  - Has been widely adopted in industry
+                  - Hadoop comes with an ecosystem of tools: YARN, HDFS, Pig, Spark
+
+                  <img src="images/hadoop-logo.png" style="max-width: auto; height: 100px; margin: 10px;"/>
+
+		</textarea>
+	      </section>
+              <section data-markdown>
+                <textarea data-template>
+                  ### MapReduce compared to traditional RDBMS
+
+                  ||Traditional RDBMS|MapReduce
+                  |-|-|-
+                  |Data size|Gigabytes|Petabytes
+                  |Access|Interactive and Batch|Batch only
+                  |Updates|Read and write many times|Write once, read many times
+                  |Transactions|ACID|None
+                  |Structure|Schema-on-write|Schema-on-read
+                  |Scaling|Nonlinear|Linear
+
+                  - **RDBMS**: Relational database management system
+                  - **ACID**: Atomicity, Consistency, Isolation, Durability
+		</textarea>
+	      </section>
+              <section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### What is MapReduce? An example
+
+                    A weather dataset from White Chapter 2
+
+                    - Data from weather stations all around world
+                    - Each row is one reading from one station at a time
+                    
+                    <img src="images/Hadoop_Ch2_example2-1.png" style="max-width: auto; height: 300px; margin-left: auto;"/>
+		  </textarea>
+	        </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Back to the command-line: inspect the data
+                    
+                    ```bash 
+% ls raw/1990 | head
+010010-99999-1990.gz
+010014-99999-1990.gz
+010015-99999-1990.gz
+010016-99999-1990.gz
+010017-99999-1990.gz
+010030-99999-1990.gz
+010040-99999-1990.gz
+010080-99999-1990.gz
+010100-99999-1990.gz
+010150-99999-1990.gz
+                    ```
+                    <!-- .element: style="width: 25ex; margin: 10px; float: left;" -->
+                    <img src="images/Hadoop_Ch2_example2-2.png" style="max-width: auto; height: 300px; margin: 10px;"/>
+                    - Many small files; can be analyzed sequentially with <!-- .element: class="fragment" data-fragment-index="2" --> `awk`: 
+
+                    ```bash
+                    % ./max_temperature.sh
+                    1901 317
+                    1902 244
+                    1903 289
+                    1904 256
+                    1905 283
+                    ...
+                    ```
+                    <!-- .element: style="width: 25ex; margin-left: auto;" class="fragment" data-fragment-index="2" -->
+		  </textarea>
+	        </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Enter Map+Reduce: Can be partitioned to run on parallel hardware
+
+                    <img src="images/Hadoop_Ch2_figure2-1.png" style="max-width: auto; height: 400px; margin-left: auto;"/>
+
+		  </textarea>
+	        </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Map in Java: (ID, row of text) `$\Rightarrow$` (year, temp)
+
+                    ```java
+                    public class MaxTemperatureMapper
+                        extends Mapper<LongWritable, Text, Text, IntWritable> {
+                      
+                      private static final int MISSING = 9999;
+
+                      @Override
+                      public void map(LongWritable key, Text value, Context context)
+                          throws IOException, InterruptedException {
+                      
+                        String line = value.toString();
+                        String year = line.substring(15, 19);
+                        int airTemperature;
+                        if (line.charAt(87) == '+') { // parseInt doesn't like leading plus signs
+                          airTemperature = Integer.parseInt(line.substring(88, 92));
+                        } else {
+                          airTemperature = Integer.parseInt(line.substring(87, 92));
+                        }
+                        String quality = line.substring(92, 93);
+                        if (airTemperature != MISSING && quality.matches("[01459]")) {
+                          context.write(new Text(year), new IntWritable(airTemperature));
+                        }
+                      }
+                    }
+                    ```
+                    <!-- .element:   -->
+		  </textarea>
+	        </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    <img src="images/Hadoop_Ch2_figure2-1.png" style="max-width: auto; height: 200px; margin-left: auto;"/>
+
+                    ### Reduce: (year, [temps]) `$\Rightarrow$` (year, max temp)
+
+                    ```java
+                    public class MaxTemperatureReducer
+                        extends Reducer<Text, IntWritable, Text, IntWritable> {
+
+                      @Override
+                      public void reduce(Text key, Iterable<IntWritable> values, Context context)
+                          throws IOException, InterruptedException {
+                        int maxValue = Integer.MIN_VALUE;
+                        for (IntWritable value : values) {
+                          maxValue = Math.max(maxValue, value.get());
+                        }
+                        context.write(key, new IntWritable(maxValue));
+                      }
+                    }
+                    ```
+		  </textarea>
+	        </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Putting it all together
+
+                    ```java
+                    public class MaxTemperature {
+                    
+                      public static void main(String[] args) throws Exception {
+                        if (args.length != 2) {
+                          System.err.println("Usage: MaxTemperature <input path> <output path>");
+                          System.exit(-1);
+                        }
+                        Job job = new Job();
+                        job.setJarByClass(MaxTemperature.class);
+                        job.setJobName("Max temperature");
+                      
+                        FileInputFormat.addInputPath(job, new Path(args[0]));
+                        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
+                        job.setMapperClass(MaxTemperatureMapper.class);
+                        job.setReducerClass(MaxTemperatureReducer.class);
+
+                        job.setOutputKeyClass(Text.class);
+                        job.setOutputValueClass(IntWritable.class);
+
+                        System.exit(job.waitForCompletion(true) ? 0 : 1);
+                      }
+                    }
+                    ```  
+                  </textarea>
+	        </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### A sample run
+
+                    ```bash
+% export HADOOP_CLASSPATH=hadoop-examples.jar
+% hadoop MaxTemperature input/ncdc/sample.txt output
+14/09/16 09:48:39 WARN util.NativeCodeLoader: Unable to load native-hadoop
+library for your platform... using builtin-java classes where applicable
+14/09/16 09:48:40 WARN mapreduce.JobSubmitter: Hadoop command-line option
+parsing not performed. Implement the Tool interface and execute your application
+with ToolRunner to remedy this.
+14/09/16 09:48:40 INFO input.FileInputFormat: Total input paths to process : 1
+14/09/16 09:48:40 INFO mapreduce.JobSubmitter: number of splits:1
+14/09/16 09:48:40 INFO mapreduce.JobSubmitter: Submitting tokens for job:
+job_local26392882_0001
+14/09/16 09:48:40 INFO mapreduce.Job: The url to track the job:
+http://localhost:8080/
+14/09/16 09:48:40 INFO mapreduce.Job: Running job: job_local26392882_0001
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: OutputCommitter set in config null
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: OutputCommitter is
+org.apache.hadoop.mapreduce.lib.output.FileOutputCommitter
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: Waiting for map tasks
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: Starting task:
+attempt_local26392882_0001_m_000000_0
+14/09/16 09:48:40 INFO mapred.Task: Using ResourceCalculatorProcessTree : null
+14/09/16 09:48:40 INFO mapred.LocalJobRunner:
+14/09/16 09:48:40 INFO mapred.Task: Task:attempt_local26392882_0001_m_000000_0
+is done. And is in the process of committing
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: map
+14/09/16 09:48:40 INFO mapred.Task: Task 'attempt_local26392882_0001_m_000000_0'
+done.
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: Finishing task:
+attempt_local26392882_0001_m_000000_0
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: map task executor complete.
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: Waiting for reduce tasks
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: Starting task:
+attempt_local26392882_0001_r_000000_0
+14/09/16 09:48:40 INFO mapred.Task: Using ResourceCalculatorProcessTree : null
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: 1 / 1 copied.
+14/09/16 09:48:40 INFO mapred.Merger: Merging 1 sorted segments
+14/09/16 09:48:40 INFO mapred.Merger: Down to the last merge-pass, with 1
+segments left of total size: 50 bytes
+14/09/16 09:48:40 INFO mapred.Merger: Merging 1 sorted segments
+14/09/16 09:48:40 INFO mapred.Merger: Down to the last merge-pass, with 1
+segments left of total size: 50 bytes
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: 1 / 1 copied.
+14/09/16 09:48:40 INFO mapred.Task: Task:attempt_local26392882_0001_r_000000_0
+is done. And is in the process of committing
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: 1 / 1 copied.
+14/09/16 09:48:40 INFO mapred.Task: Task attempt_local26392882_0001_r_000000_0
+is allowed to commit now
+14/09/16 09:48:40 INFO output.FileOutputCommitter: Saved output of task
+'attempt...local26392882_0001_r_000000_0' to file:/Users/tom/book-workspace/
+hadoop-book/output/_temporary/0/task_local26392882_0001_r_000000
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: reduce > reduce
+14/09/16 09:48:40 INFO mapred.Task: Task 'attempt_local26392882_0001_r_000000_0'
+done.
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: Finishing task:
+attempt_local26392882_0001_r_000000_0
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: reduce task executor complete.
+14/09/16 09:48:41 INFO mapreduce.Job: Job job_local26392882_0001 running in uber
+mode : false
+14/09/16 09:48:41 INFO mapreduce.Job: map 100% reduce 100%
+14/09/16 09:48:41 INFO mapreduce.Job: Job job_local26392882_0001 completed
+successfully
+14/09/16 09:48:41 INFO mapreduce.Job: Counters: 30
+File System Counters
+FILE: Number of bytes read=377168
+FILE: Number of bytes written=828464
+FILE: Number of read operations=0
+FILE: Number of large read operations=0
+FILE: Number of write operations=0
+Map-Reduce Framework
+Map input records=5
+Map output records=5
+Map output bytes=45
+Map output materialized bytes=61
+Input split bytes=129
+Combine input records=0
+Combine output records=0
+Reduce input groups=2
+Reduce shuffle bytes=61
+Reduce input records=5
+Reduce output records=2
+Spilled Records=10
+Shuffled Maps =1
+Failed Shuffles=0
+Merged Map outputs=1
+GC time elapsed (ms)=39
+Total committed heap usage (bytes)=226754560
+File Input Format Counters
+Bytes Read=529
+File Output Format Counters
+Bytes Written=29
+                    ```
+                  </textarea>
+	        </section>
+              </section>
+              
+              <section> <!-- Start a new right-direction slide for exercise-->
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Hadoop MapReduce Exercise time!
+
+                    - Book word count [Apache MapReduce tutorial](http://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html) ([Computerphile video](https://youtu.be/cvhKoniK5Uo))
+                    <img src="images/ursus.jpg" style="float: right; max-width: auto; height: 200px; margin: 10px;"/>
+
+                    - SSH into Ursus.ggc.edu with given credentials and change passwords
+                    (only works on campus or through Ursus VPN - stay tuned for instructions)
+                    - Once on Ursus, you can setup your environment:
+                    
+                    ```bash
+                    # Set Java & Hadoop environment
+                    module load java-1.6.0
+                    export HADOOP_HOME=${JAVA_HOME}/lib/tools.jar
+                    
+                    # Add the Hadoop bin folder to your path
+                    export PATH=${PATH}:~hadoop/hadoop/bin
+                    ```
+                    (To make permanent, add these lines to the end of your `.bashrc` file!)
+                  </textarea>
+	        </section>
+
+                <section data-markdown>
+                  <textarea data-template>
+                    ### The Hadoop Distributed Filesystem (HDFS)
+                    
+                    Hadoop works on files in the HDFS that is different than your folders on Ursus.
+                    ```bash
+                    # List files on HDFS
+                    hadoop fs -ls /users/IntroParComp/
+                    
+                    # Create your user folder inside HDFS
+                    hadoop fs -mkdir /users/IntroParComp/cgunay
+                    
+                    # Create an input subfolder (all files will be used as input)
+                    hadoop fs -mkdir /users/IntroParComp/cgunay/input01
+                    
+                    # Copy Ursus files to your HDFS folder
+                    hadoop fs -put file01.txt /users/IntroParComp/cgunay/input01/file01
+                    ```
+                    (Replace `cgunay` with your username)
+                  </textarea>
+	        </section>
+
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Running the tutorial                    
+                    
+                    ```bash
+                    # Run your code with input and output folders
+                    hadoop jar wc.jar WordCount /users/IntroParComp/cgunay/input01 \
+                      /users/IntroParComp/cgunay/output
+                    
+                    # Copy from HDFS back onto Ursus
+                    hadoop fs -get /users/IntroParComp/cgunay/output/outfile
+                    
+                    # Show contents of HDFS file
+                    hadoop fs -cat /users/IntroParComp/cgunay/output/outfile
+                    ```
+
+                    - Watch progress and see Hadoop jobs status in browser by forwarding your local ports with:
+                    ```bash
+                    ssh -L 8088:ursus.ggc.edu:8088 -L 50070:ursus.ggc.edu:50070 ursus.ggc.edu
+                    ```
+                    and then pointing any browser to http://localhost:8088 and http://localhost:50070
+
+                  </textarea>
+	        </section>
+
+              </section> <!-- end of exercise down-direction -->
+
+              <section> <!-- Start a new right-direction slide for HDFS splitting -->
+                <section data-markdown>
+                  <textarea data-template>
+                    ### HDFS: Hadoop Distributed Filesystem
+
+                    - Optimized to work on parallel hardware:
+                    
+                    <img src="images/hpc-image.jpg" style="max-width: auto; height: 500px; margin-left: auto;"/>
+
+                  </textarea>
+	        </section>                
+
+                <section data-markdown>
+                  <textarea data-template>
+                    ### HDFS _local_ data replication
+
+                    - Data shipped out to each machine via _input splits_ for Map tasks
+                    
+                    <img src="images/Hadoop_Ch2_figure2-2.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
+
+                  </textarea>
+	        </section>                
+
+                <section data-markdown>
+                  <textarea data-template>
+                    ### HDFS input _splits_ merged into output _part_
+                    
+                    <img src="images/Hadoop_Ch2_figure2-3.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
+
+                  </textarea>
+	        </section>                
+
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Workflow with multiple Reduce tasks
+
+                    - Output of Map can be used for different calculations:
+                    
+                    <img src="images/Hadoop_Ch2_figure2-4.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
+
+                  </textarea>
+	        </section>                
+
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Reduce step can be omitted
+
+                    - Sometimes Map is all you need:
+                    
+                    <img src="images/Hadoop_Ch2_figure2-5.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
+
+                  </textarea>
+	        </section>                
+              </section> <!-- end of HDFS splitting down-section -->
+
+              <section> <!-- Start right-section: Hadoop streaming -->
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Hadoop streaming: Unleash yourself from Java!
+
+                    - Uses Unix standard streams (|) that allows any language to be used for map and reduce tasks!
+                    - Streaming is naturally suited for text processing
+                    - Map/Reduce input is passed as input to your program, and you write to standard output (print)
+                    - Key-value pairs separated with tab characters
+                  </textarea>
+	        </section>                
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Python example for Hadoop streaming
+
+                    ```python
+                    # Map function
+                    import re
+                    import sys
+                    
+                    for line in sys.stdin:
+                      val = line.strip()
+                      (year, temp, q) = (val[15:19], val[87:92], val[92:93])
+                      if (temp != "+9999" and re.match("[01459]", q)):
+                        print "%s\t%s" % (year, temp)
+                    ```
+                    
+                    ```python
+                    # Reduce function
+                    import sys
+
+                    (last_key, max_val) = (None, -sys.maxint)
+                    for line in sys.stdin:
+                      (key, val) = line.strip().split("\t")
+                      if last_key and last_key != key:
+                        print "%s\t%s" % (last_key, max_val)
+                        (last_key, max_val) = (key, int(val))
+                      else:
+                        (last_key, max_val) = (key, max(max_val, int(val)))
+
+                    if last_key:
+                      print "%s\t%s" % (last_key, max_val)
+                    ```
+                  </textarea>
+	        </section>                
+                <section data-markdown>
+                  <textarea data-template>
+                    ### How to run it
+
+                    On the command line without Hadoop:
+                    ```bash
+                    % cat input/ncdc/sample.txt | \
+                      ch02-mr-intro/src/main/python/max_temperature_map.py | \
+                      sort | ch02-mr-intro/src/main/python/max_temperature_reduce.py
+                    1949 111
+                    1950 22
+                    ```
+
+                    With Hadoop:
+                    ```bash
+                    % hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-*.jar \
+                      -input input/ncdc/sample.txt \
+                      -output output \
+                      -mapper ch02-mr-intro/src/main/python/max_temperature_map.py \
+                      -reducer ch02-mr-intro/src/main/python/max_temperature_reduce.py
+                    ```
+                  </textarea>
+	        </section>                
+
+              </section> <!-- End right-section: Hadoop streaming -->
+
+              <section> <!-- Post-hadoop -->
+                <section data-markdown>
+                  <textarea data-template>
+                    ### What comes after Hadoop?
+
+                    - Hadoop created an ecosystem of projects:
+                        - Avro: Data serialization system
+                        - Flume: Work with data streams
+                        - Sqoop: Interface with traditional relational DBs
+                        - Hive: SQL queries converted to MapReduce
+                        - [Pig](https://www.slideshare.net/kevinweil/hadoop-pig-and-twitter-nosql-east-2009/): Hadoop processing with custom high-level language
+                        - Parquet: Columnar storage for nested data
+                        - Crunch: High-level API for using Hadoop
+                        - [Kafka](https://kafka.apache.org/): Distributed streaming platform
+                        - [Spark](https://spark.apache.org/): Another distributed computing framework
+                    - We will give a brief intro to Spark
+                    <!-- .element: class="fragment" data-fragment-index="2" -->
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    <img src="images/Spark_cover.png" style="float: right; max-width: auto; height: 500px;"/>
+                    ### Spark
+
+                    - Since 2009
+                    - 10x-20x faster than Hadoop
+                    - Written in Scala running on JVM
+                    - Can be programmed in Scala, Java, and Python
+                    
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Spark works with _resilient distributed datasets_ (RDDs)
+
+                    - To use Python for Spark, run: `pyspark`
+                    - A line count program example:
+                    ```python
+                    >>> lines = sc.textFile("README.md") # Create an RDD called lines
+                    >>> lines.count() # Count the number of items in this RDD
+                    127
+                    >>> lines.first() # First item in this RDD, i.e. first line of README.md
+                    u'# Apache Spark'
+                    ```
+                    - Parallel operation completely transparent!
+                    - <!-- .element: class="fragment" data-fragment-index="2" --> `sc` is the `SparkContext` _driver_ to access Spark
+                    and create RDDs
+                    -  <!-- .element: class="fragment" data-fragment-index="3" --> RDD is broken into pieces to run `count()` in parallel
+
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Inside Spark 
+
+                    <img src="images/Spark_Ch2_fig2-3_components.png" style="max-width: auto; height: 300px;"/>
+                    - Another example with custom filter function: <!-- .element: class="fragment" data-fragment-index="2" -->
+                    
+                    ```python
+                    >>> lines = sc.textFile("README.md")
+                    >>> pythonLines = lines.filter(lambda line: "Python" in line)
+                    >>> pythonLines.first()
+                    u'## Interactive Python Shell'
+                    ```
+                    <!-- .element: class="fragment" data-fragment-index="2" -->
+                    
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Working with RDDs
+
+                    _Transformations_ create new RDDs; e.g.:
+                    
+                    ```python
+                    >>> pythonLines = lines.filter(lambda line: "Python" in line)
+                    ```
+                    _Actions_ calculate results from RDDs; e.g.:
+                    
+                    ```python
+                    >>> pythonLines.first()
+                    ```
+                   
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### RDD transformations
+
+                    - Most commonly used: `map()` and `filter()`
+                    <img src="images/Spark_Ch3_fig3-2_map-filter.png" style="max-width: auto; height: 300px;"/>
+                    ```python
+                    mapex = rdd.map(lambda x: x * x)
+                    ```
+                    - <!-- .element: class="fragment" data-fragment-index="2" -->
+                    If multiple outputs for each input, then use `flatMap()`
+                    - <!-- .element: class="fragment" data-fragment-index="3" -->
+                    Set operations: `distinct()`, `union()`, `intersection()`, `subtract()`, `cartesian()` (expensive)
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### RDD actions
+
+                    - Most common `reduce()`: Takes two inputs and outputs one
+                    ```python
+                    sum = rdd.reduce(lambda x, y: x + y)
+                    ```
+                    - <!-- .element: class="fragment" data-fragment-index="2" -->
+                    `fold()` also asks a _zero_ value for initialization
+                    ```python
+                    sum = rdd.fold(0, lambda x, y: x + y)
+                    ```
+                    <!-- .element: class="fragment" data-fragment-index="2" -->
+                    - <!-- .element: class="fragment" data-fragment-index="3" -->
+                    `aggregate()` asks for accummulation and combine functions. Example that calculates a running sum and count of elements to calculate an average value:
+                    
+                    ```python
+                    sumCount = nums.aggregate((0, 0),
+                      (lambda acc, value: (acc[0] + value, acc[1] + 1)),
+                      (lambda acc1, acc2: (acc1[0] + acc2[0], acc1[1] + acc2[1])))
+                    return sumCount[0] / float(sumCount[1])
+                    ```
+                    <!-- .element: class="fragment" data-fragment-index="3" -->
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### RDD actions (continued)
+
+                    - `collect()`: Return all elements
+                    - `count()`: Number of elements
+                    - `countByValue()`: Number of times each element occurs in RDD (histogram)
+                    - and more...
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Spark SQL
+
+                    - Uses _DataFrame_ RDD objects that hold semi-structured data
+                    - Can read/write data in JSON, Hive Tables, and Parquet
+                    - SQL interface to be used inside or outside Spark (e.g. JDBC connection or from Tableau)
+                    ```python
+                    hiveCtx = HiveContext(sc)
+                    input = hiveCtx.jsonFile(inputFile)
+                    # Register the input DataFrame
+                    input.registerTempTable("tweets")
+                    # Select tweets based on the retweetCount
+                    topTweets = hiveCtx.sql("""SELECT text, retweetCount FROM tweets 
+                      ORDER BY retweetCount LIMIT 10""")
+                    ```
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Closing notes for Spark
+                    <img src="images/Spark_cover.png" style="float: right; max-width: auto; height: 500px;"/>
+
+                    Spark also provides:
+                    - Real-time processing via streaming (Chapter 10)
+                    - Machine learning library _MLlib_ (Chapter 11)
+
+                    More resources:
+                    - [Book's Github repo with examples](https://github.com/databricks/learning-spark)
+                    - [Spark 2.4.4 API documentation](https://spark.apache.org/docs/2.4.4/) - <br>
+                    JetStream image version
+                    - [Spark Quick Start](https://spark.apache.org/docs/latest/quick-start.html)
+                    - [RDD Programming Guide](https://spark.apache.org/docs/latest/rdd-programming-guide.html)
+                  </textarea>
+                </section>
+
+              </section> <!-- beyond Hadoop: Spark -->
+              
+	    </div>
+	  </div>
+	  
+	  <script src="lib/js/head.min.js"></script>
+	  <script src="js/reveal.js"></script>
+
+	  <script>
+	    // More info about config & dependencies:
+	    // - https://github.com/hakimel/reveal.js#configuration
+	    // - https://github.com/hakimel/reveal.js#dependencies
+	    Reveal.initialize({
+	      math: {
+		mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js', // https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js
+		config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
+	      },
+
+	      // The "normal" size of the presentation, aspect ratio will be preserved
+	      // when the presentation is scaled to fit different resolutions. Can be
+	      // specified using percentage units.
+	      width: 1280, // 960
+	      height: 720, // 700
+
+	      // Factor of the display size that should remain empty around the content
+	      margin: 0.1,
+	      
+	      // Bounds for smallest/largest possible scale to apply to content
+	      minScale: 0.2,
+	      maxScale: 1.5,
+	      
+	      dependencies: [
+		{ src: 'plugin/markdown/marked.js' },
+		{ src: 'plugin/markdown/markdown.js' },
+		{ src: 'plugin/notes/notes.js', async: true },
+		{ src: 'plugin/highlight/highlight.js',
+		  async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                // MathJax
+		{ src: 'plugin/math/math.js', async: true }
+	      ]
+	    });
+	  </script>
+	</body>
+</html>
