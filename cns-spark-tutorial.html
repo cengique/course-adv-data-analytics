@@ -494,16 +494,16 @@ Bytes Written=29
                     
                     On Mac and Linux:
                     - Download `spark-key` from [Sched](https://cns2020online.sched.com/event/a1f62dac60f1e6d93a34724500d3ff66)
-                    - Open terminal and run:
+                    - Open terminal and run: 
                     ```bash
                     $ ssh -i spark-key cnsuser@IP address
                     ```
 
                     On Windows:
                     - Download `spark-windows.ppk` from [Sched](https://cns2020online.sched.com/event/a1f62dac60f1e6d93a34724500d3ff66)
-                    - Download [Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/)
-                    - Follow [instructions](https://devops.ionos.com/tutorials/use-ssh-keys-with-putty-on-windows/#connect-to-server-with-private-key) to use ppk key file
-                    - Open SSH connection to IP address on Putty ([help](https://www.ssh.com/ssh/putty/windows/))
+                    - Download [Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/) and
+                    follow [instructions](https://devops.ionos.com/tutorials/use-ssh-keys-with-putty-on-windows/#connect-to-server-with-private-key) to use ppk key file
+                    - [Open SSH connection](https://www.ssh.com/ssh/putty/windows/) to IP address with username "cnsuser" 
                     
                   </textarea>
                 </section>
@@ -514,6 +514,9 @@ Bytes Written=29
                     Once connected to Spark server, run:
                     ```bash
                     $ docker exec -it klt-spark-wwym bin/pyspark
+                    ```
+                    which should result in:
+                    ```bash
                     Python 3.6.11 (default, Jul 15 2020, 18:47:56) 
                     [GCC 8.3.0] on linux
                     Type "help", "copyright", "credits" or "license" for more information.
@@ -534,14 +537,14 @@ Bytes Written=29
                   <textarea data-template>
                     ### Spark works with _resilient distributed datasets_ (RDDs)
 
-                    - To use Python for Spark, run: `pyspark`
+                    - Try these on the `pyspark` command line
                     - A line count program example:
                     ```python
-                    >>> lines = sc.textFile("README.md") # Create an RDD called lines
+                    >>> lines = sc.textFile("data/tutorial.md") # Create an RDD called lines
                     >>> lines.count() # Count the number of items in this RDD
-                    127
-                    >>> lines.first() # First item in this RDD, i.e. first line of README.md
-                    u'# Apache Spark'
+                    67
+                    >>> lines.first() # First item in this RDD, i.e. first line of tutorial.md
+                    '---'
                     ```
                     - Parallel operation completely transparent!
                     - <!-- .element: class="fragment" data-fragment-index="2" --> `sc` is the `SparkContext` _driver_ to access Spark
@@ -555,13 +558,13 @@ Bytes Written=29
                     ### Inside Spark 
 
                     <img src="images/Spark_Ch2_fig2-3_components.png" style="max-width: auto; height: 300px;"/>
-                    - Another example with custom filter function: <!-- .element: class="fragment" data-fragment-index="2" -->
+                    - Try another example with a custom filter function: <!-- .element: class="fragment" data-fragment-index="2" -->
                     
                     ```python
-                    >>> lines = sc.textFile("README.md")
-                    >>> pythonLines = lines.filter(lambda line: "Python" in line)
-                    >>> pythonLines.first()
-                    u'## Interactive Python Shell'
+                    >>> lines = sc.textFile("data/tutorial.md")
+                    >>> sparkLines = lines.filter(lambda line: "Spark" in line)
+                    >>> sparkLines.first()
+                    'tools, such as [Apache Spark](https://spark.apache.org/). These tools'
                     ```
                     <!-- .element: class="fragment" data-fragment-index="2" -->
                     
@@ -574,12 +577,12 @@ Bytes Written=29
                     _Transformations_ create new RDDs; e.g.:
                     
                     ```python
-                    >>> pythonLines = lines.filter(lambda line: "Python" in line)
+                    >>> sparkLines = lines.filter(lambda line: "Spark" in line)
                     ```
                     _Actions_ calculate results from RDDs; e.g.:
                     
                     ```python
-                    >>> pythonLines.first()
+                    >>> sparkLines.first()
                     ```
                    
                   </textarea>
@@ -640,9 +643,9 @@ Bytes Written=29
                     ### RRDs can act as DataFrames!
 
                     - Can read/write data in JSON, CSV, Hive Tables, and Parquet
-                    - _DataFrame_ objects hold semi-structured data
+                    - _DataFrame_ holds semi-structured data, supports SQL-like querying
                     ```python
-                    df = spark.read.json("people.json") # also see read.csv()
+                    df = spark.read.json("examples/src/main/resources/people.json") # also see read.csv()
                     # Displays the content of the DataFrame to stdout
                     df.show()
                     # +----+-------+
@@ -652,9 +655,7 @@ Bytes Written=29
                     # |  30|   Andy|
                     # |  19| Justin|
                     # +----+-------+
-                    ```                    
-                    - SQL-like syntax
-                    ```python
+                    #
                     # Select only the "name" column
                     df.select("name").show()
                     # Select people older than 21
@@ -685,6 +686,31 @@ Bytes Written=29
                 </section>
                 <section data-markdown>
                   <textarea data-template>
+                    ### A Spark-ling challenge for you!
+
+                    Load our CSV file with measurements from model neuron simulations:
+                    ```python
+                    df = spark.read.csv("data/AnalySim.csv") # watch for capitalization
+                    # show info
+                    df.printSchema()
+                    df.show()
+                    ```
+                    Question:
+                    - Use
+                    [RDD](https://spark.apache.org/docs/latest/rdd-programming-guide.html)
+                    and
+                    [Dataframe](https://spark.apache.org/docs/latest/sql-getting-started.html)
+                    operations to calculate one of min, max, average,
+                    standard deviation for one column, or an
+                    arithmetic operation between multiple columns to
+                    find a ratio, slopes, etc. 
+                    - You can also filter rows based on column constraints.
+                    - Post your code and results on [NeuroStars](https://neurostars.org/t/cns-2020-tutorial-t6-methods-from-data-science-for-model-simulation-analysis-and-visualization/13337) or Zoom.
+
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
                     ### Closing notes for Spark
                     <img src="images/Spark_cover.png" style="float: right; max-width: auto; height: 500px;"/>
 
@@ -698,7 +724,7 @@ Bytes Written=29
                     - [Spark Quick Start](https://spark.apache.org/docs/latest/quick-start.html)
                     - [RDD Programming Guide](https://spark.apache.org/docs/latest/rdd-programming-guide.html)
                     
-                    Conversation can continue if you post on our [NeuroStars page](https://neurostars.org/t/cns-2020-tutorial-t6-methods-from-data-science-for-model-simulation-analysis-and-visualization/13337). Questions and comments?
+                    Conversation can continue if you post on our [NeuroStars page](https://neurostars.org/t/cns-2020-tutorial-t6-methods-from-data-science-for-model-simulation-analysis-and-visualization/13337). Questions and comments? Thanks! :)
                   </textarea>
                 </section>
 
