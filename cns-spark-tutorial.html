@@ -583,23 +583,49 @@ Bytes Written=29
                     
                     ```python
                     >>> sparkLines.first()
-                    ```
-                   
+                    ```                   
                   </textarea>
                 </section>
                 <section data-markdown>
                   <textarea data-template>
-                    ### RDD transformations
+                    ### RDD transformations: `map()` and `filter()`
 
-                    - Most commonly used: `map()` and `filter()`
                     <img src="images/Spark_Ch3_fig3-2_map-filter.png" style="max-width: auto; height: 300px;"/>
+                    
                     ```python
-                    mapex = rdd.map(lambda x: x * x)
+                    >>> inputRDD = sc.parallelize([1, 2, 3, 4]) # Create a numeric input RDD
+
                     ```
+
+                    ```python
+                    >>> outputRDD = inputRDD.map(lambda x: x * x) # MAP
+                    ``` 
+                    <!-- .element: class="fragment" data-fragment-index="2" -->
+                    
+                    ```python
+                    >>> outputRDD = inputRDD.filter(lambda x: x != 1) # FILTER
+                    ``` 
+                    <!-- .element: class="fragment" data-fragment-index="3" -->
+
+                    ```python
+                    >>> outputRDD.collect() # Show all results
+                    ``` 
+                    <!-- .element: class="fragment" data-fragment-index="4" -->
+
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### RDD transformations (Continued)
+
+                    - For `map()`, if multiple outputs for each input, then use `flatMap()`
                     - <!-- .element: class="fragment" data-fragment-index="2" -->
-                    If multiple outputs for each input, then use `flatMap()`
-                    - <!-- .element: class="fragment" data-fragment-index="3" -->
-                    Set operations: `distinct()`, `union()`, `intersection()`, `subtract()`, `cartesian()` (expensive)
+                    Set operations: 
+                        - `distinct()`
+                        - `union()` 
+                        - `intersection()`
+                        - `subtract()`
+                        - `cartesian()` -> expensive
                   </textarea>
                 </section>
                 <section data-markdown>
@@ -608,19 +634,19 @@ Bytes Written=29
 
                     - Most common `reduce()`: Takes two inputs and outputs one
                     ```python
-                    sum = rdd.reduce(lambda x, y: x + y)
+                    sum = inputRDD.reduce(lambda x, y: x + y)
                     ```
                     - <!-- .element: class="fragment" data-fragment-index="2" -->
                     `fold()` also takes a _zero_ value for initialization
                     ```python
-                    sum = rdd.fold(0, lambda x, y: x + y)
+                    sum = inputRDD.fold(0, lambda x, y: x + y)
                     ```
                     <!-- .element: class="fragment" data-fragment-index="2" -->
                     - <!-- .element: class="fragment" data-fragment-index="3" -->
                     `aggregate()` asks for accummulation and combine functions. Example that calculates a running sum and count of elements to calculate an average value:
                     
                     ```python
-                    sumCount = nums.aggregate((0, 0),
+                    sumCount = inputRDD.aggregate((0, 0),
                       (lambda acc, value: (acc[0] + value, acc[1] + 1)),
                       (lambda acc1, acc2: (acc1[0] + acc2[0], acc1[1] + acc2[1])))
                     return sumCount[0] / float(sumCount[1])
@@ -706,6 +732,15 @@ Bytes Written=29
                     find a ratio, slopes, etc. 
                     - You can also filter rows based on column constraints.
                     - Post your code and results on [NeuroStars](https://neurostars.org/t/cns-2020-tutorial-t6-methods-from-data-science-for-model-simulation-analysis-and-visualization/13337) or Zoom.
+
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### If you want to install Spark locally
+
+                    - Installation could become complex, [Hadoop and Spark](https://spark.apache.org/docs/latest/#downloading) are bundled together
+                    - Can also just download and run Docker image from [bitnami/spark](https://hub.docker.com/r/bitnami/spark/), and run it like in our example above.
 
                   </textarea>
                 </section>
