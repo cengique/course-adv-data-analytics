@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Module 3 - R practice and linear algebra basics - ITEC 4220 Advanced Data Analytics</title>
+		<title>Module 4 - R practice and linear algebra basics - ITEC 4220 Advanced Data Analytics</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
@@ -28,8 +28,8 @@
 		<textarea data-template>
 		  ## ITEC 4220 - Advanced Data Analytics
 
-		  ### Module 3 - R practice and linear algebra basics
-		  
+		  ### Module 4 - R practice and linear algebra basics
+
 		  #### Cengiz Gunay, Spring 2020
 		</textarea>
 	      </section>
@@ -40,25 +40,25 @@
 		<textarea data-template>
                   ### Linear algebra basics:
                   ### Vectors and matrices
-                  
+
                 </textarea>
               </section>
 	      <section data-markdown>
 		<textarea data-template>
                   ### Basics: Vectors
-                  
+
                   - Vectors: `$ \vec{x} = [ 1, 2, 3 ]$`
                       - Why? Most data comes in vectors
                       - Can do bulk operations using math magic
                   - <!-- .element: class="fragment" data-fragment-index="1" --> inner/[dot product](http://mathworld.wolfram.com/DotProduct.html): `$ \vec{x} \cdot \vec{y} = \sum x_i y_i$`
-                      - Calculates "length of projection" 
+                      - Calculates "length of projection"
                       - Multiply corresponding elements and sum to result in scalar
                       - Useful in calculating weighted sums, scaling data elements, etc.
                   - <!-- .element: class="fragment" data-fragment-index="2" --> [outer product](https://en.wikipedia.org/wiki/Outer_product):
                   `$ \vec{x} \times \vec{y} = [x_i y_j]_{ij}$`
                       - element-by-element multiplication, results in $ n \times m $ size matrix
                       - useful when duplicating rows or columns, or scaling them
-                  
+
 		</textarea>
 	      </section>
 
@@ -76,7 +76,7 @@
                   `$$ c_{ij} = \sum_k a_{ik} b_{kj} $$`
                       - Must have matching inner dimensions, results in a matrix
                       - Useful transforming rows of data, 3D rotations, machine learning, etc.
-                  
+
 		</textarea>
 	      </section>
 	      </section>
@@ -91,18 +91,18 @@
                   ```R
                   vector <- c(1,2,3)
                   sum <- 0
-                  
+
                   for (element in vector) {
                     sum <- sum + element
                   }
                   mean <- sum / length(vector)
                   ```
-		  
+
                   Use vector operations to do it shorter and more efficiently. <!-- .element: class="fragment" data-fragment-index="1" -->
-                  ```R 
+                  ```R
                   vector <- c(1,2,3)
                   sum(vector) / length(vector)
-                  ``` 
+                  ```
                   <!-- .element: class="fragment" data-fragment-index="1" -->
 		</textarea>
 	      </section>
@@ -142,11 +142,11 @@
                     Statistical hypothesis - testable by model of random variables:
                     - Hypothesis for statistical relationship between two datasets
                     - Compared to idealized *null hypothesis* that says no relationship
-                    - Comparison is *statistically significant* if null hypothesis can be rejected 
+                    - Comparison is *statistically significant* if null hypothesis can be rejected
                     - Threshold of rejection certainty indicate *significance level* of test
 
                     [Wikipedia](https://en.wikipedia.org/wiki/Statistical_hypothesis_testing)
-                    
+
 		  </textarea>
 	        </section>
       	        <section data-markdown>
@@ -160,7 +160,7 @@
                     - Select a significance level ($\alpha$), the probability level under which the null hypothesis will be rejected (e.g., 1% or 5%)
                     - Compute observed value of statistic, or directly the $p$-value
                     - Decide whether to reject null hypothesis in favor of the *alternative* hypothesis
-                    
+
                   </textarea>
                 </section>
       	        <section data-markdown>
@@ -172,7 +172,7 @@
                     - Birth records in London between 1629-1710
                     - Applied "sign test"
                     - Every year more men born than women
-                    - Male and female births likely with $p=0.5^{82}=1/4\times10^{18}$      
+                    - Male and female births likely with $p=0.5^{82}=1/4\times10^{18}$
                     - Can't be due to chance!
 
                   </textarea>
@@ -182,7 +182,7 @@
                     ### Common statistical tests in R
 
                     - **One-sample t-test**: Check is a normal distribution has a specific mean
-                      `t.test(data, mean)` - usually used to see if subtraction of two distributions 
+                      `t.test(data, mean)` - usually used to see if subtraction of two distributions
                       have a non-zero mean
                     - **Wilcoxon signed rank test**: Similar to above, but when distribution is not normal, e.g. this is a *non-parametric test*. <br>
                       `wilcox.test(data, mu=mean, conf.int = TRUE)`
@@ -213,7 +213,7 @@
 
 	    </div>
 	  </div>
-	  
+
 	  <script src="lib/js/head.min.js"></script>
 	  <script src="js/reveal.js"></script>
 
@@ -236,11 +236,11 @@
 
 	      // Factor of the display size that should remain empty around the content
 	      margin: 0.1,
-	      
+
 	      // Bounds for smallest/largest possible scale to apply to content
 	      minScale: 0.2,
 	      maxScale: 1.5,
-	      
+
 	      dependencies: [
 		{ src: 'plugin/markdown/marked.js' },
 		{ src: 'plugin/markdown/markdown.js' },

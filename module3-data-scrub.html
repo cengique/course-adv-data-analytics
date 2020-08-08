@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Module 2 - Obtaining and scrubbing data - ITEC 4220 Advanced Data Analytics</title>
+		<title>Module 3 - Obtaining and scrubbing data - ITEC 4220 Advanced Data Analytics</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
@@ -23,15 +23,15 @@
 	</head>
 	<body>
 	  <div class="reveal">
-	    <div class="slides">	      
+	    <div class="slides">
 	      <section data-markdown>
 		<textarea data-template>
 		  <img src="images/DS_cmdline_cover.png" style="float: right; max-width: auto; height: 600px;"/>
 		  ## ITEC 4220 - Advanced Data Analytics
 
-		  ### Module 2 - Obtaining and scrubbing data
-		  
-		  #### Cengiz Gunay, Spring 2020
+		  ### Module 3 - Obtaining and scrubbing data
+
+		  #### Cengiz Gunay, Rick Price Fall 2020
 
                   #### Reading: Ch 1 & 2 from [Book's website](https://www.datascienceatthecommandline.com/), [Safari Books/O'Reilly](https://learning.oreilly.com/library/view/data-science-at/9781491947845/) <br/> or [free source](https://github.com/jeroenjanssens/data-science-at-the-command-line)
 		</textarea>
@@ -41,14 +41,14 @@
 		<textarea data-template>
 		  ### Data Science is OSEMN: Anatomy of a project
 
-1. Start with a question or hypothesis that is testable with existing data		  
+1. Start with a question or hypothesis that is testable with existing data
 2. (O)btain data and (S)crub it for relevant parts
 1. (E)xplore data to understand what can be done
 3. Convert question into statistical (M)odel
 4. Select and use a technique to optimize or test model with data
 5. i(N)terpret results: visualize, summarize, make a recommendation
 1. Go back to 1 and revisit/modify/repeat
-		  
+
 		</textarea>
 	      </section>
 	      <section data-markdown>
@@ -94,7 +94,7 @@
 
 		  - Example 1: testing whether global warming exists;
 		  check for correlation between time and temperature
-		  
+
 		  - Example 2: if person A buys book X, would person B also buy it?
 
 		</textarea>
@@ -126,7 +126,7 @@
 	        <section data-markdown>
 		  <textarea data-template>
                     ### Why command line?
-                    
+
                     - Use it in addition to UI
                     - Scalable
                     - Extensible: 40 years running
@@ -141,7 +141,7 @@
 		    ### An example
 
 		    Finding out when is the next Fashion Week using New York Times web API:
-		    
+
 		    ```bash
 		    $ cd ~/book/ch01/data
 		    $ parallel -j1 --progress --delay 0.1 --results results "curl -sL "\
@@ -157,7 +157,7 @@
 		      ```
 
 		      Ran 500 parallel queries to receive 1000 articles in JSON format.
-		      
+
 		  </textarea>
 	        </section>
 	        <section data-markdown>
@@ -165,9 +165,9 @@
 		    ### Parsing
 
 		    <div><img src="images/DS_cmdline_tree_results.png" style="float: right; height: 200px; margin-right: 200px; margin-bottom: 50px;"/>
-		      Looking at the output <br>directories under `results`:		    
+		      Looking at the output <br>directories under `results`:
 		    </div>
-		    
+
 		    <p style="clear: both;">Combine and process:</p>
 		    ```bash
 		    $ cat results/1/*/2/*/stdout |
@@ -178,7 +178,7 @@
 		    1. `cat`: Outputs contents of files
 		    1. `jq`: Parses JSON content
 		    1. `json2csv`: Converts to CSV
-	            
+
 		  </textarea>
 	        </section>
 
@@ -191,7 +191,7 @@
                     $ wc -l fashion.csv
                     4856 fashion.csv
                     ```
-                    
+
                     Select and browse some columns:
                     ```bash
                     $ < fashion.csv cols -c date cut -dT -f1 | head | csvlook
@@ -224,7 +224,7 @@
 		      ```
 
 		      <img src="images/DS_cmdline_fig1.3.png" style="height: 400px;"/>
-		      
+
 		  </textarea>
 	        </section>
               </section>
@@ -243,7 +243,7 @@
 	        <section data-markdown>
 		  <textarea data-template>
                     ### How to practice?
-		    
+
                     1. On your local machine, you can do one of these:
                     - install Git Bash that comes with Git for only simple commands
                     - install the book's Docker image from [Chapter 2](https://www.datascienceatthecommandline.com/chapter-2-getting-started.html)
@@ -251,8 +251,8 @@
                     1. On the cloud, you can do:
                     - Use my server on JetStream
                     - Open your own free virtual machine on Google Cloud Platform (GCP),
-                    Azure, or Amazon Web Services (AWS) 
-		    
+                    Azure, or Amazon Web Services (AWS)
+
 		  </textarea>
 	        </section>
 	      </section>
@@ -260,7 +260,7 @@
 	        <section data-markdown>
 		  <textarea data-template>
                     ### Regular Expressions
-                    
+
                     - A [regular expression](https://en.wikipedia.org/wiki/Regular_expression) (or regex) is a language for forming search/replace patterns for text processing.
                     - Succinct and powerful tool to extract information from text input
                     - Fast implementations in many languages/frameworks/platforms
@@ -282,8 +282,8 @@
 
                     #### Question:<!-- .element: class="fragment" data-fragment-index="2" -->
                     <!-- .element: class="fragment" data-fragment-index="2" -->`/.e..\w/`
-                    <!-- .element: class="fragment" data-fragment-index="2" --> will it match "Hello"? 
-                    
+                    <!-- .element: class="fragment" data-fragment-index="2" --> will it match "Hello"?
+
 		  </textarea>
 	        </section>
 	        <section data-markdown>
@@ -306,7 +306,7 @@
 	        <section data-markdown>
 		  <textarea data-template>
                     ### Escaping, grouping, and anchoring
-                    
+
                     - `\` will help you _escape_ the commands to search literal characters: `\++` will match `+`, `++`, so on
                     - `^` and `$` will match the beginning and end of line (or string), respectively
                     - `()` groups parts of the pattern, to specify repetitions, or used in replacement
@@ -338,14 +338,14 @@ ressions)
                     - Read more about
                     [regexp](https://www.regular-expressions.info/quickstart.html)
                     or [Javascript Regexp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Exp)
-                    
+
 		  </textarea>
 	        </section>
               </section>
-	      
+
 	    </div>
 	  </div>
-	  
+
 	  <script src="lib/js/head.min.js"></script>
 	  <script src="js/reveal.js"></script>
 
@@ -362,11 +362,11 @@ ressions)
 
 	      // Factor of the display size that should remain empty around the content
 	      margin: 0.1,
-	      
+
 	      // Bounds for smallest/largest possible scale to apply to content
 	      minScale: 0.2,
 	      maxScale: 1.5,
-	      
+
 	      dependencies: [
 		{ src: 'plugin/markdown/marked.js' },
 		{ src: 'plugin/markdown/markdown.js' },
