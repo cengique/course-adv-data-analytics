@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Module 4 - SQL/noSQL data sources and interactive Javascript visualization - ITEC 4220 Advanced Data Analytics</title>
+		<title>Module 5 - SQL/noSQL data sources and interactive Javascript visualization - ITEC 4220 Advanced Data Analytics</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
@@ -23,14 +23,14 @@
 	</head>
 	<body>
 	  <div class="reveal">
-	    <div class="slides">	      
+	    <div class="slides">
 	      <section data-markdown>
 		<textarea data-template>
 		  <img src="images/JS_visual_courses.png" style="float: right; max-width: auto; height: 300px;"/>
 		  ## ITEC 4220 - Advanced Data Analytics
 
-		  ### Module 4 - SQL/noSQL data sources and interactive Javascript visualization
-		  
+		  ### Module 5 - SQL/noSQL data sources and interactive Javascript visualization
+
 		  #### Cengiz Gunay, Spring 2020
 		</textarea>
 	      </section>
@@ -43,9 +43,9 @@
 		    - Good for relational data
 		    - **Strengths:** Efficient with large data, join operations, expressive query language
 		    - **Weaknesses:** Requires data transformation into rigid table structures, not easily distributed
-		    
+
 		    Example retrieval query with conditions, grouping, and sorting:
-                    
+
 		    ```sql
 		    SELECT * FROM MyData WHERE date < 2019 GROUP BY course ORDER BY name DESC;
 		    ```
@@ -84,7 +84,7 @@
                     - Many to choose from: MongoDB, AWS DocumentDB, Cassandra, CouchDB, [more](http://nosql-database.org/)
                     - Online services: mLab, AtlasDB, Firebase
                     - JSON not exclusive to Javascript; pervasive in many languages
-                    
+
                   </textarea>
                 </section>
 
@@ -95,24 +95,24 @@
                     - Used a lot for big data, streaming, API lookups
                     - Here is a list of public APIs: [Todmotto](https://github.com/toddmotto/public-apis),
                     [Postman collections](https://explore.postman.com/)
-                    
+
                     Example CoinLore cryptocurrency exchange:
-                    
+
                     ```bash
                     curl -sL https://api.coinlore.com/api/tickers/?start=1&limit=10
 
                     ```
                     Result:
-                    
+
                     ```json
                     {"data":[{"id":"488","symbol":"POLY","name":"Polymath",
                     "nameid":"polymath-network","rank":101,"price_usd":"0.088209",
                     "percent_change_24h":"-2.43","percent_change_1h":...
                     ```
-                    
+
                   </textarea>
                 </section>
-                
+
 	        <section data-markdown>
 		  <textarea data-template>
                     ### JSON Practice
@@ -121,11 +121,11 @@
                     - Watch [JSON demo](https://lagunita.stanford.edu/courses/DB/JSON/SelfPaced/courseware/ch-json_data/seq-vid-json_demo/)
                     - Try to get more than 70% in this [JSON Quiz](https://lagunita.stanford.edu/courses/DB/JSON/SelfPaced/courseware/ch-json_data/seq-quiz-json/?child=last)
                     - Next: JSON made data _visualization_ with Javascript convenient
-                    
+
 		  </textarea>
 	        </section>
               </section>
-              
+
               <section>
                 <section data-markdown>
 		  <textarea data-template>
@@ -144,7 +144,7 @@
                     ([link](https://vida.io/documents/2o5v9Su2AarvutjRr))
                   </textarea>
                 </section-->
-                
+
                 <section data-markdown>
 		  <textarea data-template>
                     ### Interactive Javascript visualization library
@@ -162,10 +162,10 @@
 	        </section>
 
               </section>
-              
+
 	    </div>
 	  </div>
-	  
+
 	  <script src="lib/js/head.min.js"></script>
 	  <script src="js/reveal.js"></script>
 
@@ -182,11 +182,11 @@
 
 	      // Factor of the display size that should remain empty around the content
 	      margin: 0.1,
-	      
+
 	      // Bounds for smallest/largest possible scale to apply to content
 	      minScale: 0.2,
 	      maxScale: 1.5,
-	      
+
 	      dependencies: [
 		{ src: 'plugin/markdown/marked.js' },
 		{ src: 'plugin/markdown/markdown.js' },

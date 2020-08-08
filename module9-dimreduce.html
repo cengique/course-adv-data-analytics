@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Module 7 - Clustering algorithms - ITEC 4220 Advanced Data Analytics</title>
+		<title>Module 9 - Dimensionality reduction - ITEC 4220 Advanced Data Analytics</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
@@ -13,7 +13,7 @@
 		<link rel="stylesheet" href="lib/css/zenburn.css">
 
 		<!-- Printing and PDF exports and PDF viewer -->
-                <script src="http://mozilla.github.io/pdf.js/build/pdf.js"></script>
+                <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
 		<script>
 			var link = document.createElement( 'link' );
 			link.rel = 'stylesheet';
@@ -28,18 +28,18 @@
 
                     // The workerSrc property shall be specified.
                     pdfjsLib.GlobalWorkerOptions.workerSrc =
-                      'http://mozilla.github.io/pdf.js/build/pdf.worker.js';
+                      'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
 
                     // Asynchronous download of PDF
                     var loadingTask = pdfjsLib.getDocument(pdfUrl);
                     loadingTask.promise.then(function(pdf) {
                       console.log('PDF loaded: ' + pdfUrl);
-                      
+
                       // Fetch the first page
                       var pageNumber = page;
                       pdf.getPage(pageNumber).then(function(page) {
                         console.log('Page loaded');
-                        
+
                         var scale = 1.5;
                         var viewport = page.getViewport({scale: scale});
 
@@ -68,36 +68,64 @@
 	</head>
 	<body>
 	  <div class="reveal">
-	    <div class="slides">	      
+	    <div class="slides">
 	      <section data-markdown>
                 <textarea data-template>
                   <img src="images/Zaki-Meira-2014-cover.png" style="float: right; max-width: auto; height: 500px; margin: 1em;"/>
-                  
-                  ## Module 7 - Clustering algorithms
-		  
+
+                  ## Module 9 - Dimensionality reduction
+
                   ### ITEC 4220 - Advanced Data Analytics
                   #### Cengiz Gunay, Spring 2019
 
-                  #### Reading: Chs 13-14 from Zaki and Meira
+                  #### Reading: Ch 7 from Zaki and Meira
                 </textarea>
               </section>
-	      <!--section style="padding: 0px;">
-                <canvas id="page-1"></canvas>
+	      <section style="padding: 0px;">
+                <canvas id="page-1" style="width: 1280px; height: 720px;"></canvas>
                 <script>
-                  showPDFPage("slides/11_chapter10_ADM_clustering_1.pdf", 3, "page-1");
-                </script>                  
-              </section-->
+                  showPDFPage("original/DSA-course-map-fall2019.pdf", 1, "page-1");
+                </script>
+              </section>
+	      <section data-markdown>
+                <textarea data-template>
+                  ### Dimensionality Reduction outline
+
+                  1. Principal Components Analysis (PCA)
+                  1. Using Singular Value Decomposition to calculate PCA
+                  1. Independent Component Analysis (ICA)
+
+                </textarea>
+              </section>
 	      <section style="padding: 0px;">
                 <iframe style="width: 1280px; height: 720px;"
-                        src="slides/clustering-selected.pdf"></iframe>
+                        src="slides/zaki-meira-ch7.pdf"></iframe>
               </section>
-              
+	      <section style="padding: 0px;">
+                <canvas id="page-adm-pca" style="width: 1280px; height: 720px;"></canvas>
+                <script>
+                  showPDFPage("slides/pca-ADM-1page.pdf", 1, "page-adm-pca");
+                </script>
+              </section>
+	      <section data-markdown>
+                <textarea data-template>
+                  ### [Independent Component Analysis (ICA)](https://en.wikipedia.org/wiki/Independent_component_analysis)
+
+                  Similar idea to PCA, but instead find **components** that are:
+                  - not necessarily orthogonal, but *statistically* independent
+                  - solution to "cocktail party problem", or "blind source separation"
+
+                  <iframe src="http://commons.wikimedia.org/wiki/File:A-Local-Learning-Rule-for-Independent-Component-Analysis-srep28073-s3.ogv?embedplayer=yes" width="636" height="480" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+
+                </textarea>
+              </section>
+
 	    </div>
 	  </div>
-	  
+
 	  <script src="lib/js/head.min.js"></script>
 	  <script src="js/reveal.js"></script>
-          
+
 	  <script>
 	    // More info about config & dependencies:
 	    // - https://github.com/hakimel/reveal.js#configuration
@@ -116,11 +144,11 @@
 
 	      // Factor of the display size that should remain empty around the content
 	      margin: 0.1,
-	      
+
 	      // Bounds for smallest/largest possible scale to apply to content
 	      minScale: 0.2,
 	      maxScale: 1.5,
-	      
+
 	      dependencies: [
 		{ src: 'plugin/markdown/marked.js' },
 		{ src: 'plugin/markdown/markdown.js' },

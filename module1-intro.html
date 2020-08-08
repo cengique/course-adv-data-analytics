@@ -34,12 +34,12 @@
                     var loadingTask = pdfjsLib.getDocument(pdfUrl);
                     loadingTask.promise.then(function(pdf) {
                       console.log('PDF loaded: ' + pdfUrl);
-                      
+
                       // Fetch the first page
                       var pageNumber = page;
                       pdf.getPage(pageNumber).then(function(page) {
                         console.log('Page loaded');
-                        
+
                         var scale = 1.5;
                         var viewport = page.getViewport({scale: scale});
 
@@ -71,16 +71,16 @@
 	    <div class="slides">
 	      <section data-markdown>
 		<textarea data-template>
-		  ### Welcome to 
+		  ### Welcome to
 		  ## ITEC 4220 - Advanced Data Analytics
 
-		  #### Cengiz Gunay, Spring 2020
+		  #### Cengiz Gunay, Rick Price Fall 2020
 		</textarea>
 	      </section>
 	      <section data-markdown>
 		<textarea data-template>
 		  Let's start with a quiz!
-		  		  
+
 		</textarea>
 	      </section>
 	      <section data-markdown>
@@ -91,20 +91,20 @@
 		  1. One larger project throughout the semester
 		  1. Present at local/nearby symposia
 		  1. Final exam
-		  		  
+
 		</textarea>
 	      </section>
 	      <section data-markdown>
 		<textarea data-template>
                   ## Important dates for presenting or simply attending
-                  
-                  - Tue April 7th (TBA), noon-3pm - GGC STaRS Symposium poster/talk presentations (need to stay 1 hour max)		  
+
+                  - Tue April 7th (TBA), noon-3pm - GGC STaRS Symposium poster/talk presentations (need to stay 1 hour max)
                   - April 16-17 - [Southern Data Science Conference](https://www.southerndatascience.com/),
                   $200 for students (sold-out)
                   - End of April (TBA) - Kennesaw State Univ [Analytics Day](https://ccpe.kennesaw.edu/sasday/) poster presentations at 8am, followed by talks and networking
                   - [South Hub All Hands Meeting TBA](https://southbigdatahub.org/calendar/2019allhands/)
                   - [PyData Meetup](https://www.meetup.com/PyData-Atlanta/)
-                  
+
 		</textarea>
 	      </section>
 	      <section data-markdown>
@@ -112,16 +112,16 @@
                   ## Semester breakdown:
 
                   1. Data analysis basics
-                  1. Big data
+                  1. Data Intensive Computing
                   1. Algorithms
-                  
+
                 </textarea>
               </section>
 	      <section data-markdown>
 		<textarea data-template>
                   ## First: data analysis basics
-                  
-                  1. Data scrubbing/regexp
+
+                  1. Data scrubbing/regexp - Data Munging
                   1. Hypothesis testing and visualization with R
                   1. Data sources: SQL vs noSQL
                   1. Interactive dashboards (Javascript and Tableau)
@@ -130,11 +130,11 @@
 	      </section>
 	      <section data-markdown>
 		<textarea data-template>
-                  ## Next: Big data methods
-                  
+                  ## Next: Data Intensive methods
+
                   1. MapReduce in Apache Hadoop
-                  1. Querying in Spark
-                  
+                  1. Querying in Apache Spark
+
 		</textarea>
 	      </section>
 	      <section data-markdown>
@@ -151,15 +151,17 @@
                   - time series analysis and text analysis <!-- .element: class="fragment" data-fragment-index="2" -->
 		</textarea>
 	      </section>
+
+			 <section data-markdown>
 	      <section style="padding: 0px;">
                 <canvas id="page-1" style="width: 1280px; height: 720px;"></canvas>
                 <script>
                   showPDFPage("original/DSA-course-map-fall2019.pdf", 1, "page-1");
-                </script>                  
+                </script>
               </section>
 	    </div>
 	  </div>
-	  
+
 	  <script src="lib/js/head.min.js"></script>
 	  <script src="js/reveal.js"></script>
 
@@ -176,11 +178,11 @@
 
 	      // Factor of the display size that should remain empty around the content
 	      margin: 0.1,
-	      
+
 	      // Bounds for smallest/largest possible scale to apply to content
 	      minScale: 0.2,
 	      maxScale: 1.5,
-	      
+
 	      dependencies: [
 		{ src: 'plugin/markdown/marked.js' },
 		{ src: 'plugin/markdown/markdown.js' },

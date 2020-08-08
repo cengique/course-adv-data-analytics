@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Module 9 - Classification - ITEC 4220 Advanced Data Analytics</title>
+		<title>Module 10 - Classification - ITEC 4220 Advanced Data Analytics</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
@@ -34,12 +34,12 @@
                     var loadingTask = pdfjsLib.getDocument(pdfUrl);
                     loadingTask.promise.then(function(pdf) {
                       console.log('PDF loaded: ' + pdfUrl);
-                      
+
                       // Fetch the first page
                       var pageNumber = page;
                       pdf.getPage(pageNumber).then(function(page) {
                         console.log('Page loaded');
-                        
+
                         var scale = 1.5;
                         var viewport = page.getViewport({scale: scale});
 
@@ -68,13 +68,13 @@
 	</head>
 	<body>
 	  <div class="reveal">
-	    <div class="slides">	      
+	    <div class="slides">
 	      <section data-markdown>
                 <textarea data-template>
                   <img src="images/Zaki-Meira-2014-cover.png" style="float: right; max-width: auto; height: 500px; margin: 1em;"/>
-                  
-                  ## Module 9 - Classification
-		  
+
+                  ## Module 10 - Classification
+
                   ### ITEC 4220 - Advanced Data Analytics
                   #### Cengiz Gunay, Spring 2019
 
@@ -87,7 +87,7 @@
 
                   1. Decision trees
                   1. Bayesian classification
-                  
+
                 </textarea>
               </section>
 	      <section style="padding: 0px;">
@@ -101,7 +101,7 @@
 
                   1. $k$-Nearest Neighbors ($k$-NN) classifiers and recommender systems
                   1. Support Vector Machines
-                  
+
                 </textarea>
               </section>
 
@@ -116,7 +116,7 @@
 
                   1. Related to linear regression: Logistic regression, Lasso
                   1. Classification via neural networks and Genetic Algorithms, Rough Sets, and Fuzzy Sets
-                  
+
                 </textarea>
               </section>
 
@@ -127,10 +127,10 @@
 
 	    </div>
 	  </div>
-	  
+
 	  <script src="lib/js/head.min.js"></script>
 	  <script src="js/reveal.js"></script>
-          
+
 	  <script>
 	    // More info about config & dependencies:
 	    // - https://github.com/hakimel/reveal.js#configuration
@@ -149,11 +149,11 @@
 
 	      // Factor of the display size that should remain empty around the content
 	      margin: 0.1,
-	      
+
 	      // Bounds for smallest/largest possible scale to apply to content
 	      minScale: 0.2,
 	      maxScale: 1.5,
-	      
+
 	      dependencies: [
 		{ src: 'plugin/markdown/marked.js' },
 		{ src: 'plugin/markdown/markdown.js' },
