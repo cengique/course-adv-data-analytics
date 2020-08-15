@@ -1,118 +1,137 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Module 3 - Obtaining and scrubbing data - ITEC 4220 Advanced Data Analytics</title>
+  <title>Module 3 - Obtaining and scrubbing data - ITEC 4220 Advanced Data Analytics</title>
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/black.css">
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-	  <div class="reveal">
-	    <div class="slides">
-	      <section data-markdown>
-		<textarea data-template>
-		  <img src="images/DS_cmdline_cover.png" style="float: right; max-width: auto; height: 600px;"/>
-		  ## ITEC 4220 - Advanced Data Analytics
+  <!-- Printing and PDF exports -->
+  <script>
+  var link = document.createElement( 'link' );
+  link.rel = 'stylesheet';
+  link.type = 'text/css';
+  link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+  document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown>
+  <textarea data-template>
+    <img src="images/DS_cmdline_cover.png" style="float: right; max-width: auto; height: 600px;"/>
+    ## ITEC 4220 - Advanced Data Analytics
 
-		  ### Module 3 - Obtaining and scrubbing data
+    ### Module 3 - Obtaining and scrubbing data
 
-		  #### Cengiz Gunay, Rick Price Fall 2020
+    #### Cengiz Gunay, Rick Price Fall 2020
 
                   #### Reading: Ch 1 & 2 from [Book's website](https://www.datascienceatthecommandline.com/), [Safari Books/O'Reilly](https://learning.oreilly.com/library/view/data-science-at/9781491947845/) <br/> or [free source](https://github.com/jeroenjanssens/data-science-at-the-command-line)
-		</textarea>
-	      </section>
-	      <section>
-	      <section data-markdown>
-		<textarea data-template>
-		  ### Data Science is OSEMN: Anatomy of a project
+  </textarea>
+        </section>
+        <section data-markdown>
+  <textarea data-template>
+    ### Apache Tools
 
-1. Start with a question or hypothesis that is testable with existing data
-2. (O)btain data and (S)crub it for relevant parts
-1. (E)xplore data to understand what can be done
-3. Convert question into statistical (M)odel
-4. Select and use a technique to optimize or test model with data
-5. i(N)terpret results: visualize, summarize, make a recommendation
-1. Go back to 1 and revisit/modify/repeat
+- Hadoop
+  - MapReduce
+- Pig
+  - High-level language that generates sequences of MapReduce programs
+- Hive
+  - Data warehouse software. Allows SQL on distributed storage
+- Spark
+  - Unified analytics engine.
+  - Provides high-level APIs in Java, Scala, Python and R
+  - Many libraries
+- Cassandra
+  - Scalable, distributed database
+  </textarea>
+        </section>
+        <section> <!-- start of vertical slides -->
+        <section data-markdown>
+  <textarea data-template>
+    ### Data Science is OSEMN: Anatomy of a project
 
-		</textarea>
-	      </section>
-	      <section data-markdown>
-		<textarea data-template>
-		  ### Obtaining data
+       - Start with a question or hypothesis that is testable with existing data
 
-		  - Download
-		  - Query database
-		  - Extract from sources (e.g., HTML crawl/parse)
-		  - Generate yourself (reading sensors)
-		</textarea>
-	      </section>
-	      <section data-markdown>
-		<textarea data-template>
-		  ### Scrubbing data
+  1. (O)btain data
+  2. (S)crub it for relevant parts
+  3. (E)xplore data to understand what can be done
+  4. Convert question into statistical (M)odel
+  5. Select and use a technique to optimize or test model with data
+  6. i(N)terpret results: visualize, summarize, make a recommendation
+        1. Go back to 1 and revisit/modify/repeat
+  </textarea>
+        </section>
+        <section data-markdown>
+  <textarea data-template>
+    ### Obtaining data
 
-		  Prepping for analysis
+    - Download
+    - Query database
+    - Extract from sources (e.g., HTML crawl/parse)
+    - Generate yourself (reading sensors)
+  </textarea>
+        </section>
+        <section data-markdown>
+  <textarea data-template>
+    ### Scrubbing data
 
-		  - Filtering lines
-		  - Extracting only some columns
-		  - Replacing values
-		  - Extracting words
-		  - Handling missing values
-		  - Converting data formats
-		</textarea>
-	      </section>
-	      <section data-markdown>
-		<textarea data-template>
-		  ### Exploring data
+    - Prepping for analysis
 
-		  To understand nature of data and what can be done with it
+    	- Filtering lines
+    	- Extracting only some columns
+    	- Replacing values
+    	- Extracting words
+    	- Handling missing values
+    	- Converting data formats
+  </textarea>
+        </section>
+        <section data-markdown>
+  <textarea data-template>
+    ### Exploring data
 
-		  - Browse and look at data
-		  - Derive statistics
-		  - Visualize
-		</textarea>
-	      </section>
-	      <section data-markdown>
-		<textarea data-template>
-		  ### Modeling data
+    To understand nature of data and what can be done with it
 
-		  To predict from data
+    - Browse and look at data
+    - Derive statistics
+    - Visualize
+  </textarea>
+        </section>
+        <section data-markdown>
+  <textarea data-template>
+    ### Modeling data
 
-		  - Example 1: testing whether global warming exists;
-		  check for correlation between time and temperature
+    To predict from data
 
-		  - Example 2: if person A buys book X, would person B also buy it?
+    - Example 1: testing whether global warming exists;
+    check for correlation between time and temperature
 
-		</textarea>
-	      </section>
-	      <section data-markdown>
-		<textarea data-template>
-		  ### Interpret data
+    - Example 2: if person A buys book X, would person B also buy it?
 
-		  - Draw conclusions
-		  - Evaluate meaning of results
-		  - Communicate results
+  </textarea>
+        </section>
+        <section data-markdown>
+  <textarea data-template>
+    ### Interpret data
 
-		</textarea>
-	      </section>
-	      </section> <!-- end of vertical slides -->
-	      <section>
-	        <section data-markdown>
-		  <textarea data-template>
+    - Draw conclusions
+    - Evaluate meaning of results
+    - Communicate results
+
+  </textarea>
+        </section>
+        </section> <!-- end of vertical slides -->
+        <section> <!-- start new vertical slides -->
+          <section data-markdown>
+    <textarea data-template>
                     ### What is the command line?
 
                     - Endless text flow
@@ -121,69 +140,189 @@
                     - More flexible than UI
                     - Many tools are already included
                     - Multiple ways to install/access
-		  </textarea>
-	        </section>
-	        <section data-markdown>
-		  <textarea data-template>
+    </textarea>
+          </section>
+          <section data-markdown>
+    <textarea data-template>
                     ### Why command line?
 
+                    - Agile
+                      - REPL- Read, Evaluate, Print, Loop
+                      - Can rapidly start, stop, and adjust jobs
                     - Use it in addition to UI
                     - Scalable
                     - Extensible: 40 years running
                     - Ubiquitous: 95% of top 500 supercomputers
 
-		  </textarea>
-	        </section>
-              </section>
-	      <section>
-	        <section data-markdown>
-		  <textarea data-template>
-		    ### An example
+    </textarea>
+          </section>
+          <section data-markdown>
+    <textarea data-template>
+                    ### Docker
 
-		    Finding out when is the next Fashion Week using New York Times web API:
+                    - Container
+                      - Allows running multiple OS's and technologies in a Container
+                      - Many pre-built containers that you can download
+                    - Install Docker
+                    - docker run --rm -it datascienceworkshops/data-science-at-the-command-line
+                    - Will launch a Docker container running Unix created by the author
+    </textarea>
+          </section>
+          <section data-markdown>
+    <textarea data-template>
+                    ### IPs for ITEC Lab Machines
 
-		    ```bash
-		    $ cd ~/book/ch01/data
-		    $ parallel -j1 --progress --delay 0.1 --results results "curl -sL "\
-		    > "'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=New+York+'"\
-		    > "'Fashion+Week&begin_date={1}0101&end_date={1}1231&page={2}&api-key='"\
-		    > "'<your-api-key>'" ::: {2009..2013} ::: {0..99} > /dev/null
+                    - Israt - 172.20.0.144
+                    - Turner - 172.20.0.145
+                    - Sarah - 172.20.0.146
+                    - Daniel - 172.20.0.147
+                    - Ruth - 172.20.0.148
+    </textarea>
+          </section>
+          <section data-markdown>
+    <textarea data-template>
+                    ### GGC ITEC Lab VPN (Unix)
 
-		      Computers / CPU cores / Max jobs to run
-		      1:local / 4 / 1
-		      Computer:jobs running/jobs completed/%of started jobs/Average seconds to
-		      complete
-		      local:1/9/100%/0.4s
-		      ```
+                    - vpn2.ggc.edu
+                    - Connect to ITECLab
+                      - Enter GGC ID and Password
+                      - Will be prompted to download CISCO client.
+                    - Once Cisco installed
+                      - ssh analytics@your ip
+                    - password is 4220
+    </textarea>
+          </section>
+          <section data-markdown>
+    <textarea data-template>
+                    ### Basic Commands (Unix)
 
-		      Ran 500 parallel queries to receive 1000 articles in JSON format.
+                    - cd - Change directory
+                    - pwd - Display directory path, current
+                    - ls - List files in current directory
+                    - ls -la - List all files with their attributes
+                    - clear - Clear screen
+                    - rm - delete a file
+                    - mkdir - Make a directory
+                    - mv move a file or rename it
+                    - cp - Copy a file
+                    - printf - display a string
+    </textarea>
+          </section>
+          <section data-markdown>
+    <textarea data-template>
+                    ### More Advanced Commands (Unix)
 
-		  </textarea>
-	        </section>
-	        <section data-markdown>
-		  <textarea data-template>
-		    ### Parsing
+                    - awk, nawk, gawk
+                    - grep
+                    - cat
+                    - sudo
+                    - curl
+    </textarea>
+          </section>
+          <section data-markdown>
+    <textarea data-template>
+      <img src="images/awk_workflow.jpg" style="float: right; max-width: auto; height: 600px;"/>
+                    ### awk
 
-		    <div><img src="images/DS_cmdline_tree_results.png" style="float: right; height: 200px; margin-right: 200px; margin-bottom: 50px;"/>
-		      Looking at the output <br>directories under `results`:
-		    </div>
+                    - BEGIN{awk commands}
+                    - Body block - applies
+                    the awk-commands
+                    on every input
+                    line. Can restrict
+                    - END{awk-commands}
+                    - [TutorialsPoint](https://www.tutorialspoint.com/awk/awk_overview.htm)
+                    - marks.txt (D2L under Content |  Files or in your directory on VM)
+                    - awk 'BEGIN{printf "No  Name    Subject  Marks\n"} {print}' marks.txt
+    </textarea>
+          </section>
+          <section data-markdown>
+    <textarea data-template>
+                    ### grep
 
-		    <p style="clear: both;">Combine and process:</p>
-		    ```bash
-		    $ cat results/1/*/2/*/stdout |
-		    > jq -c '.response.docs[] | {date: .pub_date, type: .document_type, '\
-		    > 'title: .headline.main }' | json2csv -p -k date,type,title > fashion.csv
-		    ```
+                    - searches named input file for lines matching a pattern
+                    - grep "Kedar" marks.txt
+                    [TutorialsPoint](https://www.tutorialspoint.com/unix_commands/grep.htm)
+    </textarea>
+          </section>
+          <section data-markdown>
+    <textarea data-template>
+                    ### cat
 
-		    1. `cat`: Outputs contents of files
-		    1. `jq`: Parses JSON content
-		    1. `json2csv`: Converts to CSV
+                    - Concatenate file(s)
+                    - marks2.txt (D2L under Content |  Files or in your directory on VM)
+                    - cat *.txt
+                    [TutorialsPoint](https://www.tutorialspoint.com/unix_commands/cat.htm)
+    </textarea>
+          </section>
+          <section data-markdown>
+    <textarea data-template>
+                    ### sudo
 
-		  </textarea>
-	        </section>
+                    - super user do
+                    - Allows you to have root control of your Unix system
+                    - sudo <i>command</i>
+                    - [TutorialsPoint](https://www.tutorialspoint.com/unix_commands/sudo.htm)
+    </textarea>
+          </section>
+          <section data-markdown>
+    <textarea data-template>
+                    ### curl
 
-	        <section data-markdown>
-		  <textarea data-template>
+                    - Transfers data from or to a server
+                      - Allows you to use different protocols
+                    - [TutorialsPoint](https://www.tutorialspoint.com/unix_commands/curl.htm)
+    </textarea>
+          </section>
+        </section> <!-- end of vertical slides -->
+        <section>
+          <section data-markdown>
+    <textarea data-template>
+      ### An example
+
+      Finding out when is the next Fashion Week using New York Times web API:
+
+      ```bash
+      $ cd ~/book/ch01/data
+      $ parallel -j1 --progress --delay 0.1 --results results "curl -sL "\
+      > "'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=New+York+'"\
+      > "'Fashion+Week&begin_date={1}0101&end_date={1}1231&page={2}&api-key='"\
+      > "'<your-api-key>'" ::: {2009..2013} ::: {0..99} > /dev/null
+
+        Computers / CPU cores / Max jobs to run
+        1:local / 4 / 1
+        Computer:jobs running/jobs completed/%of started jobs/Average seconds to
+        complete
+        local:1/9/100%/0.4s
+        ```
+
+        Ran 500 parallel queries to receive 1000 articles in JSON format.
+
+    </textarea>
+          </section>
+          <section data-markdown>
+    <textarea data-template>
+      ### Parsing
+
+      <div><img src="images/DS_cmdline_tree_results.png" style="float: right; height: 200px; margin-right: 200px; margin-bottom: 50px;"/>
+        Looking at the output <br>directories under `results`:
+      </div>
+
+      <p style="clear: both;">Combine and process:</p>
+      ```bash
+      $ cat results/1/*/2/*/stdout |
+      > jq -c '.response.docs[] | {date: .pub_date, type: .document_type, '\
+      > 'title: .headline.main }' | json2csv -p -k date,type,title > fashion.csv
+      ```
+
+      1. `cat`: Outputs contents of files
+      1. `jq`: Parses JSON content
+      1. `json2csv`: Converts to CSV
+
+    </textarea>
+          </section>
+
+          <section data-markdown>
+    <textarea data-template>
                     ### Exploring
 
                     Count number of rows in result:
@@ -211,54 +350,54 @@
                         ```
 
                         </textarea>
-	        </section>
-	        <section data-markdown>
-		  <textarea data-template>
-		    ### Plotting
+          </section>
+          <section data-markdown>
+    <textarea data-template>
+      ### Plotting
 
-		    Create a plot using R, Rio, and ggplot2
-		    ```bash
-		    $ < fashion.csv Rio -ge 'g + geom_freqpoly(aes(as.Date(date), color=type), '\
-		        > 'binwidth=7) + scale_x_date() + labs(x="date", title="Coverage of New York'\
-		      > ' Fashion Week in New York Times")' | display
-		      ```
+      Create a plot using R, Rio, and ggplot2
+      ```bash
+      $ < fashion.csv Rio -ge 'g + geom_freqpoly(aes(as.Date(date), color=type), '\
+          > 'binwidth=7) + scale_x_date() + labs(x="date", title="Coverage of New York'\
+        > ' Fashion Week in New York Times")' | display
+        ```
 
-		      <img src="images/DS_cmdline_fig1.3.png" style="height: 400px;"/>
+        <img src="images/DS_cmdline_fig1.3.png" style="height: 400px;"/>
 
-		  </textarea>
-	        </section>
+    </textarea>
+          </section>
               </section>
               <section>
-	        <section data-markdown>
-		  <textarea data-template>
-		    ### How to get started and learn more?
+          <section data-markdown>
+    <textarea data-template>
+      ### How to get started and learn more?
 
-		    Two resources:
-		    1. [Conquering the command line](http://conqueringthecommandline.com/) by Mark Bates<br>
-		    (free online book for starters)
-		    1. Course textbook Data Science at the Command Line <br>
-		    (see D2L for an extract and [Safari Books/O'Reilly](https://learning.oreilly.com/library/view/data-science-at/9781491947845/))
-		  </textarea>
-	        </section>
-	        <section data-markdown>
-		  <textarea data-template>
+      Two resources:
+      1. [Conquering the command line](http://conqueringthecommandline.com/) by Mark Bates<br>
+      (free online book for starters)
+      1. Course textbook Data Science at the Command Line <br>
+      (see D2L for an extract and [Safari Books/O'Reilly](https://learning.oreilly.com/library/view/data-science-at/9781491947845/))
+    </textarea>
+          </section>
+          <section data-markdown>
+    <textarea data-template>
                     ### How to practice?
 
                     1. On your local machine, you can do one of these:
-                    - install Git Bash that comes with Git for only simple commands
-                    - install the book's Docker image from [Chapter 2](https://www.datascienceatthecommandline.com/chapter-2-getting-started.html)
-                    - download a Linux virtual machine ([datascience-school.com](https://vm.datascience-school.com/))
+                      - install Git Bash that comes with Git for only simple commands
+                      - install the book's Docker image from [Chapter 2](https://www.datascienceatthecommandline.com/chapter-2-getting-started.html)
+                      - download a Linux virtual machine ([datascience-school.com](https://vm.datascience-school.com/))
                     1. On the cloud, you can do:
-                    - Use my server on JetStream
-                    - Open your own free virtual machine on Google Cloud Platform (GCP),
-                    Azure, or Amazon Web Services (AWS)
+                      - Use my server on JetStream
+                      - Open your own free virtual machine on Google Cloud Platform (GCP), Azure, or Amazon Web Services (AWS)
+                    1. Use the ITEC lab
 
-		  </textarea>
-	        </section>
-	      </section>
+    </textarea>
+          </section>
+        </section>
               <section>
-	        <section data-markdown>
-		  <textarea data-template>
+          <section data-markdown>
+    <textarea data-template>
                     ### Regular Expressions
 
                     - A [regular expression](https://en.wikipedia.org/wiki/Regular_expression) (or regex) is a language for forming search/replace patterns for text processing.
@@ -266,10 +405,10 @@
                     - Fast implementations in many languages/frameworks/platforms
                     - Practice on [RegExr](https://regexr.com/)
 
-		  </textarea>
-	        </section>
-	        <section data-markdown>
-		  <textarea data-template>
+    </textarea>
+          </section>
+          <section data-markdown>
+    <textarea data-template>
                     ### [Commands in a regexp pattern](https://www.regular-expressions.info/quickstart.html)
 
                     - `/` default quoting character at start or end a regex pattern
@@ -284,10 +423,10 @@
                     <!-- .element: class="fragment" data-fragment-index="2" -->`/.e..\w/`
                     <!-- .element: class="fragment" data-fragment-index="2" --> will it match "Hello"?
 
-		  </textarea>
-	        </section>
-	        <section data-markdown>
-		  <textarea data-template>
+    </textarea>
+          </section>
+          <section data-markdown>
+    <textarea data-template>
                     ### Repetition
 
                     - `*` 0 or more matches of _previous_ character/pattern: `a*` will match empty string or `a`, `aa`, so on
@@ -301,21 +440,20 @@
                     <!-- .element: class="fragment" data-fragment-index="2" -->`/Guna*/`
                     <!-- .element: class="fragment" data-fragment-index="2" -->will it match text "Gunay"?
 
-		  </textarea>
-	        </section>
-	        <section data-markdown>
-		  <textarea data-template>
+    </textarea>
+          </section>
+          <section data-markdown>
+    <textarea data-template>
                     ### Escaping, grouping, and anchoring
 
                     - `\` will help you _escape_ the commands to search literal characters: `\++` will match `+`, `++`, so on
                     - `^` and `$` will match the beginning and end of line (or string), respectively
                     - `()` groups parts of the pattern, to specify repetitions, or used in replacement
-                    - `|` logical OR operation that allows matching one of the possible patterns
-ressions)
-		  </textarea>
-	        </section>
-	        <section data-markdown>
-		  <textarea data-template>
+                    - `|` logical OR operation that allows matching one of the possible patterns ressions)
+    </textarea>
+          </section>
+          <section data-markdown>
+    <textarea data-template>
                     ### Replacing text
 
                     Very useful feature, general form: `s/search/replace/flags`
@@ -327,10 +465,10 @@ ressions)
                         - `g`: replace multiple times, globally
                         - `m`: multi-line application; `^$` matches beginning and end of multi-line string and `.` can match end of line (`\n`) characters
 
-		  </textarea>
-	        </section>
-	        <section data-markdown>
-		  <textarea data-template>
+    </textarea>
+          </section>
+          <section data-markdown>
+    <textarea data-template>
                     ### Next steps
 
                     - Look at assignment
@@ -339,42 +477,42 @@ ressions)
                     [regexp](https://www.regular-expressions.info/quickstart.html)
                     or [Javascript Regexp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Exp)
 
-		  </textarea>
-	        </section>
+    </textarea>
+          </section>
               </section>
 
-	    </div>
-	  </div>
+      </div>
+    </div>
 
-	  <script src="lib/js/head.min.js"></script>
-	  <script src="js/reveal.js"></script>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
 
-	  <script>
-	    // More info about config & dependencies:
-	    // - https://github.com/hakimel/reveal.js#configuration
-	    // - https://github.com/hakimel/reveal.js#dependencies
-	    Reveal.initialize({
-	      // The "normal" size of the presentation, aspect ratio will be preserved
-	      // when the presentation is scaled to fit different resolutions. Can be
-	      // specified using percentage units.
-	      width: 1280, // 960
-	      height: 720, // 700
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280, // 960
+        height: 720, // 700
 
-	      // Factor of the display size that should remain empty around the content
-	      margin: 0.1,
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
 
-	      // Bounds for smallest/largest possible scale to apply to content
-	      minScale: 0.2,
-	      maxScale: 1.5,
+        // Bounds for smallest/largest possible scale to apply to content
+        minScale: 0.2,
+        maxScale: 1.5,
 
-	      dependencies: [
-		{ src: 'plugin/markdown/marked.js' },
-		{ src: 'plugin/markdown/markdown.js' },
-		{ src: 'plugin/notes/notes.js', async: true },
-		{ src: 'plugin/highlight/highlight.js',
-		  async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-	      ]
-	    });
-	  </script>
-	</body>
+        dependencies: [
+  { src: 'plugin/markdown/marked.js' },
+  { src: 'plugin/markdown/markdown.js' },
+  { src: 'plugin/notes/notes.js', async: true },
+  { src: 'plugin/highlight/highlight.js',
+    async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+    </script>
+  </body>
 </html>
