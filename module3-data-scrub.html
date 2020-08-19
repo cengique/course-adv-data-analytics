@@ -68,7 +68,7 @@
   4. Convert question into statistical (M)odel
   5. Select and use a technique to optimize or test model with data
   6. i(N)terpret results: visualize, summarize, make a recommendation
-        1. Go back to 1 and revisit/modify/repeat
+  1. Go back to 1 and revisit/modify/repeat
   </textarea>
         </section>
         <section data-markdown>
@@ -164,8 +164,10 @@
                     - Container
                       - Allows running multiple OS's and technologies in a Container
                       - Many pre-built containers that you can download
-                    - Install Docker
-                    - docker run --rm -it datascienceworkshops/data-science-at-the-command-line
+                    - Install Docker, and run:
+                    ```
+                    docker run --rm -it datascienceworkshops/data-science-at-the-command-line
+                    ```
                     - Will launch a Docker container running Unix created by the author
     </textarea>
           </section>
@@ -433,7 +435,7 @@
                     - `+` like `*`, but 1 or more matches: `a*` will not match empty string
                     - `{}` specifies number of matches of previous pattern: `a{1,3}` will match `a`, `aa`, and `aaa`
 
-                    #### Example 1:
+                    #### Example:
                     `/Gun.*/` will match text "Gunay"
 
                     #### Question:<!-- .element: class="fragment" data-fragment-index="2" -->
@@ -446,10 +448,20 @@
     <textarea data-template>
                     ### Escaping, grouping, and anchoring
 
-                    - `\` will help you _escape_ the commands to search literal characters: `\++` will match `+`, `++`, so on
-                    - `^` and `$` will match the beginning and end of line (or string), respectively
-                    - `()` groups parts of the pattern, to specify repetitions, or used in replacement
-                    - `|` logical OR operation that allows matching one of the possible patterns ressions)
+                    - `\` will help you _escape_ the commands to search literal characters: <br>
+                    `\++` will match `+`, `++`, so on
+                    - `^` and `$` will match beginning and end of line (or string), resp.
+                    - `()` groups subsets for repeating or replacing
+                    - `|` logical OR operation, matches one of the possible expressions
+
+                    #### Example:
+                    `/^(gun|ay)+$/` will match both "gungungungun" and "ayayayay"
+
+                    #### Question: <!-- .element: class="fragment" data-fragment-index="2" --> `/^(Price|is|right)*/` <!-- .element: class="fragment" data-fragment-index="2" -->
+                    
+                    <!-- .element: class="fragment" data-fragment-index="2" -->will it match text "Priceisright"?
+
+                    <!-- .element: class="fragment" data-fragment-index="3" -->will it match text " rightisright"?
     </textarea>
           </section>
           <section data-markdown>
@@ -500,6 +512,7 @@
 
         // Factor of the display size that should remain empty around the content
         margin: 0.1,
+        history: true,
 
         // Bounds for smallest/largest possible scale to apply to content
         minScale: 0.2,
