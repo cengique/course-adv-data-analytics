@@ -118,7 +118,7 @@
 		</textarea>
 	      </section>
 	      </section>
-              <section>
+              <section> <!-- plotting section -->
       	        <section data-markdown>
 		  <textarea data-template>
                     ### Plotting in R
@@ -130,6 +130,40 @@
 
                     [Examples and code](https://www.statmethods.net/graphs/index.html)
 
+		  </textarea>
+	        </section>
+      	        <section data-markdown>
+		  <textarea data-template>
+                    #### Investigating data distribution: histogram and density plots
+
+                    <img src="images/R-plot-example-hist.png" style="float: left; width: '20%';"/>
+                    <img src="images/R-plot-example-density.png" style="float: right; width: '20%';"/>
+                    1. Histogram (left): Quick distribution graph, but dependent on bin size
+                    ```R
+                    hist(mtcars$mpg, breaks=5)
+                    ```
+                    1. Density (right): Less common, but bin independent
+                    ```R
+                    plot(density(mtcars$mpg))
+                    ```
+		  </textarea>
+	        </section>
+      	        <section data-markdown>
+		  <textarea data-template>
+                    #### Simple line plots
+
+                    <img src="images/R-plot-example-plot-1D.png" style="float: left; width: 400px;"/>
+                    <img src="images/R-plot-example-plot-2D.png" style="float: right; width: 400px;"/>
+                    - 1-D line (left): Just one variable, x-axis is index
+                    ```R
+                    a=c(1,2,3,4)
+                    plot(a,type="l")
+                    ```
+                    - 2-D line or X-Y plot (right): 2 variables
+                    ```R
+                    b=c(4,3,2,1)
+                    plot(a,b, type="l")
+                    ```
 		  </textarea>
 	        </section>
               </section>
@@ -236,6 +270,7 @@
 
 	      // Factor of the display size that should remain empty around the content
 	      margin: 0.1,
+              history: true,
 
 	      // Bounds for smallest/largest possible scale to apply to content
 	      minScale: 0.2,
