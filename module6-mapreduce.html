@@ -249,6 +249,50 @@
                 - inode data - list of blocks belonging to each file
               </textarea>
             </section>
+            <section data-markdown>
+              <textarea data-template>
+                ### Data Node
+                - Contains the file data
+                - Represented by two files on native system
+                 - Data
+                 - Metadata
+                - Size
+                 - Actual data size rather than fixed block size
+                - Startup
+                 - Handshage with Name Node
+                 - Block report
+                   - Block ID, Time stamp, Length of each block
+                  - Sent on connection
+                - Heartbeat
+                - Snapshot
+              </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+                ### HDFS Read
+                - Contact Name Node
+                - Name Node send to client info for nearest Data Node
+                - Client contacts the data node and gets the data
+              </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+                ### HDFS Write
+                <img src="images/HDFS Write.png" style="max-width: auto; height: 500px; margin: 1em;"/>
+              </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+                ### HDFS Failure
+
+                - Name Node
+                 - Cluster is unavailable
+                 - Restart Name Node
+                 - Backup can transition to Name Node
+                - Data Node
+                 - Minimum of three copies
+              </textarea>
+            </section>
           </section> <!-- end of vertical slides -->
           <section data-markdown>
             <textarea data-template>
