@@ -178,10 +178,22 @@
               <section> <!-- data manipulation -->
       	        <section data-markdown>
 		  <textarea data-template>
+                    <img src="images/R4DS-cover.png" style="float: right; max-width: auto; height: 600px;"/>
                     ### Data exploration and manipulation in R
 
-                    <img src="images/R4DS-fig-1.2-R-transform-visualize.png" style="max-width: auto; height: 200px;"/>
+                    <img src="images/R4DS-fig-1.2-R-transform-visualize.png" style="max-width: auto; height: 300px;"/>
 
+                    Familiar data science workflow for R:
+                    - **Tidying** puts your data in the right format
+                    - **Transforming** is querying, filtering, and recalculating
+                    - **Visualizing** follows to inspect the results
+                    - (**Modeling** will be explained later)
+                  </textarea>
+                </section>
+      	        <section data-markdown>
+		  <textarea data-template>
+                    #### Prerequisites
+                    
                     - Very useful set of packages in _tidyverse_
                     ```R
                     library(tidyverse)
@@ -199,12 +211,77 @@
                     ```R
                     install.packages("tidyverse")
                     ```
+		  </textarea>
+	        </section>
+      	        <section data-markdown>
+		  <textarea data-template>
+                    #### Some useful commands
 
-                    
+                    - `ggplot()`: an advanced plotting system (part I, Data Visualisation chapter)
+                    - `select()`: subset columns
+                    - `filter()`: subset rows on conditions
+                    - `mutate()`: create new columns by using information from other columns
+                    - `group_by()` and `summarize()`: create summary statistics on grouped data
+                    - `arrange()`: sort results
+                    - `count()`: count discrete values
+
+                    Reference: [R for Social Scientists: Introducing dplyr and tidyr](https://datacarpentry.org/r-socialsci/03-dplyr-tidyr/index.html)                    
+		  </textarea>
+	        </section>
+      	        <section data-markdown>
+		  <textarea data-template>
+                    #### Selecting columns and filtering rows
+
+                    Keeps only the columns you want:
+                    ```R
+                    select(dataframe, col1, col2, ...)
+                    ```
+
+                    Keep rows based on condition:
+                    ```R
+                    filter(dataframe, col1 == "value")
+                    ```
+		  </textarea>
+	        </section>
+      	        <section data-markdown>
+		  <textarea data-template>
+                    #### Piping data
+
+                    As data is tidied and transformed, it needs to be saved:
+                    ```R
+                    df1 <- read.csv(...)
+                    df2 <- select(df1, col1);
+                    ```
+
+                    Or it can be nested:       
+                    ```R
+                    df2 <- select(read.csv(...), col1);
+                    ```
+
+                    R has piping:
+                    ```R
+                    df <- read.csv(...) %>% select(col1)
+                    ```
+		  </textarea>
+	        </section>
+      	        <section data-markdown>
+		  <textarea data-template>
+                    #### Adding new columns and grouping
+
+                    Adding a derived column to an existing dataframe is useful:
+                    ```R
+                    df2 <- df1 %>% mutate(new_column = col1 / col2)
+                    ```
+
+                    Grouping and summarizing can be achieved by:
+                    ```R
+                    df1 %>% group_by(col1) %>% summarise(new_column = mean(col2))
+                    ```
+                    Instead of `mean()`, you can choose any of vector operations that would operate on the subset data grouped by `col1`.
 		  </textarea>
 	        </section>
               </section>
-              <section> <!-- plotting section -->
+              <section> <!-- plotting section: TODO: add ggplot and melt -->
       	        <section data-markdown>
 		  <textarea data-template>
                     ### Plotting in R
