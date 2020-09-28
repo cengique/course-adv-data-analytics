@@ -297,6 +297,90 @@
           <section> <!-- start of vertical slides -->
             <section data-markdown>
               <textarea data-template>
+                ### Practice
+
+                - Log onto your VM
+                  - Turner - 172.20.0.144
+                  - Sarah - 172.20.0.145
+                  - Daniel - 172.20.0.146
+                  - Ruth - 172.20.0.147
+              </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+                ### Start HDFS
+
+                - cd /home/hadoop
+                - sbin/start-dfs.sh
+                - Open a web browser when start completes
+                - Connect to your machine, port 50070
+                  - 172.20.0.144:50070
+                - Hadoop console
+              </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+                ### Create directories on HDFS
+
+                - bin/hdfs dfs -mkdir /user
+                - bin/hdfs dfs -mkdir /user/analytics
+                - We need to upload data for processing
+                  - bin/hdfs dfs -put etc/hadoop input
+                    - Copies the contents of the etc/hadoop directory to the HDFS in a directory input
+                - bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.8.1.jar grep input output 'dfs[a-z.]+'
+                  - Executes hadoop sample file using grep on the input directory and stores it in the output directory
+              </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+                ### Examine results
+
+                - bin/hdfs dfs -ls output
+                  - Shows the content of the output subdirectory
+                - bin/hdfs dfs -copyToLocal output/part-r-00000 output.txt
+              </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+                ### Results
+```bash
+6       dfs.audit.logger
+4       dfs.class
+3       dfs.logger
+3       dfs.server.namenode.
+2       dfs.audit.log.maxbackupindex
+2       dfs.period
+2       dfs.audit.log.maxfilesize
+1       dfs.replication
+1       dfs.log
+1       dfs.file
+1       dfs.data.dir
+1       dfs.servers
+1       dfsadmin
+1       dfsmetrics.log
+1       dfs.name.dir
+```
+              </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+                ### Hadoop
+
+                - Run your job again
+                - Remove output directory
+                  - bin/hdfs dfs -rm -R output
+                - Remove local file
+                - Shut down HDFS
+                  - sbin/stop-dfs.sh
+                - Two ways to upload your file
+                  - put the directory like we did above
+                  - Create the directory and use bin/hdfs dfs -copyFromLocal fileName destination
+              </textarea>
+            </section>
+          </section> <!-- end of vertical slides -->
+          <section> <!-- start of vertical slides -->
+            <section data-markdown>
+              <textarea data-template>
                 ### Data!
 
                 - Prediction: the world will have 44 _zettabytes_ by year 2020
