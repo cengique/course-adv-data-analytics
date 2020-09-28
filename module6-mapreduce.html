@@ -1,108 +1,374 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Module 6 - Big Data algorithms and tools: MapReduce - ITEC 4220 Advanced Data Analytics</title>
+  <title>Module 6 - Big Data algorithms and tools: MapReduce - ITEC 4220 Advanced Data Analytics</title>
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/black.css">
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-	  <div class="reveal">
-	    <div class="slides">
-	      <section data-markdown>
+  <!-- Printing and PDF exports -->
+  <script>
+  var link = document.createElement( 'link' );
+  link.rel = 'stylesheet';
+  link.type = 'text/css';
+  link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+  document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown>
+          <textarea data-template>
+            <img src="images/Hadoop_tdg_cover.png" style="float: right; max-width: auto; height: 500px; margin: 1em;"/>
+              ## ITEC 4220 - Advanced Data Analytics
+
+              ### Module 6 - Big Data algorithms and tools: MapReduce
+
+              #### Cengiz Gunay, Rick Price, Fall 2020
+              #### Reading: Ch 2 Hadoop - The definitive guide
+          </textarea>
+        </section>
+        <section> <!-- start of vertical slides -->
+          <section data-markdown>
+            <textarea data-template>
+             ### Distributed System
+
+             - What is a distributed system?
+                </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+             ### Distributed System
+
+              - A collection of <u>independent</u> computers that appear to the user as a single <u>coherent</u> system.
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+             ### Characteristics of a Distributed System
+
+              - Hides heterogeneity and internal workings
+              - Easy to expand and scale
+              - Continuous availability
+              - Examples:
+                - Networked workstations
+                - Distributed databases
+                - WWW
+                - Peer to peer systems
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              <img src="images/DistributedSystem.png" style="max-width: auto; height: 500px; margin: 1em;"/>
+            </textarea data-template>
+          </section>
+          <section data-markdown>
+           <textarea data-template>
+            ### Design Goals
+
+             - Make resources available to customers
+               - Enable resource sharing
+             - Transparancy
+               - Hide distributed nature
+             - Security and privacy
+             - Scalabilty
+           </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Transparency in a Distributed System
+                <table style="width:100%">
+                  <tr>
+                    <th>Transparency</th>
+                    <th>Description</th>
+                  </tr>
+                  <tr>
+                    <td>Access</td>
+                    <td>Differences in representation and how it is accessed</td>
+                  </tr>
+                  <tr>
+                    <td>Location</td>
+                    <td>Where a respource is located</td>
+                  </tr>
+                  <tr>
+                    <td>Migration</td>
+                    <td>Resource may be moved to another location</td>
+                  </tr>
+                  <tr>
+                    <td>Relocation</td>
+                    <td>Resource may be moved to another location while in use</td>
+                  </tr>
+                  <tr>
+                    <td>Replication</td>
+                    <td>Resource may have multiple copies</td>
+                  </tr>
+                  <tr>
+                    <td>Concurrency</td>
+                    <td>Resource may be shared by multiple users</td>
+                  </tr>
+                  <tr>
+                    <td>Failure</td>
+                    <td>Failure and recovery of a resource</td>
+                  </tr>
+                  <tr>
+                    <td>Persistence</td>
+                    <td>Resource is in memory or on disk </td>
+                  </tr>
+                </table>
+              </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+                ### Security and Privacy
+
+                 - Security
+                  - Access control
+                  - Data integrity
+                  - Data/service availability
+                  - Copyright protection
+                - Privacy
+                 - Exposing information allowing users to guess secure information                           </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+               ## Scalability Problems
+                <table style="width:100%">
+                  <tr>
+                    <th>Concept</th>
+                    <th>Example</th>
+                  </tr>
+                  <tr>
+                    <td>Centralized services</td>
+                    <td>Single server for all users</td>
+                  </tr>
+                  <tr>
+                    <td>Centralized data</td>
+                    <td>A single on-line telephone book</td>
+                  </tr>
+                  <tr>
+                    <td>Centralized algorithms</td>
+                    <td>Doing routing based on complete information</td>
+                  </tr>
+                </table>
+              </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+               ### Characteristics of Distributed Algorithms
+
+                  - Single machine does not have complete information
+                  - Decisions are made based on local information
+                  - Failure of a node does not cause the algorithm to fail
+                  - No global clock
+                  - Distributed algorithms are much harder than centralized algorithms
+              </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+               ### Invalid assumptions
+
+                  - Network is reliable
+                  - Network is secure
+                  - Network is homogenous
+                  - Topology does not changes
+                  - Latency is zero
+                  - Bandwidth is infinite
+                  - Transport cost is zero
+                  - Single administrator
+              </textarea>
+            </section>
+          </section> <!-- end of vertical slides -->
+          <section> <!-- start of vertical slides -->
+            <section data-markdown>
+              <textarea data-template>
+               ### Hadoop Distributed File System
+
+                - Based on The Hadoop Distributed File System by
+                 - Konstantin Shvachko
+                 - Hairong Kuang
+                 - Sanjay Radia
+                 - Robert Chansler
+              </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+                ### HDFS
+
+                - Design
+                 - Store very large data sets reliably
+                 - Stream at high bandwidth to applications
+                - Store file metadata and application data separately
+                 - Improves reliablity
+                 - Improves performance in lookups
+                 - Leverages "geographical" proximity for performance
+              </textarea>
+              <section data-markdown>
                 <textarea data-template>
-                  <img src="images/Hadoop_tdg_cover.png" style="float: right; max-width: auto; height: 500px; margin: 1em;"/>
-                  ## ITEC 4220 - Advanced Data Analytics
+                  ### Hadoop Facts
 
-                  ### Module 6 - Big Data algorithms and tools: MapReduce
-
-                  #### Cengiz Gunay, Spring 2019
-
-                  #### Reading: Ch 2 Hadoop - The definitive guide
+                  - Based on Google MapReduce
+                  - High bandwidth/distributed storage
+                  - Yahoo cluster: 25,000 servers, 25 petabytes
+                  - Apache product
+                  - Yahoo developed 80% of the core
                 </textarea>
               </section>
-              <section data-markdown>
-                <textarea data-template>
-                  ### Data!
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+                ### Design Architecture
 
-                  - Prediction: the world will have 44 _zettabytes_ by year 2020
-                  - Scale: mega, giga, tera, peta, exa, zetta (`$10^{21}$`)
+                - Name Node
+                - Data Nodes
+                - HDFS Client
+                - Image and Journal
+                - Checkpoint Node
+                - Backup Node
+                - File System Snapshots
+              </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+                ### Name Node
 
-                  Data producers:
-                  - NY Stock Exchange: 4-5 terabytes/day
-                  - Facebook: 7 petabytes/month
-                  - Ancestry.com: 10 petabytes
-                  - Internet Archive: 18 petabytes
+                - Single Name Node per cluster
+                - Utilizes inodes
+                 - Directories and Files
+                 - Attributes
+                - Splits files and directories into large blocks
+                 - Typically 128 megabytes
+                - Maps data to multiple data nodes
+                - Name space is kept in RAM
+                - inode data - list of blocks belonging to each file
+              </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+                ### Data Node
+                - Contains the file data
+                - Represented by two files on native system
+                 - Data
+                 - Metadata
+                - Size
+                 - Actual data size rather than fixed block size
+                - Startup
+                 - Handshage with Name Node
+                 - Block report
+                   - Block ID, Time stamp, Length of each block
+                  - Sent on connection
+                - Heartbeat
+                - Snapshot
+              </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+                ### HDFS Read
+                - Contact Name Node
+                - Name Node send to client info for nearest Data Node
+                - Client contacts the data node and gets the data
+              </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+                ### HDFS Write
+                <img src="images/HDFS Write.png" style="max-width: auto; height: 500px; margin: 1em;"/>
+              </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+                ### HDFS Failure
 
-                  `$^*$` Numbers from textbook, circa 2013-2014
+                - Name Node
+                 - Cluster is unavailable
+                 - Restart Name Node
+                 - Backup can transition to Name Node
+                - Data Node
+                 - Minimum of three copies
+              </textarea>
+            </section>
+          </section> <!-- end of vertical slides -->
+          <section> <!-- start of vertical slides -->
+            <section data-markdown>
+              <textarea data-template>
+                ### Data!
 
-                </textarea>
-              </section>
-              <section data-markdown>
-                <textarea data-template>
-                  ### The need for parallel and distributed processing
+                - Prediction: the world will have 44 _zettabytes_ by year 2020
+                - Scale: mega, giga, tera, peta, exa, zetta (`$10^{21}$`)
+                - 1.7 megabytes will be created by every person per second
+                - By 2025 463 exabytes generated every day
+                Data producers:
+                 - NY Stock Exchange: 4-5 terabytes/day
+                - Facebook: 7 petabytes/month
+                - Ancestry.com: 10 petabytes
+                - Internet Archive: 18 petabytes
+                - Google, Facebook, Microsoft, Amazon - 1,200 petabytes of data
 
-                  - Large data requires more than one machine
-                  - Parallelization is painful
-                  - Load balancing is a problem, otherwise you wait for the slowest one
-                  - **MapReduce** algorithm implementation in **Hadoop** provides a solution
-                  - Has been widely adopted in industry
-                  - Hadoop comes with an ecosystem of tools: YARN, HDFS, Pig, Spark
+               Numbers from textbook, circa 2013-2014.
+               Updates from multiple web sites
+              </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+                ### Data Growth
+                <img src="images/Data Growth.png" style="max-width: auto; height: 600px; margin: 1em;"/>
+              </textarea>
+            </section>
+          </section> <!-- end of vertical slides -->
+          <section data-markdown>
+            <textarea data-template>
+              ### The need for parallel and distributed processing
 
-                  <img src="images/hadoop-logo.png" style="max-width: auto; height: 100px; margin: 10px;"/>
+               - Large data requires more than one machine
+                - Parallelization is painful
+                - Load balancing is a problem, otherwise you wait for the slowest one
+                - **MapReduce** algorithm implementation in **Hadoop** provides a solution
+                - Has been widely adopted in industry
+                - Hadoop comes with an ecosystem of tools: YARN, HDFS, Pig, Spark
 
-		</textarea>
-	      </section>
-              <section data-markdown>
-                <textarea data-template>
-                  ### MapReduce compared to traditional RDBMS
+                <img src="images/hadoop-logo.png" style="max-width: auto; height: 100px; margin: 10px;"/>
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ### MapReduce compared to traditional RDBMS
 
-                  ||Traditional RDBMS|MapReduce
-                  |-|-|-
-                  |Data size|Gigabytes|Petabytes
-                  |Access|Interactive and Batch|Batch only
-                  |Updates|Read and write many times|Write once, read many times
-                  |Transactions|ACID|None
-                  |Structure|Schema-on-write|Schema-on-read
-                  |Scaling|Nonlinear|Linear
+                ||Traditional RDBMS|MapReduce
+                |-|-|-
+                |Data size|Gigabytes|Petabytes
+                |Access|Interactive and Batch|Batch only
+                |Updates|Read and write many times|Write once, read many times
+                |Transactions|ACID|None
+                |Structure|Schema-on-write|Schema-on-read
+                |Scaling|Nonlinear|Linear
 
-                  - **RDBMS**: Relational database management system
-                  - **ACID**: Atomicity, Consistency, Isolation, Durability
-		</textarea>
-	      </section>
-              <section>
-                <section data-markdown>
-                  <textarea data-template>
-                    ### What is MapReduce? An example
+                - **RDBMS**: Relational database management system
+                - **ACID**: Atomicity, Consistency, Isolation, Durability
+            </textarea>
+           </section>
+          <section>
+            <section data-markdown>
+              <textarea data-template>
+                ### What is MapReduce? An example
 
-                    A weather dataset from White Chapter 2
+                  A weather dataset from White Chapter 2
+                  - Data from weather stations all around world
+                  - Each row is one reading from one station at a time
 
-                    - Data from weather stations all around world
-                    - Each row is one reading from one station at a time
+                  <img src="images/Hadoop_Ch2_example2-1.png" style="max-width: auto; height: 300px; margin-left: auto;"/>
+              </textarea>
+             </section>
+            <section data-markdown>
+              <textarea data-template>
+                ### Back to the command-line: inspect the data
 
-                    <img src="images/Hadoop_Ch2_example2-1.png" style="max-width: auto; height: 300px; margin-left: auto;"/>
-		  </textarea>
-	        </section>
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Back to the command-line: inspect the data
-
-                    ```bash
+```bash
 % ls raw/1990 | head
 010010-99999-1990.gz
 010014-99999-1990.gz
@@ -114,31 +380,32 @@
 010080-99999-1990.gz
 010100-99999-1990.gz
 010150-99999-1990.gz
-                    ```
-                    <!-- .element: style="width: 25ex; margin: 10px; float: left;" -->
-                    <img src="images/Hadoop_Ch2_example2-2.png" style="max-width: auto; height: 300px; margin: 10px;"/>
-                    - Many small files; can be analyzed sequentially with <!-- .element: class="fragment" data-fragment-index="2" --> `awk`:
+```
+<!-- .element: style="width: 25ex; margin: 10px; float: left;" -->
+                <img src="images/Hadoop_Ch2_example2-2.png" style="max-width: auto; height: 300px; margin: 10px;"/>
 
-                    ```bash
-                    % ./max_temperature.sh
-                    1901 317
-                    1902 244
-                    1903 289
-                    1904 256
-                    1905 283
-                    ...
+                  - Many small files; can be analyzed sequentially with <!-- .element: class="fragment" data-fragment-index="2" --> `awk`:
+
+                  ```bash
+                  % ./max_temperature.sh
+                  1901 317
+                  1902 244
+                  1903 289
+                  1904 256
+                  1905 283
+                  ...
                     ```
-                    <!-- .element: style="width: 25ex; margin-left: auto;" class="fragment" data-fragment-index="2" -->
-		  </textarea>
-	        </section>
+                  <!-- .element: style="width: 25ex; margin-left: auto;" class="fragment" data-fragment-index="2" -->
+              </textarea>
+             </section>
                 <section data-markdown>
                   <textarea data-template>
                     ### Enter Map+Reduce: Can be partitioned to run on parallel hardware
 
                     <img src="images/Hadoop_Ch2_figure2-1.png" style="max-width: auto; height: 400px; margin-left: auto;"/>
 
-		  </textarea>
-	        </section>
+    </textarea>
+          </section>
                 <section data-markdown>
                   <textarea data-template>
                     ### Map in Java: (ID, row of text) `$\Rightarrow$` (year, temp)
@@ -169,8 +436,8 @@
                     }
                     ```
                     <!-- .element:   -->
-		  </textarea>
-	        </section>
+    </textarea>
+          </section>
                 <section data-markdown>
                   <textarea data-template>
                     <img src="images/Hadoop_Ch2_figure2-1.png" style="max-width: auto; height: 200px; margin-left: auto;"/>
@@ -192,8 +459,8 @@
                       }
                     }
                     ```
-		  </textarea>
-	        </section>
+    </textarea>
+          </section>
                 <section data-markdown>
                   <textarea data-template>
                     ### Putting it all together
@@ -224,7 +491,7 @@
                     }
                     ```
                   </textarea>
-	        </section>
+          </section>
                 <section data-markdown>
                   <textarea data-template>
                     ### A sample run
@@ -322,7 +589,7 @@ File Output Format Counters
 Bytes Written=29
                     ```
                   </textarea>
-	        </section>
+          </section>
               </section>
 
               <section> <!-- Start a new right-direction slide for exercise-->
@@ -347,7 +614,7 @@ Bytes Written=29
                     ```
                     (To make permanent, add these lines to the end of your `.bashrc` file!)
                   </textarea>
-	        </section>
+          </section>
 
                 <section data-markdown>
                   <textarea data-template>
@@ -369,7 +636,7 @@ Bytes Written=29
                     ```
                     (Replace `cgunay` with your username)
                   </textarea>
-	        </section>
+          </section>
 
                 <section data-markdown>
                   <textarea data-template>
@@ -394,7 +661,7 @@ Bytes Written=29
                     and then pointing any browser to http://localhost:8088 and http://localhost:50070
 
                   </textarea>
-	        </section>
+          </section>
 
               </section> <!-- end of exercise down-direction -->
 
@@ -408,7 +675,7 @@ Bytes Written=29
                     <img src="images/hpc-image.jpg" style="max-width: auto; height: 500px; margin-left: auto;"/>
 
                   </textarea>
-	        </section>
+          </section>
 
                 <section data-markdown>
                   <textarea data-template>
@@ -419,7 +686,7 @@ Bytes Written=29
                     <img src="images/Hadoop_Ch2_figure2-2.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
 
                   </textarea>
-	        </section>
+          </section>
 
                 <section data-markdown>
                   <textarea data-template>
@@ -428,7 +695,7 @@ Bytes Written=29
                     <img src="images/Hadoop_Ch2_figure2-3.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
 
                   </textarea>
-	        </section>
+          </section>
 
                 <section data-markdown>
                   <textarea data-template>
@@ -439,7 +706,7 @@ Bytes Written=29
                     <img src="images/Hadoop_Ch2_figure2-4.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
 
                   </textarea>
-	        </section>
+          </section>
 
                 <section data-markdown>
                   <textarea data-template>
@@ -450,7 +717,7 @@ Bytes Written=29
                     <img src="images/Hadoop_Ch2_figure2-5.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
 
                   </textarea>
-	        </section>
+          </section>
               </section> <!-- end of HDFS splitting down-section -->
 
               <section> <!-- Start right-section: Hadoop streaming -->
@@ -463,7 +730,7 @@ Bytes Written=29
                     - Map/Reduce input is passed as input to your program, and you write to standard output (print)
                     - Key-value pairs separated with tab characters
                   </textarea>
-	        </section>
+          </section>
                 <section data-markdown>
                   <textarea data-template>
                     ### Python example for Hadoop streaming
@@ -497,7 +764,7 @@ Bytes Written=29
                       print "%s\t%s" % (last_key, max_val)
                     ```
                   </textarea>
-	        </section>
+          </section>
                 <section data-markdown>
                   <textarea data-template>
                     ### How to run it
@@ -520,7 +787,7 @@ Bytes Written=29
                       -reducer ch02-mr-intro/src/main/python/max_temperature_reduce.py
                     ```
                   </textarea>
-	        </section>
+          </section>
 
               </section> <!-- End right-section: Hadoop streaming -->
 
@@ -698,45 +965,45 @@ Bytes Written=29
 
               </section> <!-- beyond Hadoop: Spark -->
 
-	    </div>
-	  </div>
+      </div>
+    </div>
 
-	  <script src="lib/js/head.min.js"></script>
-	  <script src="js/reveal.js"></script>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
 
-	  <script>
-	    // More info about config & dependencies:
-	    // - https://github.com/hakimel/reveal.js#configuration
-	    // - https://github.com/hakimel/reveal.js#dependencies
-	    Reveal.initialize({
-	      math: {
-		mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js', // https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js
-		config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
-	      },
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        math: {
+  mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js', // https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js
+  config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
+        },
 
-	      // The "normal" size of the presentation, aspect ratio will be preserved
-	      // when the presentation is scaled to fit different resolutions. Can be
-	      // specified using percentage units.
-	      width: 1280, // 960
-	      height: 720, // 700
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280, // 960
+        height: 720, // 700
 
-	      // Factor of the display size that should remain empty around the content
-	      margin: 0.1,
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
 
-	      // Bounds for smallest/largest possible scale to apply to content
-	      minScale: 0.2,
-	      maxScale: 1.5,
+        // Bounds for smallest/largest possible scale to apply to content
+        minScale: 0.2,
+        maxScale: 1.5,
 
-	      dependencies: [
-		{ src: 'plugin/markdown/marked.js' },
-		{ src: 'plugin/markdown/markdown.js' },
-		{ src: 'plugin/notes/notes.js', async: true },
-		{ src: 'plugin/highlight/highlight.js',
-		  async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+        dependencies: [
+  { src: 'plugin/markdown/marked.js' },
+  { src: 'plugin/markdown/markdown.js' },
+  { src: 'plugin/notes/notes.js', async: true },
+  { src: 'plugin/highlight/highlight.js',
+    async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
                 // MathJax
-		{ src: 'plugin/math/math.js', async: true }
-	      ]
-	    });
-	  </script>
-	</body>
+  { src: 'plugin/math/math.js', async: true }
+        ]
+      });
+    </script>
+  </body>
 </html>
