@@ -391,7 +391,7 @@
                  - NY Stock Exchange: 4-5 terabytes/day
                 - Facebook: 7 petabytes/month
                 - Ancestry.com: 10 petabytes
-                - Internet Archive: 18 petabytes
+                - Internet Archive: 18.5 petabytes
                 - Google, Facebook, Microsoft, Amazon - 1,200 petabytes of data
 
                Numbers from textbook, circa 2013-2014.
@@ -469,7 +469,6 @@
                 <img src="images/Hadoop_Ch2_example2-2.png" style="max-width: auto; height: 300px; margin: 10px;"/>
 
                   - Many small files; can be analyzed sequentially with <!-- .element: class="fragment" data-fragment-index="2" --> `awk`:
-
                   ```bash
                   % ./max_temperature.sh
                   1901 317
@@ -480,205 +479,615 @@
                   ...
                     ```
                   <!-- .element: style="width: 25ex; margin-left: auto;" class="fragment" data-fragment-index="2" -->
+                </textarea>
+             </section>
+             <section data-markdown>
+              <textarea data-template>
+                  ### Enter Map+Reduce: Can be partitioned to run on parallel hardware
+
+                <img src="images/Hadoop_Ch2_figure2-1.png" style="max-width: auto; height: 400px; margin-left: auto;"/>
+
               </textarea>
              </section>
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Enter Map+Reduce: Can be partitioned to run on parallel hardware
-
-                    <img src="images/Hadoop_Ch2_figure2-1.png" style="max-width: auto; height: 400px; margin-left: auto;"/>
-
-    </textarea>
-          </section>
-                <section data-markdown>
-                  <textarea data-template>
+             <section data-markdown>
+              <textarea data-template>
                     ### Map in Java: (ID, row of text) `$\Rightarrow$` (year, temp)
 
                     ```java
-                    public class MaxTemperatureMapper
-                        extends Mapper<LongWritable, Text, Text, IntWritable> {
-
-                      private static final int MISSING = 9999;
-
-                      @Override
-                      public void map(LongWritable key, Text value, Context context)
-                          throws IOException, InterruptedException {
-
-                        String line = value.toString();
-                        String year = line.substring(15, 19);
-                        int airTemperature;
-                        if (line.charAt(87) == '+') { // parseInt doesn't like leading plus signs
-                          airTemperature = Integer.parseInt(line.substring(88, 92));
-                        } else {
-                          airTemperature = Integer.parseInt(line.substring(87, 92));
-                        }
-                        String quality = line.substring(92, 93);
-                        if (airTemperature != MISSING && quality.matches("[01459]")) {
-                          context.write(new Text(year), new IntWritable(airTemperature));
-                        }
-                      }
+                    public class MaxTemperatureMapper extends MapReduceBase implements
+                  		Mapper<LongWritable, Text, Text, IntWritable> {
+                    	@Override
+                    	public void map(LongWritable key, Text value, OutputCollector<Text, IntWritable> output,
+                    					Reporter reporter) throws IOException {
+                    		String line = value.toString();
+                    		String[] data = line.split(",");
+                    		String monthDay = line.substring(10, 15);
+                    		int airTemperature;
+                    		String temp = "";
+                    		temp = data[2].trim();
+                    		airTemperature = (int) Double.parseDouble(temp);
+                    		output.collect(new Text(monthDay), new IntWritable(airTemperature));
+                    	}
                     }
                     ```
                     <!-- .element:   -->
-    </textarea>
-          </section>
-                <section data-markdown>
-                  <textarea data-template>
-                    <img src="images/Hadoop_Ch2_figure2-1.png" style="max-width: auto; height: 200px; margin-left: auto;"/>
+              </textarea>
+             </section>
+             <section data-markdown>
+              <textarea data-template>
+                <img src="images/Hadoop_Ch2_figure2-1.png" style="max-width: auto; height: 200px; margin-left: auto;"/>
 
                     ### Reduce: (year, [temps]) `$\Rightarrow$` (year, max temp)
 
                     ```java
-                    public class MaxTemperatureReducer
-                        extends Reducer<Text, IntWritable, Text, IntWritable> {
-
-                      @Override
-                      public void reduce(Text key, Iterable<IntWritable> values, Context context)
-                          throws IOException, InterruptedException {
-                        int maxValue = Integer.MIN_VALUE;
-                        for (IntWritable value : values) {
-                          maxValue = Math.max(maxValue, value.get());
+                    public class MaxTemperatureReducer extends MapReduceBase implements
+                            Reducer<Text, IntWritable, Text, IntWritable> {
+                        @Override
+                        public void reduce(Text key, Iterator<IntWritable> values, OutputCollector<Text, IntWritable> output,
+                                           Reporter reporter) throws IOException {
+                            System.out.println("In the reduce");
+                            int maxValue = Integer.MIN_VALUE;
+                            while (values.hasNext()) {
+                                IntWritable value = (IntWritable) values.next();
+                                System.out.println("Value for " + key + " is " + value.get());
+                                maxValue = Math.max(maxValue, value.get());
+                            }
+                            output.collect(key, new IntWritable(maxValue));
                         }
-                        context.write(key, new IntWritable(maxValue));
-                      }
                     }
                     ```
-    </textarea>
-          </section>
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Putting it all together
+              </textarea>
+             </section>
+             <section data-markdown>
+              <textarea data-template>
+                    ### The Driver Program
 
                     ```java
-                    public class MaxTemperature {
-
+                    public class TemperatureDriver {
                       public static void main(String[] args) throws Exception {
-                        if (args.length != 2) {
-                          System.err.println("Usage: MaxTemperature <input path> <output path>");
-                          System.exit(-1);
-                        }
-                        Job job = new Job();
-                        job.setJarByClass(MaxTemperature.class);
-                        job.setJobName("Max temperature");
-
-                        FileInputFormat.addInputPath(job, new Path(args[0]));
-                        FileOutputFormat.setOutputPath(job, new Path(args[1]));
-
-                        job.setMapperClass(MaxTemperatureMapper.class);
-                        job.setReducerClass(MaxTemperatureReducer.class);
-
-                        job.setOutputKeyClass(Text.class);
-                        job.setOutputValueClass(IntWritable.class);
-
-                        System.exit(job.waitForCompletion(true) ? 0 : 1);
+                          JobClient myClient = new JobClient();
+                          JobConf jobConf = new JobConf(TemperatureDriver.class); //Create a configuration object for the job
+                          jobConf.setJobName("MaxTemp"); //Set a name of the Job
+                          jobConf.setOutputKeyClass(Text.class); //Specify data type of output key and value
+                          jobConf.setOutputValueClass(IntWritable.class);
+                          jobConf.setMapperClass(MaxTemperatureMapper.class); //Specify names of Mapper and Reducer class
+                          jobConf.setReducerClass(MaxTemperatureReducer.class);
+                          jobConf.setInputFormat(TextInputFormat.class); //Specify formats of the data type of Input and output
+                          jobConf.setOutputFormat(TextOutputFormat.class);
+                          FileInputFormat.setInputPaths(jobConf, new Path(args[0])); //arg[0] = input directory, arg[1] = output directory
+                          FileOutputFormat.setOutputPath(jobConf, new Path(args[1]));
+                          myClient.setConf(jobConf);
+                          try { JobClient.runJob(jobConf); //run the job
+                          } catch (Exception e) { e.printStackTrace(); }
                       }
                     }
                     ```
-                  </textarea>
-          </section>
-                <section data-markdown>
-                  <textarea data-template>
+              </textarea>
+             </section>
+             <section data-markdown>
+              <textarea data-template>
+                      ### Compile Using IntelliJ
+
+                      - Under Project Structure, libraries - include the Hadoop Jar
+                      - Ensure you are targeting Java 8 on Project and Modules. Can use a later JDK but must target 8.
+                      - Manifest.txt
+                        - Must identify your Main-Class. This will be your driver
+                        - Must have a blank line after your Main-Class: line
+                      - Right click on the out directory
+                        - Open in Terminal
+                      - In the terminal window
+                        - jar cfm MaxTemp.jar Manifest.txt *.class
+              </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+                      ### Copy to your VM
+
+                      - Under Tools, Deployment, Configuration
+                        - + SFTP
+                        - Name your connection, I named mine Hadoop
+                          - + IP
+                          - Password
+                        - Set Root path /home/hadoop
+                        - Click OK
+                        - Tools/Deployment/Browse Remote Host
+                      - In your out directory in IntelliJ
+                        - Select your jar file
+                        - Drag it to your remote host
+                        - Can do the same with Daily.txt
+              </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+                      ### Go to your VM from your terminal/git bash window
+
+                      - Start your HDFS
+                        - sbin/start-dfs.sh
+                      - Create a directory on the HDFS
+                        - bin/hdfs dfs -mkdir inputTemp
+                      - Copy your file (Daily.txt) to inputTemp
+                        - bin/hdfs dfs -copyFromLocal Daily.txt inputTemp
+                      - Run the job
+                        - bin/hadoop jar MaxTemp.jar inputTemp outputTemp
+                      - Look for the results
+                        - bin/hdfs dfs -ls outputTemp
+                      - Copy it to the VM file system
+                        - bin/hdfs dfs -copyToLocal outputTemp/part-r-00000 max.txt
+                          - assumes your Hadoop output is in the part-r-00000 file
+              </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
                     ### A sample run
 
                     ```bash
-% export HADOOP_CLASSPATH=hadoop-examples.jar
-% hadoop MaxTemperature input/ncdc/sample.txt output
-14/09/16 09:48:39 WARN util.NativeCodeLoader: Unable to load native-hadoop
-library for your platform... using builtin-java classes where applicable
-14/09/16 09:48:40 WARN mapreduce.JobSubmitter: Hadoop command-line option
-parsing not performed. Implement the Tool interface and execute your application
-with ToolRunner to remedy this.
-14/09/16 09:48:40 INFO input.FileInputFormat: Total input paths to process : 1
-14/09/16 09:48:40 INFO mapreduce.JobSubmitter: number of splits:1
-14/09/16 09:48:40 INFO mapreduce.JobSubmitter: Submitting tokens for job:
-job_local26392882_0001
-14/09/16 09:48:40 INFO mapreduce.Job: The url to track the job:
-http://localhost:8080/
-14/09/16 09:48:40 INFO mapreduce.Job: Running job: job_local26392882_0001
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: OutputCommitter set in config null
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: OutputCommitter is
-org.apache.hadoop.mapreduce.lib.output.FileOutputCommitter
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: Waiting for map tasks
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: Starting task:
-attempt_local26392882_0001_m_000000_0
-14/09/16 09:48:40 INFO mapred.Task: Using ResourceCalculatorProcessTree : null
-14/09/16 09:48:40 INFO mapred.LocalJobRunner:
-14/09/16 09:48:40 INFO mapred.Task: Task:attempt_local26392882_0001_m_000000_0
-is done. And is in the process of committing
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: map
-14/09/16 09:48:40 INFO mapred.Task: Task 'attempt_local26392882_0001_m_000000_0'
-done.
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: Finishing task:
-attempt_local26392882_0001_m_000000_0
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: map task executor complete.
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: Waiting for reduce tasks
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: Starting task:
-attempt_local26392882_0001_r_000000_0
-14/09/16 09:48:40 INFO mapred.Task: Using ResourceCalculatorProcessTree : null
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: 1 / 1 copied.
-14/09/16 09:48:40 INFO mapred.Merger: Merging 1 sorted segments
-14/09/16 09:48:40 INFO mapred.Merger: Down to the last merge-pass, with 1
-segments left of total size: 50 bytes
-14/09/16 09:48:40 INFO mapred.Merger: Merging 1 sorted segments
-14/09/16 09:48:40 INFO mapred.Merger: Down to the last merge-pass, with 1
-segments left of total size: 50 bytes
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: 1 / 1 copied.
-14/09/16 09:48:40 INFO mapred.Task: Task:attempt_local26392882_0001_r_000000_0
-is done. And is in the process of committing
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: 1 / 1 copied.
-14/09/16 09:48:40 INFO mapred.Task: Task attempt_local26392882_0001_r_000000_0
-is allowed to commit now
-14/09/16 09:48:40 INFO output.FileOutputCommitter: Saved output of task
-'attempt...local26392882_0001_r_000000_0' to file:/Users/tom/book-workspace/
-hadoop-book/output/_temporary/0/task_local26392882_0001_r_000000
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: reduce > reduce
-14/09/16 09:48:40 INFO mapred.Task: Task 'attempt_local26392882_0001_r_000000_0'
-done.
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: Finishing task:
-attempt_local26392882_0001_r_000000_0
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: reduce task executor complete.
-14/09/16 09:48:41 INFO mapreduce.Job: Job job_local26392882_0001 running in uber
-mode : false
-14/09/16 09:48:41 INFO mapreduce.Job: map 100% reduce 100%
-14/09/16 09:48:41 INFO mapreduce.Job: Job job_local26392882_0001 completed
-successfully
-14/09/16 09:48:41 INFO mapreduce.Job: Counters: 30
-File System Counters
-FILE: Number of bytes read=377168
-FILE: Number of bytes written=828464
-FILE: Number of read operations=0
-FILE: Number of large read operations=0
-FILE: Number of write operations=0
-Map-Reduce Framework
-Map input records=5
-Map output records=5
-Map output bytes=45
-Map output materialized bytes=61
-Input split bytes=129
-Combine input records=0
-Combine output records=0
-Reduce input groups=2
-Reduce shuffle bytes=61
-Reduce input records=5
-Reduce output records=2
-Spilled Records=10
-Shuffled Maps =1
-Failed Shuffles=0
-Merged Map outputs=1
-GC time elapsed (ms)=39
-Total committed heap usage (bytes)=226754560
-File Input Format Counters
-Bytes Read=529
-File Output Format Counters
-Bytes Written=29
-                    ```
-                  </textarea>
-          </section>
-              </section>
+                    bin/hadoop jar MaxTemp.jar inputTemp outputTemp
+                    20/10/04 17:59:43 INFO Configuration.deprecation: session.id is deprecated. Instead, use dfs.metrics.session-id
+                    20/10/04 17:59:43 INFO jvm.JvmMetrics: Initializing JVM Metrics with processName=JobTracker, sessionId=
+                    20/10/04 17:59:43 INFO jvm.JvmMetrics: Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+                    20/10/04 17:59:43 WARN mapreduce.JobResourceUploader: Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+                    20/10/04 17:59:43 INFO mapred.FileInputFormat: Total input files to process : 1
+                    20/10/04 17:59:43 INFO mapreduce.JobSubmitter: number of splits:1
+                    20/10/04 17:59:43 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_local1258641120_0001
+                    20/10/04 17:59:44 INFO mapreduce.Job: The url to track the job: http://localhost:8080/
+                    20/10/04 17:59:44 INFO mapreduce.Job: Running job: job_local1258641120_0001
+                    20/10/04 17:59:44 INFO mapred.LocalJobRunner: OutputCommitter set in config null
+                    20/10/04 17:59:44 INFO mapred.LocalJobRunner: OutputCommitter is org.apache.hadoop.mapred.FileOutputCommitter
+                    20/10/04 17:59:44 INFO output.FileOutputCommitter: File Output Committer Algorithm version is 1
+                    20/10/04 17:59:44 INFO output.FileOutputCommitter: FileOutputCommitter skip cleanup _temporary folders under output directory:false, ignore cleanup failures: false
+                    20/10/04 17:59:44 INFO mapred.LocalJobRunner: Waiting for map tasks
+                    20/10/04 17:59:44 INFO mapred.LocalJobRunner: Starting task: attempt_local1258641120_0001_m_000000_0
+                    20/10/04 17:59:44 INFO output.FileOutputCommitter: File Output Committer Algorithm version is 1
+                    20/10/04 17:59:44 INFO output.FileOutputCommitter: FileOutputCommitter skip cleanup _temporary folders under output directory:false, ignore cleanup failures: false
+                    20/10/04 17:59:44 INFO mapred.Task:  Using ResourceCalculatorProcessTree : [ ]
+                    20/10/04 17:59:44 INFO mapred.MapTask: Processing split: hdfs://localhost:9000/user/projects/inputTemp/Daily.txt:0+96657
+                    20/10/04 17:59:44 INFO mapred.MapTask: numReduceTasks: 1
+                    20/10/04 17:59:44 INFO mapred.MapTask: (EQUATOR) 0 kvi 26214396(104857584)
+                    20/10/04 17:59:44 INFO mapred.MapTask: mapreduce.task.io.sort.mb: 100
+                    20/10/04 17:59:44 INFO mapred.MapTask: soft limit at 83886080
+                    20/10/04 17:59:44 INFO mapred.MapTask: bufstart = 0; bufvoid = 104857600
+                    20/10/04 17:59:44 INFO mapred.MapTask: kvstart = 26214396; length = 6553600
+                    20/10/04 17:59:44 INFO mapred.MapTask: Map output collector class = org.apache.hadoop.mapred.MapTask$MapOutputBuffer
+                    20/10/04 17:59:44 INFO mapred.LocalJobRunner:
+                    20/10/04 17:59:44 INFO mapred.MapTask: Starting flush of map output
+                    20/10/04 17:59:44 INFO mapred.MapTask: Spilling map output
+                    20/10/04 17:59:44 INFO mapred.MapTask: bufstart = 0; bufend = 3190; bufvoid = 104857600
+                    20/10/04 17:59:44 INFO mapred.MapTask: kvstart = 26214396(104857584); kvend = 26213124(104852496); length = 1273/6553600
+                    20/10/04 17:59:44 INFO mapred.MapTask: Finished spill 0
+                    20/10/04 17:59:44 INFO mapred.Task: Task:attempt_local1258641120_0001_m_000000_0 is done. And is in the process of committing
+                    20/10/04 17:59:44 INFO mapred.LocalJobRunner: hdfs://localhost:9000/user/projects/inputTemp/Daily.txt:0+96657
+                    20/10/04 17:59:44 INFO mapred.Task: Task 'attempt_local1258641120_0001_m_000000_0' done.
+                    20/10/04 17:59:44 INFO mapred.LocalJobRunner: Finishing task: attempt_local1258641120_0001_m_000000_0
+                    20/10/04 17:59:44 INFO mapred.LocalJobRunner: map task executor complete.
+                    20/10/04 17:59:44 INFO mapred.LocalJobRunner: Waiting for reduce tasks
+                    20/10/04 17:59:44 INFO mapred.LocalJobRunner: Starting task: attempt_local1258641120_0001_r_000000_0
+                    20/10/04 17:59:44 INFO output.FileOutputCommitter: File Output Committer Algorithm version is 1
+                    20/10/04 17:59:44 INFO output.FileOutputCommitter: FileOutputCommitter skip cleanup _temporary folders under output directory:false, ignore cleanup failures: false
+                    20/10/04 17:59:44 INFO mapred.Task:  Using ResourceCalculatorProcessTree : [ ]
+                    20/10/04 17:59:44 INFO mapred.ReduceTask: Using ShuffleConsumerPlugin: org.apache.hadoop.mapreduce.task.reduce.Shuffle@5dcbd403
+                    20/10/04 17:59:44 INFO reduce.MergeManagerImpl: MergerManager: memoryLimit=363285696, maxSingleShuffleLimit=90821424, mergeThreshold=239768576, ioSortFactor=10, memToMemMergeOutputsThreshold=10
+                    20/10/04 17:59:44 INFO reduce.EventFetcher: attempt_local1258641120_0001_r_000000_0 Thread started: EventFetcher for fetching Map Completion Events
+                    20/10/04 17:59:44 INFO reduce.LocalFetcher: localfetcher#1 about to shuffle output of map attempt_local1258641120_0001_m_000000_0 decomp: 3830 len: 3834 to MEMORY
+                    20/10/04 17:59:44 INFO reduce.InMemoryMapOutput: Read 3830 bytes from map-output for attempt_local1258641120_0001_m_000000_0
+                    20/10/04 17:59:44 INFO reduce.MergeManagerImpl: closeInMemoryFile -> map-output of size: 3830, inMemoryMapOutputs.size() -> 1, commitMemory -> 0, usedMemory ->3830
+                    20/10/04 17:59:44 INFO reduce.EventFetcher: EventFetcher is interrupted.. Returning
+                    20/10/04 17:59:44 INFO mapred.LocalJobRunner: 1 / 1 copied.
+                    20/10/04 17:59:44 INFO reduce.MergeManagerImpl: finalMerge called with 1 in-memory map-outputs and 0 on-disk map-outputs
+                    20/10/04 17:59:44 WARN io.ReadaheadPool: Failed readahead on ifile
+                    EBADF: Bad file descriptor
+                    	at org.apache.hadoop.io.nativeio.NativeIO$POSIX.posix_fadvise(Native Method)
+                    	at org.apache.hadoop.io.nativeio.NativeIO$POSIX.posixFadviseIfPossible(NativeIO.java:267)
+                    	at org.apache.hadoop.io.nativeio.NativeIO$POSIX$CacheManipulator.posixFadviseIfPossible(NativeIO.java:146)
+                    	at org.apache.hadoop.io.ReadaheadPool$ReadaheadRequestImpl.run(ReadaheadPool.java:208)
+                    	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+                    	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+                    	at java.lang.Thread.run(Thread.java:748)
+                    20/10/04 17:59:44 INFO mapred.Merger: Merging 1 sorted segments
+                    20/10/04 17:59:44 INFO mapred.Merger: Down to the last merge-pass, with 1 segments left of total size: 3822 bytes
+                    20/10/04 17:59:44 INFO reduce.MergeManagerImpl: Merged 1 segments, 3830 bytes to disk to satisfy reduce memory limit
+                    20/10/04 17:59:44 INFO reduce.MergeManagerImpl: Merging 1 files, 3834 bytes from disk
+                    20/10/04 17:59:44 INFO reduce.MergeManagerImpl: Merging 0 segments, 0 bytes from memory into reduce
+                    20/10/04 17:59:44 INFO mapred.Merger: Merging 1 sorted segments
+                    20/10/04 17:59:44 INFO mapred.Merger: Down to the last merge-pass, with 1 segments left of total size: 3822 bytes
+                    20/10/04 17:59:44 INFO mapred.LocalJobRunner: 1 / 1 copied.
+                    In the reduce
+                    Value for 0727, is 0
+                    In the reduce
+                    Value for 0728, is 89
+                    Value for 0728, is 82
+                    Value for 0728, is 92
+                    In the reduce
+                    Value for 0729, is 82
+                    Value for 0729, is 88
+                    Value for 0729, is 90
+                    Value for 0729, is 88
+                    In the reduce
+                    Value for 0730, is 86
+                    Value for 0730, is 89
+                    Value for 0730, is 88
+                    Value for 0730, is 91
+                    In the reduce
+                    Value for 0731, is 75
+                    Value for 0731, is 80
+                    Value for 0731, is 83
+                    Value for 0731, is 73
+                    Value for 0731, is 78
+                    Value for 0731, is 77
+                    Value for 0731, is 75
+                    Value for 0731, is 81
+                    Value for 0731, is 78
+                    Value for 0731, is 81
+                    Value for 0731, is 78
+                    Value for 0731, is 77
+                    Value for 0731, is 79
+                    Value for 0731, is 76
+                    Value for 0731, is 75
+                    Value for 0731, is 81
+                    Value for 0731, is 80
+                    Value for 0731, is 82
+                    Value for 0731, is 79
+                    Value for 0731, is 79
+                    Value for 0731, is 75
+                    Value for 0731, is 78
+                    Value for 0731, is 76
+                    Value for 0731, is 81
+                    Value for 0731, is 79
+                    Value for 0731, is 77
+                    Value for 0731, is 74
+                    Value for 0731, is 77
+                    Value for 0731, is 75
+                    Value for 0731, is 75
+                    Value for 0731, is 74
+                    Value for 0731, is 72
+                    Value for 0731, is 68
+                    Value for 0731, is 89
+                    Value for 0731, is 81
+                    Value for 0731, is 81
+                    Value for 0731, is 84
+                    Value for 0731, is 84
+                    Value for 0731, is 89
+                    Value for 0731, is 89
+                    Value for 0731, is 90
+                    Value for 0731, is 88
+                    Value for 0731, is 92
+                    Value for 0731, is 0
+                    Value for 0731, is 90
+                    Value for 0731, is 92
+                    Value for 0731, is 90
+                    Value for 0731, is 83
+                    Value for 0731, is 84
+                    Value for 0731, is 82
+                    Value for 0731, is 82
+                    Value for 0731, is 85
+                    Value for 0731, is 81
+                    Value for 0731, is 81
+                    Value for 0731, is 85
+                    Value for 0731, is 92
+                    Value for 0731, is 86
+                    Value for 0731, is 85
+                    Value for 0731, is 0
+                    Value for 0731, is 82
+                    Value for 0731, is 81
+                    Value for 0731, is 83
+                    Value for 0731, is 83
+                    Value for 0731, is 101
+                    Value for 0731, is 98
+                    Value for 0731, is 50
+                    Value for 0731, is 73
+                    Value for 0731, is 96
+                    Value for 0731, is 90
+                    Value for 0731, is 90
+                    Value for 0731, is 82
+                    Value for 0731, is 91
+                    Value for 0731, is 85
+                    Value for 0731, is 87
+                    Value for 0731, is 90
+                    Value for 0731, is 75
+                    Value for 0731, is 77
+                    Value for 0731, is 76
+                    Value for 0731, is 75
+                    Value for 0731, is 78
+                    Value for 0731, is 79
+                    Value for 0731, is 78
+                    Value for 0731, is 78
+                    Value for 0731, is 77
+                    Value for 0731, is 76
+                    Value for 0731, is 90
+                    Value for 0731, is 50
+                    Value for 0731, is 90
+                    Value for 0731, is 0
+                    Value for 0731, is 82
+                    Value for 0731, is 81
+                    Value for 0731, is 82
+                    Value for 0731, is 87
+                    Value for 0731, is 88
+                    Value for 0731, is 56
+                    Value for 0731, is 101
+                    Value for 0731, is 67
+                    Value for 0731, is 90
+                    Value for 0731, is 69
+                    Value for 0731, is 78
+                    Value for 0731, is 85
+                    Value for 0731, is 84
+                    Value for 0731, is 79
+                    Value for 0731, is 86
+                    Value for 0731, is 99
+                    Value for 0731, is 85
+                    Value for 0731, is 89
+                    Value for 0731, is 91
+                    Value for 0731, is 69
+                    Value for 0731, is 91
+                    Value for 0731, is 82
+                    Value for 0731, is 85
+                    Value for 0731, is 84
+                    Value for 0731, is 86
+                    Value for 0731, is 93
+                    Value for 0731, is 95
+                    Value for 0731, is 86
+                    Value for 0731, is 88
+                    Value for 0731, is 88
+                    Value for 0731, is 86
+                    Value for 0731, is 87
+                    Value for 0731, is 86
+                    Value for 0731, is 85
+                    Value for 0731, is 85
+                    Value for 0731, is 83
+                    Value for 0731, is 81
+                    Value for 0731, is 84
+                    Value for 0731, is 80
+                    Value for 0731, is 50
+                    Value for 0731, is 80
+                    Value for 0731, is 96
+                    Value for 0731, is 87
+                    Value for 0731, is 93
+                    Value for 0731, is 106
+                    Value for 0731, is 105
+                    Value for 0731, is 100
+                    Value for 0731, is 99
+                    Value for 0731, is 99
+                    Value for 0731, is 90
+                    Value for 0731, is 96
+                    Value for 0731, is 91
+                    Value for 0731, is 95
+                    Value for 0731, is 86
+                    Value for 0731, is 82
+                    Value for 0731, is 86
+                    Value for 0731, is 91
+                    Value for 0731, is 89
+                    Value for 0731, is 94
+                    Value for 0731, is 0
+                    Value for 0731, is 97
+                    Value for 0731, is 96
+                    Value for 0731, is 82
+                    Value for 0731, is 89
+                    Value for 0731, is 87
+                    Value for 0731, is 100
+                    Value for 0731, is 81
+                    Value for 0731, is 78
+                    Value for 0731, is 81
+                    Value for 0731, is 81
+                    Value for 0731, is 81
+                    Value for 0731, is 84
+                    Value for 0731, is 82
+                    Value for 0731, is 81
+                    Value for 0731, is 79
+                    Value for 0731, is 80
+                    Value for 0731, is 79
+                    Value for 0731, is 76
+                    Value for 0731, is 83
+                    Value for 0731, is 80
+                    Value for 0731, is 80
+                    Value for 0731, is 71
+                    Value for 0731, is 77
+                    Value for 0731, is 76
+                    Value for 0731, is 78
+                    Value for 0731, is 79
+                    Value for 0731, is 76
+                    Value for 0731, is 77
+                    Value for 0731, is 79
+                    Value for 0731, is 82
+                    Value for 0731, is 75
+                    Value for 0731, is 77
+                    Value for 0731, is 77
+                    Value for 0731, is 79
+                    Value for 0731, is 81
+                    Value for 0731, is 79
+                    Value for 0731, is 83
+                    Value for 0731, is 78
+                    Value for 0731, is 83
+                    Value for 0731, is 75
+                    Value for 0731, is 79
+                    Value for 0731, is 78
+                    Value for 0731, is 78
+                    Value for 0731, is 78
+                    Value for 0731, is 79
+                    Value for 0731, is 74
+                    Value for 0731, is 79
+                    Value for 0731, is 77
+                    Value for 0731, is 80
+                    Value for 0731, is 79
+                    Value for 0731, is 80
+                    Value for 0731, is 79
+                    Value for 0731, is 81
+                    Value for 0731, is 77
+                    Value for 0731, is 81
+                    Value for 0731, is 73
+                    Value for 0731, is 86
+                    Value for 0731, is 84
+                    Value for 0731, is 84
+                    Value for 0731, is 88
+                    Value for 0731, is 90
+                    Value for 0731, is 90
+                    Value for 0731, is 87
+                    Value for 0731, is 86
+                    Value for 0731, is 91
+                    Value for 0731, is 91
+                    Value for 0731, is 92
+                    Value for 0731, is 98
+                    Value for 0731, is 88
+                    Value for 0731, is 95
+                    Value for 0731, is 97
+                    Value for 0731, is 98
+                    Value for 0731, is 91
+                    Value for 0731, is 91
+                    Value for 0731, is 91
+                    Value for 0731, is 86
+                    Value for 0731, is 90
+                    Value for 0731, is 90
+                    Value for 0731, is 85
+                    Value for 0731, is 91
+                    Value for 0731, is 91
+                    Value for 0731, is 88
+                    Value for 0731, is 90
+                    Value for 0731, is 81
+                    Value for 0731, is 91
+                    Value for 0731, is 89
+                    Value for 0731, is 81
+                    Value for 0731, is 91
+                    Value for 0731, is 90
+                    Value for 0731, is 82
+                    Value for 0731, is 83
+                    Value for 0731, is 84
+                    Value for 0731, is 85
+                    Value for 0731, is 86
+                    Value for 0731, is 85
+                    Value for 0731, is 88
+                    Value for 0731, is 84
+                    Value for 0731, is 85
+                    Value for 0731, is 82
+                    Value for 0731, is 84
+                    Value for 0731, is 77
+                    Value for 0731, is 86
+                    Value for 0731, is 88
+                    Value for 0731, is 0
+                    Value for 0731, is 50
+                    Value for 0731, is 92
+                    Value for 0731, is 99
+                    Value for 0731, is 98
+                    Value for 0731, is 94
+                    Value for 0731, is 90
+                    Value for 0731, is 50
+                    Value for 0731, is 97
+                    Value for 0731, is 94
+                    Value for 0731, is 95
+                    Value for 0731, is 98
+                    Value for 0731, is 95
+                    Value for 0731, is 92
+                    Value for 0731, is 90
+                    Value for 0731, is 95
+                    Value for 0731, is 92
+                    Value for 0731, is 92
+                    Value for 0731, is 0
+                    Value for 0731, is 90
+                    Value for 0731, is 90
+                    Value for 0731, is 90
+                    Value for 0731, is 89
+                    Value for 0731, is 89
+                    Value for 0731, is 90
+                    Value for 0731, is 92
+                    Value for 0731, is 86
+                    Value for 0731, is 76
+                    Value for 0731, is 79
+                    Value for 0731, is 71
+                    Value for 0731, is 77
+                    Value for 0731, is 74
+                    Value for 0731, is 88
+                    Value for 0731, is 85
+                    Value for 0731, is 91
+                    Value for 0731, is 83
+                    Value for 0731, is 97
+                    Value for 0731, is 89
+                    Value for 0731, is 83
+                    Value for 0731, is 84
+                    Value for 0731, is 84
+                    Value for 0731, is 91
+                    Value for 0731, is 91
+                    Value for 0731, is 95
+                    Value for 0731, is 90
+                    Value for 0731, is 81
+                    Value for 0731, is 76
+                    Value for 0731, is 88
+                    Value for 0731, is 92
+                    Value for 0731, is 90
+                    Value for 0731, is 102
+                    Value for 0731, is 82
+                    In the reduce
+                    Value for 0801, is 85
+                    Value for 0801, is 87
+                    Value for 0801, is 108
+                    20/10/04 17:59:44 INFO mapred.Task: Task:attempt_local1258641120_0001_r_000000_0 is done. And is in the process of committing
+                    20/10/04 17:59:44 INFO mapred.LocalJobRunner: 1 / 1 copied.
+                    20/10/04 17:59:44 INFO mapred.Task: Task attempt_local1258641120_0001_r_000000_0 is allowed to commit now
+                    20/10/04 17:59:44 INFO output.FileOutputCommitter: Saved output of task 'attempt_local1258641120_0001_r_000000_0' to hdfs://localhost:9000/user/projects/outputTemp/_temporary/0/task_local1258641120_0001_r_000000
+                    20/10/04 17:59:44 INFO mapred.LocalJobRunner: reduce > reduce
+                    20/10/04 17:59:44 INFO mapred.Task: Task 'attempt_local1258641120_0001_r_000000_0' done.
+                    20/10/04 17:59:44 INFO mapred.LocalJobRunner: Finishing task: attempt_local1258641120_0001_r_000000_0
+                    20/10/04 17:59:44 INFO mapred.LocalJobRunner: reduce task executor complete.
+                    20/10/04 17:59:45 INFO mapreduce.Job: Job job_local1258641120_0001 running in uber mode : false
+                    20/10/04 17:59:45 INFO mapreduce.Job:  map 100% reduce 100%
+                    20/10/04 17:59:45 INFO mapreduce.Job: Job job_local1258641120_0001 completed successfully
+                    20/10/04 17:59:45 INFO mapreduce.Job: Counters: 35
+                    	File System Counters
+                    		FILE: Number of bytes read=15390
+                    		FILE: Number of bytes written=666090
+                    		FILE: Number of read operations=0
+                    		FILE: Number of large read operations=0
+                    		FILE: Number of write operations=0
+                    		HDFS: Number of bytes read=193314
+                    		HDFS: Number of bytes written=55
+                    		HDFS: Number of read operations=13
+                    		HDFS: Number of large read operations=0
+                    		HDFS: Number of write operations=4
+                    	Map-Reduce Framework
+                    		Map input records=319
+                    		Map output records=319
+                    		Map output bytes=3190
+                    		Map output materialized bytes=3834
+                    		Input split bytes=107
+                    		Combine input records=0
+                    		Combine output records=0
+                    		Reduce input groups=6
+                    		Reduce shuffle bytes=3834
+                    		Reduce input records=319
+                    		Reduce output records=6
+                    		Spilled Records=638
+                    		Shuffled Maps =1
+                    		Failed Shuffles=0
+                    		Merged Map outputs=1
+                    		GC time elapsed (ms)=47
+                    		Total committed heap usage (bytes)=262676480
+                    	Shuffle Errors
+                    		BAD_ID=0
+                    		CONNECTION=0
+                    		IO_ERROR=0
+                    		WRONG_LENGTH=0
+                    		WRONG_MAP=0
+                    		WRONG_REDUCE=0
+                    	File Input Format Counters
+                    		Bytes Read=96657
+                    	File Output Format Counters
+                    		Bytes Written=55
+                   ```
+              </textarea>
+             </section>
+             <section data-markdown>
+               <textarea data-template>
+                       ### Results
+                       ```bash
+                      0727,   0
+                      0728,   92
+                      0729,   90
+                      0730,   91
+                      0731,   106
+                      0801,   108
+                      ```
+               </textarea>
+             </section>
+            </section>
 
-              <section> <!-- Start a new right-direction slide for exercise-->
-                <section data-markdown>
-                  <textarea data-template>
+            <section> <!-- Start a new right-direction slide for exercise-->
+             <section data-markdown>
+              <textarea data-template>
                     ### Hadoop MapReduce Exercise time!
 
                     - Book word count [Apache MapReduce tutorial](http://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html) ([Computerphile video](https://youtu.be/cvhKoniK5Uo))
@@ -697,11 +1106,11 @@ Bytes Written=29
                     export PATH=${PATH}:~hadoop/hadoop/bin
                     ```
                     (To make permanent, add these lines to the end of your `.bashrc` file!)
-                  </textarea>
-          </section>
+              </textarea>
+             </section>
 
-                <section data-markdown>
-                  <textarea data-template>
+            <section data-markdown>
+              <textarea data-template>
                     ### The Hadoop Distributed Filesystem (HDFS)
 
                     Hadoop works on files in the HDFS that is different than your folders on Ursus.
@@ -720,7 +1129,7 @@ Bytes Written=29
                     ```
                     (Replace `cgunay` with your username)
                   </textarea>
-          </section>
+            </section>
 
                 <section data-markdown>
                   <textarea data-template>
