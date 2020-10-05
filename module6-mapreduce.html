@@ -485,7 +485,7 @@
               <textarea data-template>
                   ### Enter Map+Reduce: Can be partitioned to run on parallel hardware
 
-                <img src="images/Hadoop_Ch2_figure2-1.png" style="max-width: auto; height: 400px; margin-left: auto;"/>
+                  <img src="images/Hadoop_Ch2_figure2-1.png" style="max-width: auto; height: 400px; margin-left: auto;"/>
 
               </textarea>
              </section>
@@ -495,19 +495,19 @@
 
                     ```java
                     public class MaxTemperatureMapper extends MapReduceBase implements
-                  		Mapper<LongWritable, Text, Text, IntWritable> {
-                    	@Override
-                    	public void map(LongWritable key, Text value, OutputCollector<Text, IntWritable> output,
-                    					Reporter reporter) throws IOException {
-                    		String line = value.toString();
-                    		String[] data = line.split(",");
-                    		String monthDay = line.substring(10, 15);
-                    		int airTemperature;
-                    		String temp = "";
-                    		temp = data[2].trim();
-                    		airTemperature = (int) Double.parseDouble(temp);
-                    		output.collect(new Text(monthDay), new IntWritable(airTemperature));
-                    	}
+                      Mapper<LongWritable, Text, Text, IntWritable> {
+                      @Override
+                      public void map(LongWritable key, Text value, OutputCollector<Text, IntWritable> output,
+                              Reporter reporter) throws IOException {
+                        String line = value.toString();
+                        String[] data = line.split(",");
+                        String monthDay = line.substring(10, 15);
+                        int airTemperature;
+                        String temp = "";
+                        temp = data[2].trim();
+                        airTemperature = (int) Double.parseDouble(temp);
+                        output.collect(new Text(monthDay), new IntWritable(airTemperature));
+                      }
                     }
                     ```
                     <!-- .element:   -->
@@ -517,9 +517,9 @@
               <textarea data-template>
                 <img src="images/Hadoop_Ch2_figure2-1.png" style="max-width: auto; height: 200px; margin-left: auto;"/>
 
-                    ### Reduce: (year, [temps]) `$\Rightarrow$` (year, max temp)
+                ### Reduce: (year, [temps]) `$\Rightarrow$` (year, max temp)
 
-                    ```java
+```java
                     public class MaxTemperatureReducer extends MapReduceBase implements
                             Reducer<Text, IntWritable, Text, IntWritable> {
                         @Override
@@ -528,14 +528,14 @@
                             System.out.println("In the reduce");
                             int maxValue = Integer.MIN_VALUE;
                             while (values.hasNext()) {
-                                IntWritable value = (IntWritable) values.next();
-                                System.out.println("Value for " + key + " is " + value.get());
-                                maxValue = Math.max(maxValue, value.get());
+                              IntWritable value = (IntWritable) values.next();
+                              System.out.println("Value for " + key + " is " + value.get());
+                              maxValue = Math.max(maxValue, value.get());
                             }
                             output.collect(key, new IntWritable(maxValue));
                         }
                     }
-                    ```
+```
               </textarea>
              </section>
              <section data-markdown>
@@ -675,13 +675,13 @@
                     20/10/04 17:59:44 INFO reduce.MergeManagerImpl: finalMerge called with 1 in-memory map-outputs and 0 on-disk map-outputs
                     20/10/04 17:59:44 WARN io.ReadaheadPool: Failed readahead on ifile
                     EBADF: Bad file descriptor
-                    	at org.apache.hadoop.io.nativeio.NativeIO$POSIX.posix_fadvise(Native Method)
-                    	at org.apache.hadoop.io.nativeio.NativeIO$POSIX.posixFadviseIfPossible(NativeIO.java:267)
-                    	at org.apache.hadoop.io.nativeio.NativeIO$POSIX$CacheManipulator.posixFadviseIfPossible(NativeIO.java:146)
-                    	at org.apache.hadoop.io.ReadaheadPool$ReadaheadRequestImpl.run(ReadaheadPool.java:208)
-                    	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
-                    	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
-                    	at java.lang.Thread.run(Thread.java:748)
+                      at org.apache.hadoop.io.nativeio.NativeIO$POSIX.posix_fadvise(Native Method)
+                      at org.apache.hadoop.io.nativeio.NativeIO$POSIX.posixFadviseIfPossible(NativeIO.java:267)
+                      at org.apache.hadoop.io.nativeio.NativeIO$POSIX$CacheManipulator.posixFadviseIfPossible(NativeIO.java:146)
+                      at org.apache.hadoop.io.ReadaheadPool$ReadaheadRequestImpl.run(ReadaheadPool.java:208)
+                      at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+                      at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+                      at java.lang.Thread.run(Thread.java:748)
                     20/10/04 17:59:44 INFO mapred.Merger: Merging 1 sorted segments
                     20/10/04 17:59:44 INFO mapred.Merger: Down to the last merge-pass, with 1 segments left of total size: 3822 bytes
                     20/10/04 17:59:44 INFO reduce.MergeManagerImpl: Merged 1 segments, 3830 bytes to disk to satisfy reduce memory limit
@@ -1027,46 +1027,46 @@
                     20/10/04 17:59:45 INFO mapreduce.Job:  map 100% reduce 100%
                     20/10/04 17:59:45 INFO mapreduce.Job: Job job_local1258641120_0001 completed successfully
                     20/10/04 17:59:45 INFO mapreduce.Job: Counters: 35
-                    	File System Counters
-                    		FILE: Number of bytes read=15390
-                    		FILE: Number of bytes written=666090
-                    		FILE: Number of read operations=0
-                    		FILE: Number of large read operations=0
-                    		FILE: Number of write operations=0
-                    		HDFS: Number of bytes read=193314
-                    		HDFS: Number of bytes written=55
-                    		HDFS: Number of read operations=13
-                    		HDFS: Number of large read operations=0
-                    		HDFS: Number of write operations=4
-                    	Map-Reduce Framework
-                    		Map input records=319
-                    		Map output records=319
-                    		Map output bytes=3190
-                    		Map output materialized bytes=3834
-                    		Input split bytes=107
-                    		Combine input records=0
-                    		Combine output records=0
-                    		Reduce input groups=6
-                    		Reduce shuffle bytes=3834
-                    		Reduce input records=319
-                    		Reduce output records=6
-                    		Spilled Records=638
-                    		Shuffled Maps =1
-                    		Failed Shuffles=0
-                    		Merged Map outputs=1
-                    		GC time elapsed (ms)=47
-                    		Total committed heap usage (bytes)=262676480
-                    	Shuffle Errors
-                    		BAD_ID=0
-                    		CONNECTION=0
-                    		IO_ERROR=0
-                    		WRONG_LENGTH=0
-                    		WRONG_MAP=0
-                    		WRONG_REDUCE=0
-                    	File Input Format Counters
-                    		Bytes Read=96657
-                    	File Output Format Counters
-                    		Bytes Written=55
+                      File System Counters
+                        FILE: Number of bytes read=15390
+                        FILE: Number of bytes written=666090
+                        FILE: Number of read operations=0
+                        FILE: Number of large read operations=0
+                        FILE: Number of write operations=0
+                        HDFS: Number of bytes read=193314
+                        HDFS: Number of bytes written=55
+                        HDFS: Number of read operations=13
+                        HDFS: Number of large read operations=0
+                        HDFS: Number of write operations=4
+                      Map-Reduce Framework
+                        Map input records=319
+                        Map output records=319
+                        Map output bytes=3190
+                        Map output materialized bytes=3834
+                        Input split bytes=107
+                        Combine input records=0
+                        Combine output records=0
+                        Reduce input groups=6
+                        Reduce shuffle bytes=3834
+                        Reduce input records=319
+                        Reduce output records=6
+                        Spilled Records=638
+                        Shuffled Maps =1
+                        Failed Shuffles=0
+                        Merged Map outputs=1
+                        GC time elapsed (ms)=47
+                        Total committed heap usage (bytes)=262676480
+                      Shuffle Errors
+                        BAD_ID=0
+                        CONNECTION=0
+                        IO_ERROR=0
+                        WRONG_LENGTH=0
+                        WRONG_MAP=0
+                        WRONG_REDUCE=0
+                      File Input Format Counters
+                        Bytes Read=96657
+                      File Output Format Counters
+                        Bytes Written=55
                    ```
               </textarea>
              </section>
@@ -1482,6 +1482,7 @@
 
         // Factor of the display size that should remain empty around the content
         margin: 0.1,
+        history: true,
 
         // Bounds for smallest/largest possible scale to apply to content
         minScale: 0.2,
