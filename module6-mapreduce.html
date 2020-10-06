@@ -535,10 +535,7 @@
              </section>
              <section data-markdown>
               <textarea data-template>
-                <img src="images/Hadoop_Ch2_figure2-1.png" style="max-width: auto; height: 200px; margin-left: auto;"/>
-
                 ### Reduce: (year, [temps]) `$\Rightarrow$` (year, max temp)
-
 ```java
                     public class MaxTemperatureReducer extends MapReduceBase implements
                             Reducer<Text, IntWritable, Text, IntWritable> {
@@ -620,7 +617,6 @@
             <section data-markdown>
               <textarea data-template>
                       ### Go to your VM from your terminal/git bash window
-
                       - Start your HDFS
                         - sbin/start-dfs.sh
                       - Create a directory on the HDFS
@@ -632,8 +628,7 @@
                       - Look for the results
                         - bin/hdfs dfs -ls outputTemp
                       - Copy it to the VM file system
-                        - bin/hdfs dfs -copyToLocal outputTemp/part-r-00000 max.txt
-                          - assumes your Hadoop output is in the part-r-00000 file
+                        - bin/hdfs dfs -copyToLocal outputTemp/part-00000 max.txt
               </textarea>
             </section>
             <section data-markdown>
