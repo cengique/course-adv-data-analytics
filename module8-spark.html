@@ -1,0 +1,251 @@
+<!doctype html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>Module 6 - Big Data algorithms and tools: MapReduce - ITEC 4220 Advanced Data Analytics</title>
+
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/black.css">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+  <!-- Printing and PDF exports -->
+  <script>
+  var link = document.createElement( 'link' );
+  link.rel = 'stylesheet';
+  link.type = 'text/css';
+  link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+  document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown>
+          <textarea data-template>
+            <img src="images/Spark_cover.png" style="float: right; max-width: auto; height: 500px; margin: 1em;"/>
+              ## ITEC 4220 - Advanced Data Analytics
+
+              ### Module 8 - Big Data algorithms and tools: Spark
+
+              #### Cengiz Gunay, Rick Price, Fall 2020
+              #### Reading: Ch 2 Spark - The definitive guide
+          </textarea>
+        </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### What comes after Hadoop?
+
+                    - Hadoop created an ecosystem of projects:
+                        - Avro: Data serialization system
+                        - Flume: Work with data streams
+                        - Sqoop: Interface with traditional relational DBs
+                        - Hive: SQL queries converted to MapReduce
+                        - [Pig](https://www.slideshare.net/kevinweil/hadoop-pig-and-twitter-nosql-east-2009/): Hadoop processing with custom high-level language
+                        - Parquet: Columnar storage for nested data
+                        - Crunch: High-level API for using Hadoop
+                        - [Kafka](https://kafka.apache.org/): Distributed streaming platform
+                        - [Spark](https://spark.apache.org/): Another distributed computing framework
+                    - We will give a brief intro to Spark
+                    <!-- .element: class="fragment" data-fragment-index="2" -->
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    <img src="images/Spark_cover.png" style="float: right; max-width: auto; height: 500px;"/>
+                    ### Spark
+
+                    - Since 2009
+                    - 10x-20x faster than Hadoop
+                    - Written in Scala running on JVM
+                    - Can be programmed in Scala, Java, and Python
+
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Spark works with _resilient distributed datasets_ (RDDs)
+
+                    - To use Python for Spark, run: `pyspark`
+                    - A line count program example:
+                    ```python
+                    >>> lines = sc.textFile("README.md") # Create an RDD called lines
+                    >>> lines.count() # Count the number of items in this RDD
+                    127
+                    >>> lines.first() # First item in this RDD, i.e. first line of README.md
+                    u'# Apache Spark'
+                    ```
+                    - Parallel operation completely transparent!
+                    - <!-- .element: class="fragment" data-fragment-index="2" --> `sc` is the `SparkContext` _driver_ to access Spark
+                    and create RDDs
+                    -  <!-- .element: class="fragment" data-fragment-index="3" --> RDD is broken into pieces to run `count()` in parallel
+
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Inside Spark
+
+                    <img src="images/Spark_Ch2_fig2-3_components.png" style="max-width: auto; height: 300px;"/>
+                    - Another example with custom filter function: <!-- .element: class="fragment" data-fragment-index="2" -->
+
+                    ```python
+                    >>> lines = sc.textFile("README.md")
+                    >>> pythonLines = lines.filter(lambda line: "Python" in line)
+                    >>> pythonLines.first()
+                    u'## Interactive Python Shell'
+                    ```
+                    <!-- .element: class="fragment" data-fragment-index="2" -->
+
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Working with RDDs
+
+                    _Transformations_ create new RDDs; e.g.:
+
+                    ```python
+                    >>> pythonLines = lines.filter(lambda line: "Python" in line)
+                    ```
+                    _Actions_ calculate results from RDDs; e.g.:
+
+                    ```python
+                    >>> pythonLines.first()
+                    ```
+
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### RDD transformations
+
+                    - Most commonly used: `map()` and `filter()`
+                    <img src="images/Spark_Ch3_fig3-2_map-filter.png" style="max-width: auto; height: 300px;"/>
+                    ```python
+                    mapex = rdd.map(lambda x: x * x)
+                    ```
+                    - <!-- .element: class="fragment" data-fragment-index="2" -->
+                    If multiple outputs for each input, then use `flatMap()`
+                    - <!-- .element: class="fragment" data-fragment-index="3" -->
+                    Set operations: `distinct()`, `union()`, `intersection()`, `subtract()`, `cartesian()` (expensive)
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### RDD actions
+
+                    - Most common `reduce()`: Takes two inputs and outputs one
+                    ```python
+                    sum = rdd.reduce(lambda x, y: x + y)
+                    ```
+                    - <!-- .element: class="fragment" data-fragment-index="2" -->
+                    `fold()` also asks a _zero_ value for initialization
+                    ```python
+                    sum = rdd.fold(0, lambda x, y: x + y)
+                    ```
+                    <!-- .element: class="fragment" data-fragment-index="2" -->
+                    - <!-- .element: class="fragment" data-fragment-index="3" -->
+                    `aggregate()` asks for accummulation and combine functions. Example that calculates a running sum and count of elements to calculate an average value:
+
+                    ```python
+                    sumCount = nums.aggregate((0, 0),
+                      (lambda acc, value: (acc[0] + value, acc[1] + 1)),
+                      (lambda acc1, acc2: (acc1[0] + acc2[0], acc1[1] + acc2[1])))
+                    return sumCount[0] / float(sumCount[1])
+                    ```
+                    <!-- .element: class="fragment" data-fragment-index="3" -->
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### RDD actions (continued)
+
+                    - `collect()`: Return all elements
+                    - `count()`: Number of elements
+                    - `countByValue()`: Number of times each element occurs in RDD (histogram)
+                    - and more...
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Spark SQL
+
+                    - Uses _DataFrame_ RDD objects that hold semi-structured data
+                    - Can read/write data in JSON, Hive Tables, and Parquet
+                    - SQL interface to be used inside or outside Spark (e.g. JDBC connection or from Tableau)
+                    ```python
+                    hiveCtx = HiveContext(sc)
+                    input = hiveCtx.jsonFile(inputFile)
+                    # Register the input DataFrame
+                    input.registerTempTable("tweets")
+                    # Select tweets based on the retweetCount
+                    topTweets = hiveCtx.sql("""SELECT text, retweetCount FROM tweets
+                      ORDER BY retweetCount LIMIT 10""")
+                    ```
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Closing notes for Spark
+                    <img src="images/Spark_cover.png" style="float: right; max-width: auto; height: 500px;"/>
+
+                    Spark also provides:
+                    - Real-time processing via streaming (Chapter 10)
+                    - Machine learning library _MLlib_ (Chapter 11)
+
+                    More resources:
+                    - [Book's Github repo with examples](https://github.com/databricks/learning-spark)
+                    - [Spark 2.4.4 API documentation](https://spark.apache.org/docs/2.4.4/) - <br>
+                    JetStream image version
+                    - [Spark Quick Start](https://spark.apache.org/docs/latest/quick-start.html)
+                    - [RDD Programming Guide](https://spark.apache.org/docs/latest/rdd-programming-guide.html)
+                  </textarea>
+                </section>
+
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        math: {
+  mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js', // https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js
+  config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
+        },
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280, // 960
+        height: 720, // 700
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+        history: true,
+
+        // Bounds for smallest/largest possible scale to apply to content
+        minScale: 0.2,
+        maxScale: 1.5,
+
+        dependencies: [
+  { src: 'plugin/markdown/marked.js' },
+  { src: 'plugin/markdown/markdown.js' },
+  { src: 'plugin/notes/notes.js', async: true },
+  { src: 'plugin/highlight/highlight.js',
+    async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                // MathJax
+  { src: 'plugin/math/math.js', async: true }
+        ]
+      });
+    </script>
+  </body>
+</html>

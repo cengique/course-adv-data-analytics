@@ -197,6 +197,8 @@
                  - Robert Chansler
               </textarea>
             </section>
+
+
             <section data-markdown>
               <textarea data-template>
                 ### HDFS
@@ -292,6 +294,24 @@
                 - Data Node
                  - Minimum of three copies
               </textarea>
+            </section>
+            <section data-markdown>
+              <textarea data-template>
+                    ### The Hadoop Distributed Filesystem (HDFS)
+
+                    Hadoop works on files in the HDFS that is different than your folders on Ursus.
+                    ```bash
+                    # List files on HDFS
+                    bin/hdfs dfs -ls
+
+                    # Create your user folder inside HDFS
+                    bin/hdfs dfs -mkdir /user
+                    bin/hdfs dfs -mkdir /user/analytics
+
+                    # Copy files to your HDFS folder
+                    bin/hdfs dfs -copyFromLocal file01.txt input
+                    ```
+                  </textarea>
             </section>
           </section> <!-- end of vertical slides -->
           <section> <!-- start of vertical slides -->
@@ -1085,208 +1105,8 @@
              </section>
             </section>
 
-            <section> <!-- Start a new right-direction slide for exercise-->
-             <section data-markdown>
-              <textarea data-template>
-                    ### Hadoop MapReduce Exercise time!
-
-                    - Book word count [Apache MapReduce tutorial](http://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html) ([Computerphile video](https://youtu.be/cvhKoniK5Uo))
-                    <img src="images/ursus.jpg" style="float: right; max-width: auto; height: 200px; margin: 10px;"/>
-
-                    - SSH into Ursus.ggc.edu with given credentials and change passwords
-                    (only works on campus or through Ursus VPN - stay tuned for instructions)
-                    - Once on Ursus, you can setup your environment:
-
-                    ```bash
-                    # Set Java & Hadoop environment
-                    module load java-1.6.0
-                    export HADOOP_HOME=${JAVA_HOME}/lib/tools.jar
-
-                    # Add the Hadoop bin folder to your path
-                    export PATH=${PATH}:~hadoop/hadoop/bin
-                    ```
-                    (To make permanent, add these lines to the end of your `.bashrc` file!)
-              </textarea>
-             </section>
-
-            <section data-markdown>
-              <textarea data-template>
-                    ### The Hadoop Distributed Filesystem (HDFS)
-
-                    Hadoop works on files in the HDFS that is different than your folders on Ursus.
-                    ```bash
-                    # List files on HDFS
-                    hadoop fs -ls /users/IntroParComp/
-
-                    # Create your user folder inside HDFS
-                    hadoop fs -mkdir /users/IntroParComp/cgunay
-
-                    # Create an input subfolder (all files will be used as input)
-                    hadoop fs -mkdir /users/IntroParComp/cgunay/input01
-
-                    # Copy Ursus files to your HDFS folder
-                    hadoop fs -put file01.txt /users/IntroParComp/cgunay/input01/file01
-                    ```
-                    (Replace `cgunay` with your username)
-                  </textarea>
-            </section>
-
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Running the tutorial
-
-                    ```bash
-                    # Run your code with input and output folders
-                    hadoop jar wc.jar WordCount /users/IntroParComp/cgunay/input01 \
-                      /users/IntroParComp/cgunay/output
-
-                    # Copy from HDFS back onto Ursus
-                    hadoop fs -get /users/IntroParComp/cgunay/output/outfile
-
-                    # Show contents of HDFS file
-                    hadoop fs -cat /users/IntroParComp/cgunay/output/outfile
-                    ```
-
-                    - Watch progress and see Hadoop jobs status in browser by forwarding your local ports with:
-                    ```bash
-                    ssh -L 8088:ursus.ggc.edu:8088 -L 50070:ursus.ggc.edu:50070 ursus.ggc.edu
-                    ```
-                    and then pointing any browser to http://localhost:8088 and http://localhost:50070
-
-                  </textarea>
-          </section>
-
-              </section> <!-- end of exercise down-direction -->
-
-              <section> <!-- Start a new right-direction slide for HDFS splitting -->
-                <section data-markdown>
-                  <textarea data-template>
-                    ### HDFS: Hadoop Distributed Filesystem
-
-                    - Optimized to work on parallel hardware:
-
-                    <img src="images/hpc-image.jpg" style="max-width: auto; height: 500px; margin-left: auto;"/>
-
-                  </textarea>
-          </section>
-
-                <section data-markdown>
-                  <textarea data-template>
-                    ### HDFS _local_ data replication
-
-                    - Data shipped out to each machine via _input splits_ for Map tasks
-
-                    <img src="images/Hadoop_Ch2_figure2-2.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
-
-                  </textarea>
-          </section>
-
-                <section data-markdown>
-                  <textarea data-template>
-                    ### HDFS input _splits_ merged into output _part_
-
-                    <img src="images/Hadoop_Ch2_figure2-3.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
-
-                  </textarea>
-          </section>
-
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Workflow with multiple Reduce tasks
-
-                    - Output of Map can be used for different calculations:
-
-                    <img src="images/Hadoop_Ch2_figure2-4.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
-
-                  </textarea>
-          </section>
-
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Reduce step can be omitted
-
-                    - Sometimes Map is all you need:
-
-                    <img src="images/Hadoop_Ch2_figure2-5.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
-
-                  </textarea>
-          </section>
-              </section> <!-- end of HDFS splitting down-section -->
-
-              <section> <!-- Start right-section: Hadoop streaming -->
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Hadoop streaming: Unleash yourself from Java!
-
-                    - Uses Unix standard streams (|) that allows any language to be used for map and reduce tasks!
-                    - Streaming is naturally suited for text processing
-                    - Map/Reduce input is passed as input to your program, and you write to standard output (print)
-                    - Key-value pairs separated with tab characters
-                  </textarea>
-          </section>
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Python example for Hadoop streaming
-
-                    ```python
-                    # Map function
-                    import re
-                    import sys
-
-                    for line in sys.stdin:
-                      val = line.strip()
-                      (year, temp, q) = (val[15:19], val[87:92], val[92:93])
-                      if (temp != "+9999" and re.match("[01459]", q)):
-                        print "%s\t%s" % (year, temp)
-                    ```
-
-                    ```python
-                    # Reduce function
-                    import sys
-
-                    (last_key, max_val) = (None, -sys.maxint)
-                    for line in sys.stdin:
-                      (key, val) = line.strip().split("\t")
-                      if last_key and last_key != key:
-                        print "%s\t%s" % (last_key, max_val)
-                        (last_key, max_val) = (key, int(val))
-                      else:
-                        (last_key, max_val) = (key, max(max_val, int(val)))
-
-                    if last_key:
-                      print "%s\t%s" % (last_key, max_val)
-                    ```
-                  </textarea>
-          </section>
-                <section data-markdown>
-                  <textarea data-template>
-                    ### How to run it
-
-                    On the command line without Hadoop:
-                    ```bash
-                    % cat input/ncdc/sample.txt | \
-                      ch02-mr-intro/src/main/python/max_temperature_map.py | \
-                      sort | ch02-mr-intro/src/main/python/max_temperature_reduce.py
-                    1949 111
-                    1950 22
-                    ```
-
-                    With Hadoop:
-                    ```bash
-                    % hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-*.jar \
-                      -input input/ncdc/sample.txt \
-                      -output output \
-                      -mapper ch02-mr-intro/src/main/python/max_temperature_map.py \
-                      -reducer ch02-mr-intro/src/main/python/max_temperature_reduce.py
-                    ```
-                  </textarea>
-          </section>
-
-              </section> <!-- End right-section: Hadoop streaming -->
-
-              <section> <!-- Post-hadoop -->
-                <section data-markdown>
-                  <textarea data-template>
+          <section data-markdown>
+           <textarea data-template>
                     ### What comes after Hadoop?
 
                     - Hadoop created an ecosystem of projects:
@@ -1299,164 +1119,8 @@
                         - Crunch: High-level API for using Hadoop
                         - [Kafka](https://kafka.apache.org/): Distributed streaming platform
                         - [Spark](https://spark.apache.org/): Another distributed computing framework
-                    - We will give a brief intro to Spark
-                    <!-- .element: class="fragment" data-fragment-index="2" -->
-                  </textarea>
-                </section>
-                <section data-markdown>
-                  <textarea data-template>
-                    <img src="images/Spark_cover.png" style="float: right; max-width: auto; height: 500px;"/>
-                    ### Spark
-
-                    - Since 2009
-                    - 10x-20x faster than Hadoop
-                    - Written in Scala running on JVM
-                    - Can be programmed in Scala, Java, and Python
-
-                  </textarea>
-                </section>
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Spark works with _resilient distributed datasets_ (RDDs)
-
-                    - To use Python for Spark, run: `pyspark`
-                    - A line count program example:
-                    ```python
-                    >>> lines = sc.textFile("README.md") # Create an RDD called lines
-                    >>> lines.count() # Count the number of items in this RDD
-                    127
-                    >>> lines.first() # First item in this RDD, i.e. first line of README.md
-                    u'# Apache Spark'
-                    ```
-                    - Parallel operation completely transparent!
-                    - <!-- .element: class="fragment" data-fragment-index="2" --> `sc` is the `SparkContext` _driver_ to access Spark
-                    and create RDDs
-                    -  <!-- .element: class="fragment" data-fragment-index="3" --> RDD is broken into pieces to run `count()` in parallel
-
-                  </textarea>
-                </section>
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Inside Spark
-
-                    <img src="images/Spark_Ch2_fig2-3_components.png" style="max-width: auto; height: 300px;"/>
-                    - Another example with custom filter function: <!-- .element: class="fragment" data-fragment-index="2" -->
-
-                    ```python
-                    >>> lines = sc.textFile("README.md")
-                    >>> pythonLines = lines.filter(lambda line: "Python" in line)
-                    >>> pythonLines.first()
-                    u'## Interactive Python Shell'
-                    ```
-                    <!-- .element: class="fragment" data-fragment-index="2" -->
-
-                  </textarea>
-                </section>
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Working with RDDs
-
-                    _Transformations_ create new RDDs; e.g.:
-
-                    ```python
-                    >>> pythonLines = lines.filter(lambda line: "Python" in line)
-                    ```
-                    _Actions_ calculate results from RDDs; e.g.:
-
-                    ```python
-                    >>> pythonLines.first()
-                    ```
-
-                  </textarea>
-                </section>
-                <section data-markdown>
-                  <textarea data-template>
-                    ### RDD transformations
-
-                    - Most commonly used: `map()` and `filter()`
-                    <img src="images/Spark_Ch3_fig3-2_map-filter.png" style="max-width: auto; height: 300px;"/>
-                    ```python
-                    mapex = rdd.map(lambda x: x * x)
-                    ```
-                    - <!-- .element: class="fragment" data-fragment-index="2" -->
-                    If multiple outputs for each input, then use `flatMap()`
-                    - <!-- .element: class="fragment" data-fragment-index="3" -->
-                    Set operations: `distinct()`, `union()`, `intersection()`, `subtract()`, `cartesian()` (expensive)
-                  </textarea>
-                </section>
-                <section data-markdown>
-                  <textarea data-template>
-                    ### RDD actions
-
-                    - Most common `reduce()`: Takes two inputs and outputs one
-                    ```python
-                    sum = rdd.reduce(lambda x, y: x + y)
-                    ```
-                    - <!-- .element: class="fragment" data-fragment-index="2" -->
-                    `fold()` also asks a _zero_ value for initialization
-                    ```python
-                    sum = rdd.fold(0, lambda x, y: x + y)
-                    ```
-                    <!-- .element: class="fragment" data-fragment-index="2" -->
-                    - <!-- .element: class="fragment" data-fragment-index="3" -->
-                    `aggregate()` asks for accummulation and combine functions. Example that calculates a running sum and count of elements to calculate an average value:
-
-                    ```python
-                    sumCount = nums.aggregate((0, 0),
-                      (lambda acc, value: (acc[0] + value, acc[1] + 1)),
-                      (lambda acc1, acc2: (acc1[0] + acc2[0], acc1[1] + acc2[1])))
-                    return sumCount[0] / float(sumCount[1])
-                    ```
-                    <!-- .element: class="fragment" data-fragment-index="3" -->
-                  </textarea>
-                </section>
-                <section data-markdown>
-                  <textarea data-template>
-                    ### RDD actions (continued)
-
-                    - `collect()`: Return all elements
-                    - `count()`: Number of elements
-                    - `countByValue()`: Number of times each element occurs in RDD (histogram)
-                    - and more...
-                  </textarea>
-                </section>
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Spark SQL
-
-                    - Uses _DataFrame_ RDD objects that hold semi-structured data
-                    - Can read/write data in JSON, Hive Tables, and Parquet
-                    - SQL interface to be used inside or outside Spark (e.g. JDBC connection or from Tableau)
-                    ```python
-                    hiveCtx = HiveContext(sc)
-                    input = hiveCtx.jsonFile(inputFile)
-                    # Register the input DataFrame
-                    input.registerTempTable("tweets")
-                    # Select tweets based on the retweetCount
-                    topTweets = hiveCtx.sql("""SELECT text, retweetCount FROM tweets
-                      ORDER BY retweetCount LIMIT 10""")
-                    ```
-                  </textarea>
-                </section>
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Closing notes for Spark
-                    <img src="images/Spark_cover.png" style="float: right; max-width: auto; height: 500px;"/>
-
-                    Spark also provides:
-                    - Real-time processing via streaming (Chapter 10)
-                    - Machine learning library _MLlib_ (Chapter 11)
-
-                    More resources:
-                    - [Book's Github repo with examples](https://github.com/databricks/learning-spark)
-                    - [Spark 2.4.4 API documentation](https://spark.apache.org/docs/2.4.4/) - <br>
-                    JetStream image version
-                    - [Spark Quick Start](https://spark.apache.org/docs/latest/quick-start.html)
-                    - [RDD Programming Guide](https://spark.apache.org/docs/latest/rdd-programming-guide.html)
-                  </textarea>
-                </section>
-
-              </section> <!-- beyond Hadoop: Spark -->
+           </textarea>
+          </section>
 
       </div>
     </div>
