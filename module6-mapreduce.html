@@ -197,6 +197,16 @@
                  - Robert Chansler
               </textarea>
             </section>
+            <section data-markdown>
+              <textarea data-template>
+                ### HDFS: Hadoop Distributed Filesystem
+
+                - Optimized to work on parallel hardware:
+
+                <img src="images/hpc-image.jpg" style="max-width: auto; height: 500px; margin-left: auto;"/>
+
+              </textarea>
+      </section>
 
 
             <section data-markdown>
@@ -351,6 +361,49 @@
                   - Executes hadoop sample file using grep on the input directory and stores it in the output directory
               </textarea>
             </section>
+            <section data-markdown>
+              <textarea data-template>
+                ### HDFS _local_ data replication
+
+                - Data shipped out to each machine via _input splits_ for Map tasks
+
+                <img src="images/Hadoop_Ch2_figure2-2.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
+
+              </textarea>
+      </section>
+
+            <section data-markdown>
+              <textarea data-template>
+                ### HDFS input _splits_ merged into output _part_
+
+                <img src="images/Hadoop_Ch2_figure2-3.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
+
+              </textarea>
+      </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              ### Workflow with multiple Reduce tasks
+
+              - Output of Map can be used for different calculations:
+
+              <img src="images/Hadoop_Ch2_figure2-4.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
+
+            </textarea>
+    </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              ### Reduce step can be omitted
+
+              - Sometimes Map is all you need:
+
+              <img src="images/Hadoop_Ch2_figure2-5.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
+
+            </textarea>
+    </section>
+
+
             <section data-markdown>
               <textarea data-template>
                 ### Examine results
