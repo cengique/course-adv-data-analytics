@@ -33,26 +33,40 @@
 
                   #### Cengiz Gunay, Spring 2019
 
-                  #### Reading: Ch 2 Data Science from Scratch
+                  #### Reading: Ch 2 Data Science from Scratch <br> and the [JetBrains Python Tutorial](https://hyperskill.org/tracks/2)
                 </textarea>
               </section>
-	      <section data-markdown>
-                <textarea data-template>
-                  ### Installing Python
+              <section>
+	        <section data-markdown>
+                  <textarea data-template>
+                    ### Why Python?
 
-                  - Data Science from Scratch originally suggested
-                  Python 2.7, but that is now obsolete as of Jan 1, 2020.
-                  In the updated edition of the book,
-                  recommended version is now [Python
-                  3.6](http://www.python.org) or above.
-                  - [Anaconda](https://www.anaconda.com/distribution/) is a package
-                  that includes many useful utilities, but it's big.
-                  - If you can't afford to install Anaconda, install these at least:
+                    - Among users of Python, 58% use it for data analysis [(ZDNet, 2019)](https://www.zdnet.com/article/python-programming-languages-top-uses-tools-developers-reveal-their-choices/)
+                    - For data science, Python is on the top of the list for languages:
+                      - [TowardsDataScience, #1 in 2020](https://towardsdatascience.com/top-9-languages-for-data-science-in-2020-824239f930c)
+                      - [AnalyticInsights 2020](https://www.analyticsinsight.net/top-10-data-science-programming-languages-for-2020/)
+                      - [Tyagi @ Medium.com](https://medium.com/@harshit_tyagi/and-the-best-programming-language-for-data-science-goes-to-f80b9a5b439c)
+
+                  </textarea>
+                </section>
+	        <section data-markdown>
+                  <textarea data-template>
+                    ### Installing Python
+
+                    - *Data Science from Scratch* originally suggested
+                    Python 2.7, but that is now obsolete as of Jan 1, 2020.
+                    In the updated edition of the book,
+                    recommended version is now [Python
+                    3.6](http://www.python.org) or above.
+                    - [Anaconda](https://www.anaconda.com/distribution/) is a package
+                    that includes many useful utilities, but it's big.
+                    - If you can't afford to install Anaconda, install these at least:
                     - Python itself
                     - [pip](https://pypi.python.org/pypi/pip) - Python package manager
                     - [IPython](http://ipython.org/) - an interactive Python shell
-                  (Once you have `pip`, you could just run `pip install ipython`)
-                </textarea>
+                    (Once you have `pip`, you could just run `pip install ipython`)
+                  </textarea>
+                </section>
               </section>
 	      <section data-markdown>
                 <textarea data-template>
@@ -85,6 +99,8 @@
                     - Start Anaconda from menu or run `anaconda-navigator` on command line
                     - Install the Jupyter Notebook application in Anaconda
                     - If it's already installed, click on Launch to start it
+                    - You can also run notebooks online, such as on [Google Colab](https://colab.research.google.com/notebooks/intro.ipynb)
+                    - Some examples: [AI Hub](https://aihub.cloud.google.com/u/0/p/products%2F8f82533a-e827-4cc3-9112-9f76c7d6419e), [TensorFlow Generative Adversarial Network](https://colab.research.google.com/github/tensorflow/gan/blob/master/tensorflow_gan/examples/colab_notebooks/tfgan_on_tpus.ipynb)
                   </textarea>
                 </section>
 
@@ -193,6 +209,7 @@
 
 	      // Factor of the display size that should remain empty around the content
 	      margin: 0.1,
+              history: true,
 
 	      // Bounds for smallest/largest possible scale to apply to content
 	      minScale: 0.2,
