@@ -113,8 +113,8 @@
         </section>
         <section data-markdown>
           <textarea data-template>
-            ### What comes after Hadoop?
-
+            ### Hadoop is dead. Long live Hadoop!
+            
             - Hadoop created an ecosystem of projects:
               - Avro: Data serialization system
               - Flume: Work with data streams
@@ -125,6 +125,8 @@
               - Crunch: High-level API for using Hadoop
               - [Kafka](https://kafka.apache.org/): Distributed streaming platform
               - [Spark](https://spark.apache.org/): Another distributed computing framework
+            - We will give a brief intro to Spark
+            <!-- .element: class="fragment" data-fragment-index="2" -->
           </textarea>
         </section>
     <section> <!-- Begin vertical for Spark Explanation-->
@@ -145,10 +147,7 @@
                 - Up to 100 times faster than Hadoop
                 - Supports in-memory storage of intermediate results
               - Multiple languages supported
-                - Python
-                - Scala
-                - R
-                - Java
+                - Python, Scala, R, Java
               - Advanced Analytics
                  - SQL queries
                  - Streaming data
@@ -161,8 +160,8 @@
               ### Spark and Hadoop Differences
 
               Hadoop:
-              - Hadoop is a batch process
-              - Hadoop processes data from the HDFS and writes intermediate results to HDFS
+              - Batch process
+              - Processes data from the HDFS and writes intermediate results to HDFS
               - Results are written to the HDFS
 
               Spark:
@@ -211,8 +210,8 @@
           </section>
           <section data-markdown>
             <textarea  data-template>
-              ### MLib
-              - Machine Learning Library
+              ### MLib (Machine Learning Library)
+              
               - Tools
                 - ML Algorithms
                   - Classification, Regression, CLustiner, Collaborative Filtering
@@ -252,11 +251,28 @@
         <section> <!-- Spark coding -->
           <section data-markdown>
             <textarea data-template>
-              ### Spark practice and follow-along
+              ### Practice time!
 
               - Log into your VM
               - `cd /home/spark`
-              - Run commands by prefixing with `bin/` (such as `bin/pyspark` or `bin/spark-submit`)
+              - Start by running `bin/pyspark`, which should give you:
+
+              ```bash
+              $ bin/pyspark
+              Python 2.7.12 (default, Dec  4 2017, 14:50:18) 
+              [GCC 5.4.0 20160609] on linux2
+              Type "help", "copyright", "credits" or "license" for more information.
+              Welcome to
+                 ____              __
+                / __/__  ___ _____/ /__
+               _\ \/ _ \/ _ `/ __/  '_/
+              /__ / .__/\_,_/_/ /_/\_\   version 3.0.0-preview2
+                 /_/
+              
+              Using Python version 2.7.12 (default, Dec  4 2017 14:50:18)
+              SparkSession available as 'spark'.
+              >>>
+              ```
             </textarea>
           </section>
           <section data-markdown>
@@ -273,9 +289,9 @@
             u'# Apache Spark'
             ```
             - Parallel operation completely transparent!
-            - `sc` is the `SparkContext` _driver_ to access Spark
-              and create RDDs
-            - RDD is broken into pieces to run `count()` in parallel
+            - <!-- .element: class="fragment" data-fragment-index="2" --> `sc` is the `SparkContext` _driver_ to access Spark
+            and create RDDs
+            -  <!-- .element: class="fragment" data-fragment-index="3" --> RDD is broken into pieces to run `count()` in parallel
           </textarea>
          </section>
          <section data-markdown>
@@ -283,119 +299,158 @@
             ### Inside Spark
 
             <img src="images/Spark_Ch2_fig2-3_components.png" style="max-width: auto; height: 300px;"/>
-            - Another example with custom filter function: <!-- .element: class="fragment" data-fragment-index="2" -->
-
-```python
->>> lines = sc.textFile("README.md")
->>> pythonLines = lines.filter(lambda line: "Python" in line)
->>> pythonLines.first()
-u'## Interactive Python Shell'
-```
+            - Try another example with a custom filter function: <!-- .element: class="fragment" data-fragment-index="2" -->
+                    
+            ```python
+            >>> lines = sc.textFile("README.md")
+            >>> sparkLines = lines.filter(lambda line: "Spark" in line)
+            >>> sparkLines.first()
+            u'# Apache Spark'
+            ```
+            <!-- .element: class="fragment" data-fragment-index="2" -->
         </textarea>
-       </section>
-       <section data-markdown>
-        <textarea data-template>
-          ### Working with RDDs
+         </section>
 
-          - Transformations_ create new RDDs; e.g.:
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Map-Reduce operations generalize to <br/> Transformation-Action with RDDs
 
-```python
->>> pythonLines = lines.filter(lambda line: "Python" in line)
-```
-          - Actions_ calculate results from RDDs; e.g.:
+                    _Transformations_ create new RDDs; e.g.:
+                    
+                    ```python
+                    >>> sparkLines = lines.filter(lambda line: "Spark" in line)
+                    ```
 
-```python
->>> pythonLines.first()
-```
+                    _Actions_ calculate results from RDDs; e.g.: 
+                    
+                    ```python
+                    >>> sparkLines.first()
+                    ```                   
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### RDD transformations: `map()` and `filter()`
 
-        </textarea>
-       </section>
-       <section data-markdown>
-        <textarea data-template>
-         ### RDD transformations
+                    <img src="images/Spark_Ch3_fig3-2_map-filter.png" style="max-width: auto; height: 300px;"/>
+                    
+                    ```python
+                    >>> inputRDD = sc.parallelize([1, 2, 3, 4]) # Create a numeric input RDD
 
-         - Most commonly used: `map()` and `filter()`
-         <img src="images/Spark_Ch3_fig3-2_map-filter.png" style="max-width: auto; height: 300px;"/>
-```python
-mapex = rdd.map(lambda x: x * x)
-```
-         - If multiple outputs for each input, then use `flatMap()`
-         - Set operations: `distinct()`, `union()`, `intersection()`, `subtract()`, `cartesian()` (expensive)
-        </textarea>
-       </section>
-       <section data-markdown>
-        <textarea data-template>
-         ### RDD actions
+                    ```
 
-         - Most common `reduce()`: Takes two inputs and outputs one
-```python
-sum = rdd.reduce(lambda x, y: x + y)
-```
-         - `fold()` also asks a _zero_ value for initialization
-```python
-sum = rdd.fold(0, lambda x, y: x + y)
-```
-         - `aggregate()` asks for accummulation and combine functions. Example that calculates a running sum and count of elements to calculate an average value:
-```python
-sumCount = nums.aggregate((0, 0),
-    (lambda acc, value: (acc[0] + value, acc[1] + 1)),
-    (lambda acc1, acc2: (acc1[0] + acc2[0], acc1[1] + acc2[1])))
-    return sumCount[0] / float(sumCount[1])
-```
-        </textarea>
-       </section>
-      <section data-markdown>
-       <textarea data-template>
-        ### RDD actions (continued)
+                    ```python
+                    >>> outputRDD = inputRDD.map(lambda x: x * x) # MAP
+                    ``` 
+                    <!-- .element: class="fragment" data-fragment-index="2" -->
+                    
+                    ```python
+                    >>> outputRDD = inputRDD.filter(lambda x: x != 1) # FILTER
+                    ``` 
+                    <!-- .element: class="fragment" data-fragment-index="3" -->
 
-        - `collect()`: Return all elements
-        - `count()`: Number of elements
-        - `countByValue()`: Number of times each element occurs in RDD (histogram)
-        - and more...
-       </textarea>
-      </section>
+                    ```python
+                    >>> outputRDD.collect() # Show all results
+                    ``` 
+                    <!-- .element: class="fragment" data-fragment-index="4" -->
+
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### RDD transformations (Continued)
+
+                    - For `map()`, if multiple outputs for each input, then use `flatMap()`
+                    - <!-- .element: class="fragment" data-fragment-index="2" -->
+                    Set operations: 
+                        - `distinct()`
+                        - `union()` 
+                        - `intersection()`
+                        - `subtract()`
+                        - `cartesian()` -> expensive
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### RDD actions
+
+                    - `reduce()`: Takes two inputs and outputs one; output is a scalar
+                    ```python
+                    >>> sum = inputRDD.reduce(lambda x, y: x + y)
+                    >>> sum
+                    10
+                    ```
+                    - <!-- .element: class="fragment" data-fragment-index="2" -->
+                    `fold()` also takes a _zero_ value for initialization
+                    ```python
+                    sum = inputRDD.fold(0, lambda x, y: x + y)
+                    ```
+                    <!-- .element: class="fragment" data-fragment-index="2" -->
+                    - <!-- .element: class="fragment" data-fragment-index="3" -->
+                    `aggregate()` asks for accummulation and combine functions. Example that calculates a running sum and count of elements to calculate an average value:
+                    
+                    ```python
+                    sumCount = inputRDD.aggregate((0, 0),
+                      (lambda acc, value: (acc[0] + value, acc[1] + 1)),
+                      (lambda acc1, acc2: (acc1[0] + acc2[0], acc1[1] + acc2[1])))
+                    return sumCount[0] / float(sumCount[1])
+                    ```
+                    <!-- .element: class="fragment" data-fragment-index="3" -->
+                  </textarea>
+                </section>
+         
         </section> <!-- end spark coding -->
         <section> <!-- SQL and DataFrame -->
-          <section data-markdown>
-            <textarea data-template>
-        ### Spark SQL
+                <section data-markdown>
+                  <textarea data-template>
+                    ### RDDs can act as DataFrames!
 
-        - Uses _DataFrame_ RDD objects that hold semi-structured data
-        - Can read/write data in JSON, Hive Tables, and Parquet
-        - SQL interface to be used inside or outside Spark (e.g. JDBC connection or from Tableau)
-```python
-hiveCtx = HiveContext(sc)
-input = hiveCtx.jsonFile(inputFile)
-# Register the input DataFrame
-input.registerTempTable("tweets")
-# Select tweets based on the retweetCount
-topTweets = hiveCtx.sql("""SELECT text, retweetCount FROM tweets
-  ORDER BY retweetCount LIMIT 10""")
-```
-            </textarea>
-          </section>
-          <section data-markdown>
-            <textarea data-template>
-              ### Spark Dataframes provide flexible quering options
+                    - Can read/write data in JSON, CSV, Hive Tables, and Parquet
+                    - _DataFrame_ holds semi-structured data, supports SQL-like querying
+                    
+                    ```python
+                    df = spark.read.json("examples/src/main/resources/people.json") # also see read.csv()
+                    # Displays the content of the DataFrame to stdout
+                    df.show()
+                    # +----+-------+
+                    # | age|   name|
+                    # +----+-------+
+                    # |null|Michael|
+                    # |  30|   Andy|
+                    # |  19| Justin|
+                    # +----+-------+
+                    #
+                    # Select only the "name" column
+                    df.select("name").show()
+                    # Select people older than 21
+                    df.filter(df['age'] > 21).show()
+                    ```
+                    
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Spark can run SQL queries in parallel
 
-              Spark supports [DataFrames](https://spark.apache.org/docs/latest/sql-getting-started.html#creating-dataframes) natively:
-              
-              ```python
-# load CSV file as DataFrame object in Spark 
-# (read the first row as column headers)
-df = spark.read.csv("SamGroom-assign6/athlete_events.csv", header = True)
-# show info
-df.printSchema()
-df.show()
-# run queries
-males = df.filter(df.Sex == "M")
-malesYears = males.filter(males.Year > 1996).filter(males.Year < 2006)
-              ```
-            </textarea>
-          </section>
+                    - SQL interface to be used inside or outside Spark <br/> (e.g. JDBC connection or from Tableau)
+                    ```python
+                    # Register the DataFrame as a SQL temporary view
+                    df.createOrReplaceTempView("people")
+                    sqlDF = spark.sql("SELECT * FROM people")
+                    sqlDF.show()
+                    # +----+-------+
+                    # | age|   name|
+                    # +----+-------+
+                    # |null|Michael|
+                    # |  30|   Andy|
+                    # |  19| Justin|
+                    # +----+-------+
+                    ```
+                  </textarea>
+                </section>
           <section data-markdown>
             <textarea data-template>
-              ### Also can convert from and to Pandas Dataframes
+              ### Spark Dataframes can be convert from and to Pandas Dataframes
 
               - [Pandas](https://pandas.pydata.org/) provides the standard Dataframe object in Python
               - Enable Apache Arrow in Spark [to use Pandas objects](https://spark.apache.org/docs/latest/sql-pyspark-pandas-with-arrow.html)              
