@@ -160,9 +160,12 @@
             <textarea  data-template>
               ### Spark and Hadoop Differences
 
+              Hadoop:
               - Hadoop is a batch process
               - Hadoop processes data from the HDFS and writes intermediate results to HDFS
               - Results are written to the HDFS
+
+              Spark:
               - Can read data from streaming, local file system, HDFS or other distributed file system
             </textarea>
           </section>
@@ -179,20 +182,20 @@
                 - Immutable distributed collection of objects
               - Divided into logical partitions
                 - Can be computed on different nodes
-                - Can contain any data type or Python, Java or Scala
-                - Can contain UDTs
+                - Can contain any data type or Python, Java, or Scala
+                - Can contain User Defined Types (UDTs)
             </textarea>
           </section>
           <section data-markdown>
             <textarea  data-template>
               ### Spark SQL
               - Integrates relational processing
-              - Supports queries in SQL and HQL(Hive Query Language)
+              - Supports queries in SQL and HQL (Hive Query Language)
               - Supports various data sources
                 - CSV, Text, JSON, etc.
               - Libraries
                 - DataSource API
-                - DataFrane API
+                - DataFrame API
                 - Interpreter and Optimizer
                 - SQL Service
             </textarea>
@@ -246,6 +249,7 @@
             </textarea>
           </section>
         </section> <!-- end Spark Explanation -->
+        <section> <!-- Spark coding -->
         <section data-markdown>
           <textarea data-template>
             ### Spark works with _resilient distributed datasets_ (RDDs)
@@ -341,6 +345,8 @@ sumCount = nums.aggregate((0, 0),
         - and more...
        </textarea>
       </section>
+        </section> <!-- end spark coding -->
+        <section> <!-- SQL and DataFrame -->
       <section data-markdown>
        <textarea data-template>
         ### Spark SQL
@@ -358,7 +364,8 @@ topTweets = hiveCtx.sql("""SELECT text, retweetCount FROM tweets
   ORDER BY retweetCount LIMIT 10""")
 ```
       </textarea>
-     </section>
+      </section>
+        </section>
      <section data-markdown>
       <textarea data-template>
        ### Closing notes for Spark
