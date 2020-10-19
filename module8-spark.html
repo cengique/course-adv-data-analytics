@@ -39,7 +39,7 @@
           <section data-markdown>
             <textarea data-template>
               ### Python example for Hadoop streaming (Mapper)
-              - Need to run chmod a+x map.py & chmod a+x reduce.py to make these executable
+              - Need to run `chmod a+x map.py` to make it executable
               ```python
               #! /usr/bin/python
               # Map function
@@ -54,7 +54,7 @@
           <section data-markdown>
             <textarea data-template>
               ### Python example for Hadoop streaming (Reducer)
-              - Need to run chmod a+x map.py & chmod a+x reduce.py to make these executable
+              - Need to run `chmod a+x reduce.py` to make it executable
 
               ```python
               #! /usr/bin/python
@@ -250,7 +250,16 @@
           </section>
         </section> <!-- end Spark Explanation -->
         <section> <!-- Spark coding -->
-        <section data-markdown>
+          <section data-markdown>
+            <textarea data-template>
+              ### Spark practice and follow-along
+
+              - Log into your VM
+              - `cd /home/spark`
+              - Run commands by prefixing with `bin/` (such as `bin/pyspark` or `bin/spark-submit`)
+            </textarea>
+          </section>
+          <section data-markdown>
           <textarea data-template>
             ### Spark works with _resilient distributed datasets_ (RDDs)
 
@@ -259,7 +268,7 @@
             ```python
             >>> lines = sc.textFile("README.md") # Create an RDD called lines
             >>> lines.count() # Count the number of items in this RDD
-            127
+            127 # May vary based on your version of Spark
             >>> lines.first() # First item in this RDD, i.e. first line of README.md
             u'# Apache Spark'
             ```
@@ -347,8 +356,8 @@ sumCount = nums.aggregate((0, 0),
       </section>
         </section> <!-- end spark coding -->
         <section> <!-- SQL and DataFrame -->
-      <section data-markdown>
-       <textarea data-template>
+          <section data-markdown>
+            <textarea data-template>
         ### Spark SQL
 
         - Uses _DataFrame_ RDD objects that hold semi-structured data
@@ -363,17 +372,61 @@ input.registerTempTable("tweets")
 topTweets = hiveCtx.sql("""SELECT text, retweetCount FROM tweets
   ORDER BY retweetCount LIMIT 10""")
 ```
-      </textarea>
-      </section>
-        </section>
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ### Spark Dataframes provide flexible quering options
+
+              Spark supports [DataFrames](https://spark.apache.org/docs/latest/sql-getting-started.html#creating-dataframes) natively:
+              
+              ```python
+# load CSV file as DataFrame object in Spark 
+# (read the first row as column headers)
+df = spark.read.csv("SamGroom-assign6/athlete_events.csv", header = True)
+# show info
+df.printSchema()
+df.show()
+# run queries
+males = df.filter(df.Sex == "M")
+malesYears = males.filter(males.Year > 1996).filter(males.Year < 2006)
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ### Also can convert from and to Pandas Dataframes
+
+              - [Pandas](https://pandas.pydata.org/) provides the standard Dataframe object in Python
+              - Enable Apache Arrow in Spark [to use Pandas objects](https://spark.apache.org/docs/latest/sql-pyspark-pandas-with-arrow.html)              
+
+              ```python
+import numpy as np
+import pandas as pd
+
+# Enable Arrow-based columnar data transfers
+spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", "true")
+
+# Generate a Pandas DataFrame
+pdf = pd.DataFrame(np.random.rand(100, 3))
+
+# Create a Spark DataFrame from a Pandas DataFrame using Arrow
+df = spark.createDataFrame(pdf)
+
+# Convert the Spark DataFrame back to a Pandas DataFrame using Arrow
+result_pdf = df.select("*").toPandas()
+              ```
+            </textarea>
+          </section>
+        </section> <!-- end SQL and DataFrame -->
      <section data-markdown>
       <textarea data-template>
        ### Closing notes for Spark
        <img src="images/Spark_cover.png" style="float: right; max-width: auto; height: 500px;"/>
 
        Spark also provides:
-        - Real-time processing via streaming (Chapter 10)
-        - Machine learning library _MLlib_ (Chapter 11)
+        - [Real-time processing via streaming](https://spark.apache.org/docs/latest/streaming-programming-guide.html) (Chapter 10)
+        - [Machine learning library, _MLlib_](https://spark.apache.org/docs/latest/ml-guide.html) (Chapter 11)
 
         More resources:
          - [Book's Github repo with examples](https://github.com/databricks/learning-spark)
