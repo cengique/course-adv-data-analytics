@@ -38,22 +38,6 @@
         <section> <!-- Begin vertical for Hadoop Streaming -->
           <section data-markdown>
             <textarea data-template>
-              ### What comes after Hadoop?
-
-              - Hadoop created an ecosystem of projects:
-                - Avro: Data serialization system
-                - Flume: Work with data streams
-                - Sqoop: Interface with traditional relational DBs
-                - Hive: SQL queries converted to MapReduce
-                - [Pig](https://www.slideshare.net/kevinweil/hadoop-pig-and-twitter-nosql-east-2009/): Hadoop processing with custom high-level language
-                - Parquet: Columnar storage for nested data
-                - Crunch: High-level API for using Hadoop
-                - [Kafka](https://kafka.apache.org/): Distributed streaming platform
-                - [Spark](https://spark.apache.org/): Another distributed computing framework
-            </textarea>
-          </section>
-          <section data-markdown>
-            <textarea data-template>
               ### Python example for Hadoop streaming (Mapper)
               - Need to run chmod a+x map.py & chmod a+x reduce.py to make these executable
               ```python
@@ -127,7 +111,23 @@
             </textarea>
           </section>
         </section>
-        <section> <!-- Begin vertical for Spark Explanation-->
+        <section data-markdown>
+          <textarea data-template>
+            ### What comes after Hadoop?
+
+            - Hadoop created an ecosystem of projects:
+              - Avro: Data serialization system
+              - Flume: Work with data streams
+              - Sqoop: Interface with traditional relational DBs
+              - Hive: SQL queries converted to MapReduce
+              - [Pig](https://www.slideshare.net/kevinweil/hadoop-pig-and-twitter-nosql-east-2009/): Hadoop processing with custom high-level language
+              - Parquet: Columnar storage for nested data
+              - Crunch: High-level API for using Hadoop
+              - [Kafka](https://kafka.apache.org/): Distributed streaming platform
+              - [Spark](https://spark.apache.org/): Another distributed computing framework
+          </textarea>
+        </section>
+    <section> <!-- Begin vertical for Spark Explanation-->
           <section data-markdown>
             <textarea data-template>
               <img src="images/Spark_cover.png" style="float: right; max-width: auto; height: 500px;"/>
