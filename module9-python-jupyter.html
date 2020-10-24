@@ -1,0 +1,184 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Module 9 - Data Science with Jupyter Notebooks - ITEC 4220 Advanced Data Analytics</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+	  <div class="reveal">
+	    <div class="slides">
+	      <section data-markdown>
+                <textarea data-template>
+                  <img src="images/Jupyter_logo.svg" style="float: right; background-color: white; max-width: auto; height: 300px; margin: 1em;"/>
+                  ## ITEC 4220 - Advanced Data Analytics
+
+                  ### Module 9 - Data Science with Jupyter Notebooks
+
+                  #### Cengiz Gunay and Richard Price, Fall 2020
+
+                  #### Reading: Ch 3 Data Science from Scratch 
+                </textarea>
+              </section>              
+              <section> <!-- jupyter -->
+	        <section data-markdown>
+                  <textarea data-template>
+                    ### A more visual editor for Python: Jupyter
+
+                    <img src="images/jupyter-notebook.png" style="max-width: auto; height: 600px; margin: 1em;"/>
+
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Jupyter
+
+                    - Included in the Anaconda distribution
+                    - Start Anaconda from menu or run `anaconda-navigator` on command line
+                    - Install the Jupyter Notebook application in Anaconda
+                    - If it's already installed, click on Launch to start it
+                    - You can also run notebooks online, such as on [Google Colab](https://colab.research.google.com/notebooks/intro.ipynb)
+                    - Some examples: [AI Hub](https://aihub.cloud.google.com/u/0/p/products%2F8f82533a-e827-4cc3-9112-9f76c7d6419e), [TensorFlow Generative Adversarial Network](https://colab.research.google.com/github/tensorflow/gan/blob/master/tensorflow_gan/examples/colab_notebooks/tfgan_on_tpus.ipynb)
+                  </textarea>
+                </section>
+
+              </section>
+
+              <section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Other significant Python modules
+
+                    Our Focus here:
+                    - [NumPy](https://numpy.org/doc/stable) - Allows defining N-dimensional arrays
+                    - [pandas](https://pandas.pydata.org/) - Similar to R's _DataFrame_ object, requires _NumPy_
+                    - [Matplotlib](https://matplotlib.org/) - Standard plotting library (default for _pandas_)
+
+                    You should also know about:
+                    - [scikit-learn](http://scikit-learn.org) - Machine learning library
+                    - [keras](https://keras.io/) - Neural network/deep learning library
+                    - [TensorFlow](https://www.tensorflow.org/overview) - More advanced ML library, based on Keras API standard.
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### An example numerical analysis in Python
+
+                    Load your CSV file using the [Pandas method](https://pandas.pydata.org/docs/getting_started/intro_tutorials/02_read_write.html#how-do-i-read-and-write-tabular-data):
+
+                    ```python
+                    >> import pandas as pd
+                    >> mydata = pd.read_csv("myfile.csv")
+                    ```
+
+                    Then print the first and last 5 rows like this:
+                    ```python
+                    >> mydata
+                    ```
+
+                    Show the inferred data types of each of your columns:
+                    ```python
+                    >> mydata.dtypes
+                    ```
+
+                    And see a technical summary:
+                    ```python
+                    >> mydata.info()
+                    ```
+
+                    (also see the [10-minutes to Pandas
+                    tutorial](https://pandas.pydata.org/docs/getting_started/10min.html). alternatively,
+                    you can also use [plain Python to load a CSV
+                    file](https://docs.python.org/3/library/csv.html).)
+
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Calculate average of a data column
+
+                    Pick a data column:
+                    ```python
+                    >> for age in mydata["age"]
+                    >>   sum += age
+                    >> print sum/mydata.shape[0]
+                    ```
+
+                    Vectorized version: <!-- .element: class="fragment" data-fragment-index="2" -->
+                    ```python
+                    >> mydata["age"].sum()/mydata.shape[0]
+                    ```
+                    <!-- .element: class="fragment" data-fragment-index="2" -->
+
+                    One-step solution: <!-- .element: class="fragment" data-fragment-index="3" -->
+                    ```python
+                    >> mydata["age"].mean()
+                    ```
+                    <!-- .element: class="fragment" data-fragment-index="3" -->
+
+                    (see [my Colab notebook](https://colab.research.google.com/drive/1c9GTC1k3krc13Lq0QxZKEyRMUygifUv_#scrollTo=2QVofHAaLbPc) and [plotting in pandas using
+                    matplotlib](https://pandas.pydata.org/docs/getting_started/intro_tutorials/04_plotting.html).)
+
+                  </textarea>
+                </section>
+              </section>
+
+	    </div>
+	  </div>
+
+	  <script src="lib/js/head.min.js"></script>
+	  <script src="js/reveal.js"></script>
+
+	  <script>
+	    // More info about config & dependencies:
+	    // - https://github.com/hakimel/reveal.js#configuration
+	    // - https://github.com/hakimel/reveal.js#dependencies
+	    Reveal.initialize({
+	      math: {
+		mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js', // https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js
+		config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
+	      },
+
+	      // The "normal" size of the presentation, aspect ratio will be preserved
+	      // when the presentation is scaled to fit different resolutions. Can be
+	      // specified using percentage units.
+	      width: 1280, // 960
+	      height: 720, // 700
+
+	      // Factor of the display size that should remain empty around the content
+	      margin: 0.1,
+              history: true,
+
+	      // Bounds for smallest/largest possible scale to apply to content
+	      minScale: 0.2,
+	      maxScale: 1.5,
+
+	      dependencies: [
+		{ src: 'plugin/markdown/marked.js' },
+		{ src: 'plugin/markdown/markdown.js' },
+		{ src: 'plugin/notes/notes.js', async: true },
+		{ src: 'plugin/highlight/highlight.js',
+		  async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                // MathJax
+		{ src: 'plugin/math/math.js', async: true }
+	      ]
+	    });
+	  </script>
+	</body>
+</html>
