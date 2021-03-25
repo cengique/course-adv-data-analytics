@@ -45,10 +45,11 @@
               # Map function
               import sys
               for line in sys.stdin:
-                val = line.strip()
-                (date, temp) = (val[10:14], val[15:20])
-                print ("%s\t%s" % (date, temp))
+                  val = line.strip()
+                  (date, temp) = (val[10:14], val[15:20])
+                  print ("%s\t%s" % (date, temp))
               ```
+              - Streaming version will take standard input and print out results
             </textarea>
           </section>
           <section data-markdown>
