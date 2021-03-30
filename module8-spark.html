@@ -217,7 +217,7 @@
                 - ML Algorithms
                   - Classification, Regression, Clustering, Collaborative Filtering
                 - Featurization
-                  - Feature extraction, transformations, and dimention reduction
+                  - Feature extraction, transformations, and dimension reduction
               - Pipelines
                 - Contruct and training ML pipelines
               - Persistence
@@ -232,12 +232,13 @@
               - API for graphs and graph-parallel computation
               - Extends RDD with a Resilient Distributed Property Graph
               - Can have parallel edges to define multiple relationships between vertices
+              ### GraphFrames
+              - Similar to GraphX but built on top of DataFrames
             </textarea>
           </section>
           <section data-markdown>
             <textarea  data-template>
-              ### GraphFrames
-              - Similar to GraphX but built on top of DataFrames
+              ### DataSet and DataFrame
               - DataSet
                 - Distributed collection of data
                 - Strong typing
@@ -304,8 +305,9 @@
 
             ```python
             >>> lines = sc.textFile("README.md")
-            >>> sparkLines = lines.filter(lambda line: "Spark" in line)
-            >>> sparkLines.first()
+            >>> sparkLines = lines.filter(lambda line: "Spark" in line) # like grep on Hadoop
+            >>> sparkLines.count() # a lower number than before
+            >>> sparkLines.first() 
             u'# Apache Spark'
             ```
             <!-- .element: class="fragment" data-fragment-index="2" -->
@@ -486,7 +488,7 @@ result_pdf = df.select("*").toPandas()
 
         More resources:
          - [Book's Github repo with examples](https://github.com/databricks/learning-spark)
-         - [Spark 2.4.4 API documentation](https://spark.apache.org/docs/2.4.4/) - <br>
+         - [Spark 3.0.0 API documentation](https://spark.apache.org/docs/3.0.0/) - <br>
             JetStream image version
          - [Spark Quick Start](https://spark.apache.org/docs/latest/quick-start.html)
          - [RDD Programming Guide](https://spark.apache.org/docs/latest/rdd-programming-guide.html)
