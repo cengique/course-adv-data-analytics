@@ -75,7 +75,7 @@
 
              - Make resources available to customers
                - Enable resource sharing
-             - Transparancy
+             - Transparency
                - Hide distributed nature
              - Security and privacy
              - Scalabilty
@@ -338,27 +338,36 @@
             </section>
             <section data-markdown>
               <textarea data-template>
-                ### Start HDFS
-
-                - cd /home/hadoop
-                - sbin/start-dfs.sh
+                - Start HDFS
+                ```bash
+                cd /home/hadoop
+                sbin/start-dfs.sh
+                ```
                 - Open a web browser when start completes
                 - Connect to your machine, port 50070
-                  - 172.20.0.144:50070
+                  - e.g., `http://172.20.0.144:50070`
                 - Hadoop console
               </textarea>
             </section>
             <section data-markdown>
               <textarea data-template>
-                ### Create directories on HDFS
 
-                - bin/hdfs dfs -mkdir /user
-                - bin/hdfs dfs -mkdir /user/analytics
-                - We need to upload data for processing
-                  - bin/hdfs dfs -put etc/hadoop input
-                    - Copies the contents of the etc/hadoop directory to the HDFS in a directory input
-                - bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.8.1.jar grep input output 'dfs[a-z.]+'
-                  - Executes hadoop sample file using grep on the input directory and stores it in the output directory
+                Create directories on HDFS
+                ```bash
+                bin/hdfs dfs -mkdir /user
+                bin/hdfs dfs -mkdir /user/analytics
+                ```
+                We need to upload data for processing
+                ```bash
+                bin/hdfs dfs -put etc/hadoop input
+                ```
+                Copies the contents of the `etc/hadoop` directory to the HDFS in a directory `input`
+
+                ```bash
+                bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.8.1.jar \
+                           grep input output 'dfs[a-z.]+'
+                ```
+                Executes hadoop sample file using grep on the input directory and stores it in the output directory
               </textarea>
             </section>
             <section data-markdown>
@@ -408,9 +417,13 @@
               <textarea data-template>
                 ### Examine results
 
-                - bin/hdfs dfs -ls output
-                  - Shows the content of the output subdirectory
-                - bin/hdfs dfs -copyToLocal output/part-r-00000 output.txt
+                ```bash
+                bin/hdfs dfs -ls output
+                ```
+                Shows the content of the output subdirectory
+                ```bash
+                bin/hdfs dfs -copyToLocal output/part-r-00000 output.txt
+                ```
               </textarea>
             </section>
             <section data-markdown>
@@ -437,17 +450,26 @@
             </section>
             <section data-markdown>
               <textarea data-template>
-                ### Hadoop
+                ### Hadoop tips and troubleshooting
 
                 - Run your job again
                 - Remove output directory
-                  - bin/hdfs dfs -rm -R output
+                ```bash
+                bin/hdfs dfs -rm -R output
+                ```
                 - Remove local file
                 - Shut down HDFS
-                  - sbin/stop-dfs.sh
-                - Two ways to upload your file
-                  - put the directory like we did above
-                  - Create the directory and use bin/hdfs dfs -copyFromLocal fileName destination
+                ```bash
+                sbin/stop-dfs.sh
+                ```
+                
+                Two ways to upload your file:
+                1. put the directory like we did above
+                1. Create the directory and use
+                
+                ```bash
+                bin/hdfs dfs -copyFromLocal fileName destination
+                ```
               </textarea>
             </section>
           </section> <!-- end of vertical slides -->
@@ -467,8 +489,7 @@
                 - Internet Archive: 18.5 petabytes
                 - Google, Facebook, Microsoft, Amazon - 1,200 petabytes of data
 
-               Numbers from textbook, circa 2013-2014.
-               Updates from multiple web sites
+                *Numbers from textbook, circa 2013-2014. Updates from multiple web sites.*
               </textarea>
             </section>
             <section data-markdown>
@@ -564,7 +585,7 @@
              </section>
              <section data-markdown>
               <textarea data-template>
-                    ### Map in Java: (ID, row of text) `$\Rightarrow$` (year, temp)
+                    ### Map in Java: (ID, row of text) `$\Rightarrow$` (monthDay, temp)
 
                     ```java
                     public class MaxTemperatureMapper extends MapReduceBase implements
@@ -588,23 +609,24 @@
              </section>
              <section data-markdown>
               <textarea data-template>
-                ### Reduce: (year, [temps]) `$\Rightarrow$` (year, max temp)
+                ### Reduce: (year, [temps]) `$\Rightarrow$` (monthDay, max temp)
 ```java
-                    public class MaxTemperatureReducer extends MapReduceBase implements
-                            Reducer<Text, IntWritable, Text, IntWritable> {
-                        @Override
-                        public void reduce(Text key, Iterator<IntWritable> values, OutputCollector<Text, IntWritable> output,
-                                           Reporter reporter) throws IOException {
-                            System.out.println("In the reduce");
-                            int maxValue = Integer.MIN_VALUE;
-                            while (values.hasNext()) {
-                              IntWritable value = (IntWritable) values.next();
-                              System.out.println("Value for " + key + " is " + value.get());
-                              maxValue = Math.max(maxValue, value.get());
-                            }
-                            output.collect(key, new IntWritable(maxValue));
-                        }
-                    }
+public class MaxTemperatureReducer extends MapReduceBase implements
+        Reducer<Text, IntWritable, Text, IntWritable> {
+    @Override
+    public void reduce(Text key, Iterator<IntWritable> values,
+                       OutputCollector<Text, IntWritable> output,
+                       Reporter reporter) throws IOException {
+        System.out.println("In the reduce");
+        int maxValue = Integer.MIN_VALUE;
+        while (values.hasNext()) {
+          IntWritable value = (IntWritable) values.next();
+          System.out.println("Value for " + key + " is " + value.get());
+          maxValue = Math.max(maxValue, value.get());
+        }
+        output.collect(key, new IntWritable(maxValue));
+    }
+}
 ```
               </textarea>
              </section>
@@ -612,26 +634,26 @@
               <textarea data-template>
                     ### The Driver Program
 
-                    ```java
-                    public class TemperatureDriver {
-                      public static void main(String[] args) throws Exception {
-                          JobClient myClient = new JobClient();
-                          JobConf jobConf = new JobConf(TemperatureDriver.class); //Create a configuration object for the job
-                          jobConf.setJobName("MaxTemp"); //Set a name of the Job
-                          jobConf.setOutputKeyClass(Text.class); //Specify data type of output key and value
-                          jobConf.setOutputValueClass(IntWritable.class);
-                          jobConf.setMapperClass(MaxTemperatureMapper.class); //Specify names of Mapper and Reducer class
-                          jobConf.setReducerClass(MaxTemperatureReducer.class);
-                          jobConf.setInputFormat(TextInputFormat.class); //Specify formats of the data type of Input and output
-                          jobConf.setOutputFormat(TextOutputFormat.class);
-                          FileInputFormat.setInputPaths(jobConf, new Path(args[0])); //arg[0] = input directory, arg[1] = output directory
-                          FileOutputFormat.setOutputPath(jobConf, new Path(args[1]));
-                          myClient.setConf(jobConf);
-                          try { JobClient.runJob(jobConf); //run the job
-                          } catch (Exception e) { e.printStackTrace(); }
-                      }
-                    }
-                    ```
+```java
+public class TemperatureDriver {
+  public static void main(String[] args) throws Exception {
+      JobClient myClient = new JobClient();
+      JobConf jobConf = new JobConf(TemperatureDriver.class); //Create a configuration object for the job
+      jobConf.setJobName("MaxTemp"); //Set a name of the Job
+      jobConf.setOutputKeyClass(Text.class); //Specify data type of output key and value
+      jobConf.setOutputValueClass(IntWritable.class);
+      jobConf.setMapperClass(MaxTemperatureMapper.class); //Specify names of Mapper and Reducer class
+      jobConf.setReducerClass(MaxTemperatureReducer.class);
+      jobConf.setInputFormat(TextInputFormat.class); //Specify formats of the data type of Input and output
+      jobConf.setOutputFormat(TextOutputFormat.class);
+      FileInputFormat.setInputPaths(jobConf, new Path(args[0])); //arg[0] = input directory, arg[1] = output directory
+      FileOutputFormat.setOutputPath(jobConf, new Path(args[1]));
+      myClient.setConf(jobConf);
+      try { JobClient.runJob(jobConf); //run the job
+      } catch (Exception e) { e.printStackTrace(); }
+  }
+}
+```
               </textarea>
              </section>
              <section data-markdown>
@@ -646,7 +668,9 @@
                       - Right click on the out directory
                         - Open in Terminal
                       - In the terminal window
-                        - jar cfm MaxTemp.jar Manifest.txt *.class
+                      ```bash
+                      jar cfm MaxTemp.jar Manifest.txt *.class
+                      ```
               </textarea>
             </section>
             <section data-markdown>
@@ -671,17 +695,29 @@
               <textarea data-template>
                       ### Go to your VM from your terminal/git bash window
                       - Start your HDFS
-                        - sbin/start-dfs.sh
+                      ```bash
+                      sbin/start-dfs.sh
+                      ```
                       - Create a directory on the HDFS
-                        - bin/hdfs dfs -mkdir inputTemp
-                      - Copy your file (Daily.txt) to inputTemp
-                        - bin/hdfs dfs -copyFromLocal Daily.txt inputTemp
+                      ```bash
+                      bin/hdfs dfs -mkdir inputTemp
+                      ```
+                      - Copy your file (`Daily.txt`) to inputTemp
+                      ```bash
+                      bin/hdfs dfs -copyFromLocal Daily.txt inputTemp
+                      ```
                       - Run the job
-                        - bin/hadoop jar MaxTemp.jar inputTemp outputTemp
+                      ```bash
+                      bin/hadoop jar MaxTemp.jar inputTemp outputTemp
+                      ```
                       - Look for the results
-                        - bin/hdfs dfs -ls outputTemp
+                      ```bash
+                      bin/hdfs dfs -ls outputTemp
+                      ```
                       - Copy it to the VM file system
-                        - bin/hdfs dfs -copyToLocal outputTemp/part-00000 max.txt
+                      ```bash
+                      bin/hdfs dfs -copyToLocal outputTemp/part-00000 max.txt
+                      ```
               </textarea>
             </section>
             <section data-markdown>
