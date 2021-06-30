@@ -495,7 +495,6 @@
             - Try another example with a custom filter function: <!-- .element: class="fragment" data-fragment-index="2" -->
 
             ```python
-            >>> lines = sc.textFile("README.md")
             >>> sparkLines = lines.filter(lambda line: "Spark" in line) # like grep on Hadoop
             >>> sparkLines.count() # a lower number than before
             >>> sparkLines.first()
