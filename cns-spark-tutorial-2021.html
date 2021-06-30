@@ -311,15 +311,116 @@
                 <section data-markdown>
                   <textarea data-template>
                     <img src="images/Spark_cover.png" style="float: right; max-width: auto; height: 500px;"/>
-                    ### Spark
+                    ### Spark Features
 
-                    - Since 2009
-                    - 10x-20x faster than Hadoop
-                    - Written in Scala running on JVM
-                    - Can be programmed in Scala, Java, and Python
+                    - Developed in 2009, using Scala running on JVM
+                    
+                    - Speed:
+                      - Up to 100 times faster than Hadoop
+                      - In-memory storage of intermediate results
+                    - Multiple languages supported:
+                      - Python, Scala, R, Java
+                    - Advanced Analytics:
+                      - SQL queries, Streaming data
+                      - Machine learning, Graph algorithms
                     
                   </textarea>
                 </section>
+          <section data-markdown>
+            <textarea  data-template>
+              ### Spark and Hadoop Differences
+
+              Hadoop:
+              - Batch process
+              - Processes data from the HDFS and writes intermediate results to HDFS
+              - Results are written to the HDFS
+
+              Spark:
+              - Can read data from streaming, local file system, HDFS or other distributed file system
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea  data-template>
+              ### Spark Components
+              <img src="images/SparkComponents.png" style="max-width: auto; height: 500px;"/>
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea  data-template>
+              ### Resilient Distributed Datasets (RDD)
+              - Fundamental data structure for Spark
+                - Immutable distributed collection of objects
+              - Divided into logical partitions
+                - Can be computed on different nodes
+                - Can contain any data type or Python, Java, or Scala
+                - Can contain User Defined Types (UDTs)
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea  data-template>
+              ### Spark SQL
+              - Integrates relational processing
+              - Supports queries in SQL and HQL (Hive Query Language)
+              - Supports various data sources
+                - CSV, Text, JSON, etc.
+              - Libraries
+                - DataSource API
+                - DataFrame API
+                - Interpreter and Optimizer
+                - SQL Service
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea  data-template>
+              ### Spark Streaming
+              - Process real-time streaming data
+              - Fundamental stream unit is DStream
+                - Series of RDDs to process real-time data
+              - Viewed as a continually growing table
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea  data-template>
+              ### MLib (Machine Learning Library)
+
+              - Tools
+                - ML Algorithms
+                  - Classification, Regression, Clustering, Collaborative Filtering
+                - Featurization
+                  - Feature extraction, transformations, and dimension reduction
+              - Pipelines
+                - Contruct and training ML pipelines
+              - Persistence
+                - Saving and loading algorithms, models and pipelines
+              - Utilities
+                - Linear algebra, statistics, data handling
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea  data-template>
+              ### GraphX
+              - API for graphs and graph-parallel computation
+              - Extends RDD with a Resilient Distributed Property Graph
+              - Can have parallel edges to define multiple relationships between vertices
+              ### GraphFrames
+              - Similar to GraphX but built on top of DataFrames
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea  data-template>
+              ### DataSet and DataFrame
+              - DataSet
+                - Distributed collection of data
+                - Strong typing
+                - Available in Scala and Java
+              - DataFrame
+                - DataSet organized into named columns
+                - Representation of DataSet in rows
+                - Available in Scala, Java, Python and R
+            </textarea>
+          </section>
+              </section> <!-- end Spark Explanation -->
+              <section> <!-- Spark practice -->
                 <section data-markdown>
                   <textarea data-template>
                     ### Practice time! Connect to our Spark server
@@ -367,57 +468,58 @@
                     ```                    
                   </textarea>
                 </section>
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Spark works with _resilient distributed datasets_ (RDDs)
+          <section data-markdown>
+          <textarea data-template>
+            ### Spark works with _resilient distributed datasets_ (RDDs)
 
-                    - Try these on the `pyspark` command line
-                    - A line count program example:
-                    ```python
-                    >>> lines = sc.textFile("data/tutorial.md") # Create an RDD called lines
-                    >>> lines.count() # Count the number of items in this RDD
-                    67
-                    >>> lines.first() # First item in this RDD, i.e. first line of tutorial.md
-                    '---'
-                    ```
-                    - Parallel operation completely transparent!
-                    - <!-- .element: class="fragment" data-fragment-index="2" --> `sc` is the `SparkContext` _driver_ to access Spark
-                    and create RDDs
-                    -  <!-- .element: class="fragment" data-fragment-index="3" --> RDD is broken into pieces to run `count()` in parallel
+            - Try these on the `pyspark` command line:
+            - A line count program example:
+            ```python
+            >>> lines = sc.textFile("data/tutorial.md") # Create an RDD called lines
+            >>> lines.count() # Count the number of items in this RDD
+            67
+            >>> lines.first() # First item in this RDD, i.e. first line of tutorial.md
+            '---'
+            ```
+            - Parallel operation completely transparent!
+            - <!-- .element: class="fragment" data-fragment-index="2" --> `sc` is the `SparkContext` _driver_ to access Spark
+            and create RDDs
+            -  <!-- .element: class="fragment" data-fragment-index="3" --> RDD is broken into pieces to run `count()` in parallel
+          </textarea>
+         </section>
+         <section data-markdown>
+          <textarea data-template>
+            ### Inside Spark
 
-                  </textarea>
-                </section>
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Inside Spark 
+            <img src="images/Spark_Ch2_fig2-3_components.png" style="max-width: auto; height: 300px;"/>
+            - Try another example with a custom filter function: <!-- .element: class="fragment" data-fragment-index="2" -->
 
-                    <img src="images/Spark_Ch2_fig2-3_components.png" style="max-width: auto; height: 300px;"/>
-                    - Try another example with a custom filter function: <!-- .element: class="fragment" data-fragment-index="2" -->
-                    
-                    ```python
-                    >>> lines = sc.textFile("data/tutorial.md")
-                    >>> sparkLines = lines.filter(lambda line: "Spark" in line)
-                    >>> sparkLines.first()
-                    'tools, such as [Apache Spark](https://spark.apache.org/). These tools'
-                    ```
-                    <!-- .element: class="fragment" data-fragment-index="2" -->
-                    
-                  </textarea>
-                </section>
+            ```python
+            >>> lines = sc.textFile("README.md")
+            >>> sparkLines = lines.filter(lambda line: "Spark" in line) # like grep on Hadoop
+            >>> sparkLines.count() # a lower number than before
+            >>> sparkLines.first()
+            'tools, such as [Apache Spark](https://spark.apache.org/). These tools'
+            ```
+            <!-- .element: class="fragment" data-fragment-index="2" -->
+        </textarea>
+         </section>
+
                 <section data-markdown>
                   <textarea data-template>
                     ### Map-Reduce operations generalize to <br/> Transformation-Action with RDDs
 
                     _Transformations_ create new RDDs; e.g.:
-                    
+
                     ```python
                     >>> sparkLines = lines.filter(lambda line: "Spark" in line)
                     ```
+
                     _Actions_ calculate results from RDDs; e.g.:
-                    
+
                     ```python
                     >>> sparkLines.first()
-                    ```                   
+                    ```
                   </textarea>
                 </section>
                 <section data-markdown>
@@ -425,7 +527,7 @@
                     ### RDD transformations: `map()` and `filter()`
 
                     <img src="images/Spark_Ch3_fig3-2_map-filter.png" style="max-width: auto; height: 300px;"/>
-                    
+
                     ```python
                     >>> inputRDD = sc.parallelize([1, 2, 3, 4]) # Create a numeric input RDD
 
@@ -433,18 +535,20 @@
 
                     ```python
                     >>> outputRDD = inputRDD.map(lambda x: x * x) # MAP
-                    ``` 
+                    ```
                     <!-- .element: class="fragment" data-fragment-index="2" -->
-                    
-                    ```python
-                    >>> outputRDD = inputRDD.filter(lambda x: x != 1) # FILTER
-                    ``` 
-                    <!-- .element: class="fragment" data-fragment-index="3" -->
 
                     ```python
                     >>> outputRDD.collect() # Show all results
-                    ``` 
+                    ```
+                    <!-- .element: class="fragment" data-fragment-index="3" -->
+
+                    ```python
+                    >>> outputRDD = inputRDD.filter(lambda x: x != 1) # FILTER, run collect() again
+                    ```
                     <!-- .element: class="fragment" data-fragment-index="4" -->
+
+                    
 
                   </textarea>
                 </section>
@@ -454,9 +558,9 @@
 
                     - For `map()`, if multiple outputs for each input, then use `flatMap()`
                     - <!-- .element: class="fragment" data-fragment-index="2" -->
-                    Set operations: 
+                    Set operations:
                         - `distinct()`
-                        - `union()` 
+                        - `union()`
                         - `intersection()`
                         - `subtract()`
                         - `cartesian()` -> expensive
@@ -466,19 +570,21 @@
                   <textarea data-template>
                     ### RDD actions
 
-                    - Most common `reduce()`: Takes two inputs and outputs one
+                    - `reduce()`: Takes two inputs and outputs one; output is a scalar
                     ```python
-                    sum = inputRDD.reduce(lambda x, y: x + y)
+                    >>> sum = inputRDD.reduce(lambda x, y: x + y)
+                    >>> sum
+                    10
                     ```
                     - <!-- .element: class="fragment" data-fragment-index="2" -->
-                    `fold()` also takes a _zero_ value for initialization
+                    `fold()`: Similar, also takes a _zero_ value for initialization
                     ```python
                     sum = inputRDD.fold(0, lambda x, y: x + y)
                     ```
                     <!-- .element: class="fragment" data-fragment-index="2" -->
                     - <!-- .element: class="fragment" data-fragment-index="3" -->
                     `aggregate()` asks for accummulation and combine functions. Example that calculates a running sum and count of elements to calculate an average value:
-                    
+
                     ```python
                     sumCount = inputRDD.aggregate((0, 0),
                       (lambda acc, value: (acc[0] + value, acc[1] + 1)),
@@ -498,12 +604,15 @@
                     - and more...
                   </textarea>
                 </section>
+              </section> <!-- end spark coding -->
+              <section> <!-- SQL and DataFrame -->
                 <section data-markdown>
                   <textarea data-template>
-                    ### RRDs can act as DataFrames!
+                    ### RDDs can act as DataFrames!
 
                     - Can read/write data in JSON, CSV, Hive Tables, and Parquet
                     - _DataFrame_ holds semi-structured data, supports SQL-like querying
+
                     ```python
                     df = spark.read.json("examples/src/main/resources/people.json") # also see read.csv()
                     # Displays the content of the DataFrame to stdout
@@ -521,7 +630,7 @@
                     # Select people older than 21
                     df.filter(df['age'] > 21).show()
                     ```
-                    
+
                   </textarea>
                 </section>
                 <section data-markdown>
@@ -544,22 +653,47 @@
                     ```
                   </textarea>
                 </section>
+          <section data-markdown>
+            <textarea data-template>
+              ### Spark Dataframes can be convert from and to Pandas Dataframes
+
+              - [Pandas](https://pandas.pydata.org/) provides the standard Dataframe object in Python
+              - Enable Apache Arrow in Spark [to use Pandas objects](https://spark.apache.org/docs/latest/sql-pyspark-pandas-with-arrow.html)
+
+              ```python
+import numpy as np
+import pandas as pd
+
+# Enable Arrow-based columnar data transfers
+spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", "true")
+
+# Generate a Pandas DataFrame
+pdf = pd.DataFrame(np.random.rand(100, 3))
+
+# Create a Spark DataFrame from a Pandas DataFrame using Arrow
+df = spark.createDataFrame(pdf)
+
+# Convert the Spark DataFrame back to a Pandas DataFrame using Arrow
+result_pdf = df.select("*").toPandas()
+              ```
+            </textarea>
+          </section>
                 <section data-markdown>
                   <textarea data-template>
                     ### A Spark-ling challenge for you!
 
                     Load our CSV file with measurements from model neuron simulations:
                     ```python
-                    df = spark.read.csv("data/AnalySim.csv") # watch for capitalization
+                    df = spark.read.csv("data/AnalySim.csv", header="true") # case sensitive
                     # show info
                     df.printSchema()
                     df.show()
                     ```
                     Question:
                     - Use
-                    [RDD](https://spark.apache.org/docs/latest/rdd-programming-guide.html)
+                    [RDD](https://spark.apache.org/docs/latest/rdd-programming-guide.html)<!-- .element: target="_blank" -->
                     and
-                    [Dataframe](https://spark.apache.org/docs/latest/sql-getting-started.html)
+                    [Dataframe](https://spark.apache.org/docs/latest/sql-getting-started.html)<!-- .element: target="_blank" -->
                     operations to calculate one of min, max, average,
                     standard deviation for one column, or an
                     arithmetic operation between multiple columns to
