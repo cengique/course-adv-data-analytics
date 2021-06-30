@@ -57,24 +57,36 @@
 
                 </textarea>
               </section>
-              <section data-markdown>
-                <textarea data-template>
-                  ### Data!
+              <section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Data!
+                    
+                    - Prediction: the world will have 44 _zettabytes_ by year 2020`$^*$`
+                    - Scale: mega, giga, tera, peta, exa, zetta (`$10^{21}$`)
+                    
+                    Data producers: 
+                    - NY Stock Exchange: 4-5 terabytes/day
+                    - Facebook: 7 petabytes/month
+                    - Ancestry.com: 10 petabytes
+                    - Internet Archive: 18 petabytes
+                    - Computational neuroscience: ???
 
-                  - Prediction: the world will have 44 _zettabytes_ by year 2020`$^*$`
-                  - Scale: mega, giga, tera, peta, exa, zetta (`$10^{21}$`)
-                  
-                  Data producers: 
-                  - NY Stock Exchange: 4-5 terabytes/day
-                  - Facebook: 7 petabytes/month
-                  - Ancestry.com: 10 petabytes
-                  - Internet Archive: 18 petabytes
-                  - Computational neuroscience: ???
+                    `$^*$` Hadoop: The definitive guide (2015); seem to match [current data](https://techjury.net/blog/big-data-statistics/#gref)
+                  </textarea>
+                </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Large-scale data operations in computational neuroscience
 
-                  `$^*$` Hadoop: The definitive guide (2015); seem to match [current data](https://techjury.net/blog/big-data-statistics/#gref)
-
-                </textarea>
+                    - Running large number of simulations (e.g. parameter search)
+                    - Analyzing large batches of data
+                    - Others?
+                    
+                  </textarea>
+                </section>
               </section>
+
               <section>
                 <section data-markdown>
                   <textarea data-template>
@@ -131,9 +143,9 @@
                     - Load balancing is a problem, otherwise you wait for the slowest one
 
                     A general solution:
-                    - **MapReduce** algorithm, implemented in **Apache Hadoop** 
+                    - **MapReduce** algorithm, implemented in **Apache Hadoop**
+                    - Divides data and processing across physical machines
                     - Has been widely adopted in industry
-                    - Hadoop comes with an ecosystem of tools: YARN, HDFS, Pig, Spark
 
                     <img src="images/hadoop-logo.png" style="max-width: auto; height: 100px; margin: 10px;"/>
 
@@ -731,7 +743,7 @@ Bytes Written=29
                     arithmetic operation between multiple columns to
                     find a ratio, slopes, etc. 
                     - You can also filter rows based on column constraints.
-                    - Post your code and results on [NeuroStars](https://neurostars.org/t/cns-2020-tutorial-t6-methods-from-data-science-for-model-simulation-analysis-and-visualization/13337) or Zoom.
+                    - Post your code and results on the Discord `#sa4` channel or Zoom.
 
                   </textarea>
                 </section>
@@ -766,8 +778,13 @@ Bytes Written=29
                   <textarea data-template>
                     ### Questions and comments?
                     
-                    - Conversation can continue if you post on our [NeuroStars page](https://neurostars.org/t/cns-2020-tutorial-t6-methods-from-data-science-for-model-simulation-analysis-and-visualization/13337).  
-                    - Please fill [our survey](https://ggc.az1.qualtrics.com/jfe/form/SV_023P8dEuPo8G8N7) before leaving the tutorial
+                    - Conversation can continue if you post on our the
+                    Discord `#sa4` channel or post comments on our
+                    [tutorial
+                    website](https://cengique.github.io/cns2020-tutorials-website/2021/06/30/cns2021-tutorial-data-science-methods.html).
+                    - Please fill [our
+                    survey](https://ggc.az1.qualtrics.com/jfe/form/SV_023P8dEuPo8G8N7)
+                    before leaving the tutorial
                     - Thank you for coming to our tutorial! :)
 
                     <img src="images/ned-stark-one-does-not-simply-parallelize.jpg" style="max-width: auto; height: 400px;"/>
