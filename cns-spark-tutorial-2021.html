@@ -77,22 +77,14 @@
                 </section>
                 <section data-markdown>
                   <textarea data-template>
-                    ### Large-scale data operations in computational neuroscience
+                    ### Large-scale simulations and data analysis in computational neuroscience
 
+                    Typical needs:
                     - Running large number of simulations (e.g. parameter search)
                     - Analyzing large batches of data
                     - Others?
-                    
-                  </textarea>
-                </section>
-              </section>
 
-              <section>
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Large-scale simulations and data analysis in computational neuroscience
-
-                    Workflows in historical order:
+                    Workflows commonly used:
                     1. High-performance computing clusters (SGE, PBS, NSG, ...)
                     2. Cloud deployment of virtual machines (AWS, GCP, Azure, ...)
                     3. Specialized distributed computing platforms (Hadoop, Spark, ...)
@@ -145,7 +137,7 @@
                     A general solution:
                     - **MapReduce** algorithm, implemented in **Apache Hadoop**
                     - Divides data and processing across physical machines
-                    - Has been widely adopted in industry
+                    - Based on 2004 paper from Google, widely adopted in industry
 
                     <img src="images/hadoop-logo.png" style="max-width: auto; height: 100px; margin: 10px;"/>
 
@@ -156,11 +148,11 @@
                     <img src="images/mapreduce-example-oreilly.png" style="max-width: auto; height: 90%;"/>
 		  </textarea>
 	        </section>
-                <section data-markdown>
+                <!--section data-markdown>
                   <textarea data-template>
                     ### Your turn!
 
-                    Type on Zoom chat<!--[NeuroStars](https://neurostars.org/t/cns-2020-tutorial-t6-methods-from-data-science-for-model-simulation-analysis-and-visualization/13337)  .element: target="_blank" --> your research use case for MapReduce.
+                    Type on Zoom/Discord chat your research use case for MapReduce.
 
                     Identify steps for:
                     
@@ -171,251 +163,46 @@
                     
                     <img src="images/mapreduce-example-oreilly.png" style="max-width: auto; height: 300px;"/>
 		  </textarea>
-	        </section>
+	        </section-->
               </section>
-              <section>
+              <section> <!-- Start a new right-direction slide for MapReduce example -->
                 <section data-markdown>
                   <textarea data-template>
-                    ### What is MapReduce? An example
+                    ### A MapReduce example for finding average spike rates
 
-                    A weather dataset from White Chapter 2
-
-                    - Live streaming data from weather stations all around world
-                    - Each row is one reading from one station at a time
-                    
-                    <img src="images/Hadoop_Ch2_example2-1.png" style="max-width: auto; height: 300px; margin-left: auto;"/>
-		  </textarea>
-	        </section>
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Back to the command-line: inspect the data
-                    
-                    ```bash 
-% ls raw/1990 | head
-010010-99999-1990.gz
-010014-99999-1990.gz
-010015-99999-1990.gz
-010016-99999-1990.gz
-010017-99999-1990.gz
-010030-99999-1990.gz
-010040-99999-1990.gz
-010080-99999-1990.gz
-010100-99999-1990.gz
-010150-99999-1990.gz
+                    Let's assume our input files look like this:
                     ```
-                    <!-- .element: style="width: 25ex; margin: 10px; float: left;" -->
-                    <img src="images/Hadoop_Ch2_example2-2.png" style="max-width: auto; height: 300px; margin: 10px;"/>
-                    - Many small files; can be analyzed sequentially with <!-- .element: class="fragment" data-fragment-index="2" --> `awk`: 
-
-                    ```bash
-                    % ./max_temperature.sh
-                    1901 317
-                    1902 244
-                    1903 289
-                    1904 256
-                    1905 283
+                    neuronID trialnum numspikes
+                    n678 1 12
+                    n554 3 0
+                    n554 4 2
+                    n678 2 15
                     ...
                     ```
-                    <!-- .element: style="width: 25ex; margin-left: auto;" class="fragment" data-fragment-index="2" -->
-		  </textarea>
-	        </section>
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Enter Map+Reduce: Can be partitioned to run on parallel hardware
 
-                    <img src="images/Hadoop_Ch2_figure2-1.png" style="max-width: auto; height: 400px; margin-left: auto;"/>
-
-		  </textarea>
-	        </section>
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Map in Java: (ID, row of text) `$\Rightarrow$` (year, temp)
-
-                    ```java
-                    public class MaxTemperatureMapper
-                        extends Mapper<LongWritable, Text, Text, IntWritable> {
-                      
-                      private static final int MISSING = 9999;
-
-                      @Override
-                      public void map(LongWritable key, Text value, Context context)
-                          throws IOException, InterruptedException {
-                      
-                        String line = value.toString();
-                        String year = line.substring(15, 19);
-                        int airTemperature;
-                        if (line.charAt(87) == '+') { // parseInt doesn't like leading plus signs
-                          airTemperature = Integer.parseInt(line.substring(88, 92));
-                        } else {
-                          airTemperature = Integer.parseInt(line.substring(87, 92));
-                        }
-                        String quality = line.substring(92, 93);
-                        if (airTemperature != MISSING && quality.matches("[01459]")) {
-                          context.write(new Text(year), new IntWritable(airTemperature));
-                        }
-                      }
-                    }
-                    ```
-                    <!-- .element:   -->
-		  </textarea>
-	        </section>
-                <section data-markdown>
-                  <textarea data-template>
-                    <img src="images/Hadoop_Ch2_figure2-1.png" style="max-width: auto; height: 200px; margin-left: auto;"/>
-
-                    ### Reduce: (year, [temps]) `$\Rightarrow$` (year, max temp)
-
-                    ```java
-                    public class MaxTemperatureReducer
-                        extends Reducer<Text, IntWritable, Text, IntWritable> {
-
-                      @Override
-                      public void reduce(Text key, Iterable<IntWritable> values, Context context)
-                          throws IOException, InterruptedException {
-                        int maxValue = Integer.MIN_VALUE;
-                        for (IntWritable value : values) {
-                          maxValue = Math.max(maxValue, value.get());
-                        }
-                        context.write(key, new IntWritable(maxValue));
-                      }
-                    }
-                    ```
-		  </textarea>
-	        </section>
-                <section data-markdown>
-                  <textarea data-template>
-                    ### Putting it all together
-
-                    ```java
-                    public class MaxTemperature {
+                    What would the Map and Reduce steps would look like?
                     
-                      public static void main(String[] args) throws Exception {
-                        if (args.length != 2) {
-                          System.err.println("Usage: MaxTemperature <input path> <output path>");
-                          System.exit(-1);
-                        }
-                        Job job = new Job();
-                        job.setJarByClass(MaxTemperature.class);
-                        job.setJobName("Max temperature");
-                      
-                        FileInputFormat.addInputPath(job, new Path(args[0]));
-                        FileOutputFormat.setOutputPath(job, new Path(args[1]));
-
-                        job.setMapperClass(MaxTemperatureMapper.class);
-                        job.setReducerClass(MaxTemperatureReducer.class);
-
-                        job.setOutputKeyClass(Text.class);
-                        job.setOutputValueClass(IntWritable.class);
-
-                        System.exit(job.waitForCompletion(true) ? 0 : 1);
-                      }
-                    }
-                    ```  
+                    - <!-- .element: class="fragment" data-fragment-index="2" --> Map: Associate neuron ID with number of spikes: `(n678=>12)`, ... 
+                    - <!-- .element: class="fragment" data-fragment-index="3" --> Reduce: Average for each neuron ID: `n678=>avg(12,15)`, ...
+                    
                   </textarea>
-	        </section>
+	        </section>                
                 <section data-markdown>
                   <textarea data-template>
-                    ### A sample run
+                    ### What are advantages of using MapReduce?
 
-                    ```bash
-% export HADOOP_CLASSPATH=hadoop-examples.jar
-% hadoop MaxTemperature input/ncdc/sample.txt output
-14/09/16 09:48:39 WARN util.NativeCodeLoader: Unable to load native-hadoop
-library for your platform... using builtin-java classes where applicable
-14/09/16 09:48:40 WARN mapreduce.JobSubmitter: Hadoop command-line option
-parsing not performed. Implement the Tool interface and execute your application
-with ToolRunner to remedy this.
-14/09/16 09:48:40 INFO input.FileInputFormat: Total input paths to process : 1
-14/09/16 09:48:40 INFO mapreduce.JobSubmitter: number of splits:1
-14/09/16 09:48:40 INFO mapreduce.JobSubmitter: Submitting tokens for job:
-job_local26392882_0001
-14/09/16 09:48:40 INFO mapreduce.Job: The url to track the job:
-http://localhost:8080/
-14/09/16 09:48:40 INFO mapreduce.Job: Running job: job_local26392882_0001
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: OutputCommitter set in config null
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: OutputCommitter is
-org.apache.hadoop.mapreduce.lib.output.FileOutputCommitter
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: Waiting for map tasks
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: Starting task:
-attempt_local26392882_0001_m_000000_0
-14/09/16 09:48:40 INFO mapred.Task: Using ResourceCalculatorProcessTree : null
-14/09/16 09:48:40 INFO mapred.LocalJobRunner:
-14/09/16 09:48:40 INFO mapred.Task: Task:attempt_local26392882_0001_m_000000_0
-is done. And is in the process of committing
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: map
-14/09/16 09:48:40 INFO mapred.Task: Task 'attempt_local26392882_0001_m_000000_0'
-done.
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: Finishing task:
-attempt_local26392882_0001_m_000000_0
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: map task executor complete.
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: Waiting for reduce tasks
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: Starting task:
-attempt_local26392882_0001_r_000000_0
-14/09/16 09:48:40 INFO mapred.Task: Using ResourceCalculatorProcessTree : null
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: 1 / 1 copied.
-14/09/16 09:48:40 INFO mapred.Merger: Merging 1 sorted segments
-14/09/16 09:48:40 INFO mapred.Merger: Down to the last merge-pass, with 1
-segments left of total size: 50 bytes
-14/09/16 09:48:40 INFO mapred.Merger: Merging 1 sorted segments
-14/09/16 09:48:40 INFO mapred.Merger: Down to the last merge-pass, with 1
-segments left of total size: 50 bytes
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: 1 / 1 copied.
-14/09/16 09:48:40 INFO mapred.Task: Task:attempt_local26392882_0001_r_000000_0
-is done. And is in the process of committing
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: 1 / 1 copied.
-14/09/16 09:48:40 INFO mapred.Task: Task attempt_local26392882_0001_r_000000_0
-is allowed to commit now
-14/09/16 09:48:40 INFO output.FileOutputCommitter: Saved output of task
-'attempt...local26392882_0001_r_000000_0' to file:/Users/tom/book-workspace/
-hadoop-book/output/_temporary/0/task_local26392882_0001_r_000000
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: reduce > reduce
-14/09/16 09:48:40 INFO mapred.Task: Task 'attempt_local26392882_0001_r_000000_0'
-done.
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: Finishing task:
-attempt_local26392882_0001_r_000000_0
-14/09/16 09:48:40 INFO mapred.LocalJobRunner: reduce task executor complete.
-14/09/16 09:48:41 INFO mapreduce.Job: Job job_local26392882_0001 running in uber
-mode : false
-14/09/16 09:48:41 INFO mapreduce.Job: map 100% reduce 100%
-14/09/16 09:48:41 INFO mapreduce.Job: Job job_local26392882_0001 completed
-successfully
-14/09/16 09:48:41 INFO mapreduce.Job: Counters: 30
-File System Counters
-FILE: Number of bytes read=377168
-FILE: Number of bytes written=828464
-FILE: Number of read operations=0
-FILE: Number of large read operations=0
-FILE: Number of write operations=0
-Map-Reduce Framework
-Map input records=5
-Map output records=5
-Map output bytes=45
-Map output materialized bytes=61
-Input split bytes=129
-Combine input records=0
-Combine output records=0
-Reduce input groups=2
-Reduce shuffle bytes=61
-Reduce input records=5
-Reduce output records=2
-Spilled Records=10
-Shuffled Maps =1
-Failed Shuffles=0
-Merged Map outputs=1
-GC time elapsed (ms)=39
-Total committed heap usage (bytes)=226754560
-File Input Format Counters
-Bytes Read=529
-File Output Format Counters
-Bytes Written=29
-                    ```
+                    - Works with large files without any consideration
+                    - Parallelizes task on multiple machines to cut down processing time
+                    - Parallel operation is automatic!
+
+                    But..
+                    - Algorithm must be converted into MapReduce
+                    
                   </textarea>
-	        </section>
-              </section>
-              <section> <!-- Start a new right-direction slide for HDFS splitting -->
+	        </section>                
                 <section data-markdown>
                   <textarea data-template>
-                    ### HDFS: Hadoop Distributed Filesystem
+                    ### Data is distributed automatically on the Hadoop Distributed Filesystem (HDFS)
 
                     - Optimized to work on parallel hardware:
                     
@@ -454,6 +241,22 @@ Bytes Written=29
 
                   </textarea>
 	        </section>                
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Back to spike rates example for multiple reduce tasks
+
+                    Keep single map step:
+                    
+                    - Map: Associate neuron ID with number of spikes: `(n678=>12)`, ...
+
+                    Add multiple reduce steps:
+                    1. Reduce: **Average** for each neuron ID: `n678=>avg(12,15)`, ...
+                    1. <!-- .element: class="fragment" data-fragment-index="2" --> Reduce: **Max** for each neuron ID: `n678=>max(12,15)`, ...
+                    1. <!-- .element: class="fragment" data-fragment-index="3" --> Reduce: **Mode** for each neuron ID: `n678=>mode(12,15)`, ...
+                    ...                    
+                    
+                  </textarea>
+	        </section>                
 
                 <section data-markdown>
                   <textarea data-template>
@@ -465,6 +268,25 @@ Bytes Written=29
 
                   </textarea>
 	        </section>                
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Example without reduce step
+
+                    Assume input files with maximal conductance parameters for model:
+                    ```
+                    gmaxNa gmaxK1 gmaxK2 ...
+                    5e-9 1.2e-9 1.4e-9 ...
+                    6e-9 1.2e-9 1.4e-9 ...
+                    7e-9 1.2e-9 1.4e-9 ...
+                    ...
+                    ```
+
+                    What would a Map step look like?
+                    - <!-- .element: class="fragment" data-fragment-index="2" --> Map: run simulation with parameter values, and output results file
+                    
+                  </textarea>
+	        </section>                
+
               </section> <!-- end of HDFS splitting down-section -->
 
               <section> <!-- Post-hadoop -->
@@ -793,7 +615,245 @@ Bytes Written=29
                 </section>
 
               </section> <!-- beyond Hadoop: Spark -->
-              
+              <section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### What is MapReduce? An example
+
+                    A weather dataset from White Chapter 2
+
+                    - Live streaming data from weather stations all around world
+                    - Each row is one reading from one station at a time
+                    
+                    <img src="images/Hadoop_Ch2_example2-1.png" style="max-width: auto; height: 300px; margin-left: auto;"/>
+		  </textarea>
+	        </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Back to the command-line: inspect the data
+                    
+                    ```bash 
+% ls raw/1990 | head
+010010-99999-1990.gz
+010014-99999-1990.gz
+010015-99999-1990.gz
+010016-99999-1990.gz
+010017-99999-1990.gz
+010030-99999-1990.gz
+010040-99999-1990.gz
+010080-99999-1990.gz
+010100-99999-1990.gz
+010150-99999-1990.gz
+                    ```
+                    <!-- .element: style="width: 25ex; margin: 10px; float: left;" -->
+                    <img src="images/Hadoop_Ch2_example2-2.png" style="max-width: auto; height: 300px; margin: 10px;"/>
+                    - Many small files; can be analyzed sequentially with <!-- .element: class="fragment" data-fragment-index="2" --> `awk`: 
+
+                    ```bash
+                    % ./max_temperature.sh
+                    1901 317
+                    1902 244
+                    1903 289
+                    1904 256
+                    1905 283
+                    ...
+                    ```
+                    <!-- .element: style="width: 25ex; margin-left: auto;" class="fragment" data-fragment-index="2" -->
+		  </textarea>
+	        </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Enter Map+Reduce: Can be partitioned to run on parallel hardware
+
+                    <img src="images/Hadoop_Ch2_figure2-1.png" style="max-width: auto; height: 400px; margin-left: auto;"/>
+
+		  </textarea>
+	        </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Map in Java: (ID, row of text) `$\Rightarrow$` (year, temp)
+
+                    ```java
+                    public class MaxTemperatureMapper
+                        extends Mapper<LongWritable, Text, Text, IntWritable> {
+                      
+                      private static final int MISSING = 9999;
+
+                      @Override
+                      public void map(LongWritable key, Text value, Context context)
+                          throws IOException, InterruptedException {
+                      
+                        String line = value.toString();
+                        String year = line.substring(15, 19);
+                        int airTemperature;
+                        if (line.charAt(87) == '+') { // parseInt doesn't like leading plus signs
+                          airTemperature = Integer.parseInt(line.substring(88, 92));
+                        } else {
+                          airTemperature = Integer.parseInt(line.substring(87, 92));
+                        }
+                        String quality = line.substring(92, 93);
+                        if (airTemperature != MISSING && quality.matches("[01459]")) {
+                          context.write(new Text(year), new IntWritable(airTemperature));
+                        }
+                      }
+                    }
+                    ```
+                    <!-- .element:   -->
+		  </textarea>
+	        </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    <img src="images/Hadoop_Ch2_figure2-1.png" style="max-width: auto; height: 200px; margin-left: auto;"/>
+
+                    ### Reduce: (year, [temps]) `$\Rightarrow$` (year, max temp)
+
+                    ```java
+                    public class MaxTemperatureReducer
+                        extends Reducer<Text, IntWritable, Text, IntWritable> {
+
+                      @Override
+                      public void reduce(Text key, Iterable<IntWritable> values, Context context)
+                          throws IOException, InterruptedException {
+                        int maxValue = Integer.MIN_VALUE;
+                        for (IntWritable value : values) {
+                          maxValue = Math.max(maxValue, value.get());
+                        }
+                        context.write(key, new IntWritable(maxValue));
+                      }
+                    }
+                    ```
+		  </textarea>
+	        </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Putting it all together
+
+                    ```java
+                    public class MaxTemperature {
+                    
+                      public static void main(String[] args) throws Exception {
+                        if (args.length != 2) {
+                          System.err.println("Usage: MaxTemperature <input path> <output path>");
+                          System.exit(-1);
+                        }
+                        Job job = new Job();
+                        job.setJarByClass(MaxTemperature.class);
+                        job.setJobName("Max temperature");
+                      
+                        FileInputFormat.addInputPath(job, new Path(args[0]));
+                        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
+                        job.setMapperClass(MaxTemperatureMapper.class);
+                        job.setReducerClass(MaxTemperatureReducer.class);
+
+                        job.setOutputKeyClass(Text.class);
+                        job.setOutputValueClass(IntWritable.class);
+
+                        System.exit(job.waitForCompletion(true) ? 0 : 1);
+                      }
+                    }
+                    ```  
+                  </textarea>
+	        </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### A sample run
+
+                    ```bash
+% export HADOOP_CLASSPATH=hadoop-examples.jar
+% hadoop MaxTemperature input/ncdc/sample.txt output
+14/09/16 09:48:39 WARN util.NativeCodeLoader: Unable to load native-hadoop
+library for your platform... using builtin-java classes where applicable
+14/09/16 09:48:40 WARN mapreduce.JobSubmitter: Hadoop command-line option
+parsing not performed. Implement the Tool interface and execute your application
+with ToolRunner to remedy this.
+14/09/16 09:48:40 INFO input.FileInputFormat: Total input paths to process : 1
+14/09/16 09:48:40 INFO mapreduce.JobSubmitter: number of splits:1
+14/09/16 09:48:40 INFO mapreduce.JobSubmitter: Submitting tokens for job:
+job_local26392882_0001
+14/09/16 09:48:40 INFO mapreduce.Job: The url to track the job:
+http://localhost:8080/
+14/09/16 09:48:40 INFO mapreduce.Job: Running job: job_local26392882_0001
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: OutputCommitter set in config null
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: OutputCommitter is
+org.apache.hadoop.mapreduce.lib.output.FileOutputCommitter
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: Waiting for map tasks
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: Starting task:
+attempt_local26392882_0001_m_000000_0
+14/09/16 09:48:40 INFO mapred.Task: Using ResourceCalculatorProcessTree : null
+14/09/16 09:48:40 INFO mapred.LocalJobRunner:
+14/09/16 09:48:40 INFO mapred.Task: Task:attempt_local26392882_0001_m_000000_0
+is done. And is in the process of committing
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: map
+14/09/16 09:48:40 INFO mapred.Task: Task 'attempt_local26392882_0001_m_000000_0'
+done.
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: Finishing task:
+attempt_local26392882_0001_m_000000_0
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: map task executor complete.
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: Waiting for reduce tasks
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: Starting task:
+attempt_local26392882_0001_r_000000_0
+14/09/16 09:48:40 INFO mapred.Task: Using ResourceCalculatorProcessTree : null
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: 1 / 1 copied.
+14/09/16 09:48:40 INFO mapred.Merger: Merging 1 sorted segments
+14/09/16 09:48:40 INFO mapred.Merger: Down to the last merge-pass, with 1
+segments left of total size: 50 bytes
+14/09/16 09:48:40 INFO mapred.Merger: Merging 1 sorted segments
+14/09/16 09:48:40 INFO mapred.Merger: Down to the last merge-pass, with 1
+segments left of total size: 50 bytes
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: 1 / 1 copied.
+14/09/16 09:48:40 INFO mapred.Task: Task:attempt_local26392882_0001_r_000000_0
+is done. And is in the process of committing
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: 1 / 1 copied.
+14/09/16 09:48:40 INFO mapred.Task: Task attempt_local26392882_0001_r_000000_0
+is allowed to commit now
+14/09/16 09:48:40 INFO output.FileOutputCommitter: Saved output of task
+'attempt...local26392882_0001_r_000000_0' to file:/Users/tom/book-workspace/
+hadoop-book/output/_temporary/0/task_local26392882_0001_r_000000
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: reduce > reduce
+14/09/16 09:48:40 INFO mapred.Task: Task 'attempt_local26392882_0001_r_000000_0'
+done.
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: Finishing task:
+attempt_local26392882_0001_r_000000_0
+14/09/16 09:48:40 INFO mapred.LocalJobRunner: reduce task executor complete.
+14/09/16 09:48:41 INFO mapreduce.Job: Job job_local26392882_0001 running in uber
+mode : false
+14/09/16 09:48:41 INFO mapreduce.Job: map 100% reduce 100%
+14/09/16 09:48:41 INFO mapreduce.Job: Job job_local26392882_0001 completed
+successfully
+14/09/16 09:48:41 INFO mapreduce.Job: Counters: 30
+File System Counters
+FILE: Number of bytes read=377168
+FILE: Number of bytes written=828464
+FILE: Number of read operations=0
+FILE: Number of large read operations=0
+FILE: Number of write operations=0
+Map-Reduce Framework
+Map input records=5
+Map output records=5
+Map output bytes=45
+Map output materialized bytes=61
+Input split bytes=129
+Combine input records=0
+Combine output records=0
+Reduce input groups=2
+Reduce shuffle bytes=61
+Reduce input records=5
+Reduce output records=2
+Spilled Records=10
+Shuffled Maps =1
+Failed Shuffles=0
+Merged Map outputs=1
+GC time elapsed (ms)=39
+Total committed heap usage (bytes)=226754560
+File Input Format Counters
+Bytes Read=529
+File Output Format Counters
+Bytes Written=29
+                    ```
+                  </textarea>
+	        </section>
+              </section> <!-- What is MapReduce? -->              
 	    </div>
 	  </div>
 	  
