@@ -31,7 +31,7 @@
 
     ### Module 3 - Obtaining and scrubbing data
 
-    #### Cengiz Gunay, Rick Price Fall 2020
+    #### Cengiz Gunay, Rick Price 
 
                   #### Reading: Ch 1 & 2 from [Book's website](https://www.datascienceatthecommandline.com/), [Safari Books/O'Reilly](https://learning.oreilly.com/library/view/data-science-at/9781491947845/) <br/> or [free source](https://github.com/jeroenjanssens/data-science-at-the-command-line)
                   #### [Conquering the Command Line](http://conqueringthecommandline.com/)
@@ -158,27 +158,42 @@
     </textarea>
           </section>
           <section data-markdown>
-    <textarea data-template>
-                    ### Docker
+            <textarea data-template>
+                    ### How to practice?
 
-                    - Container
+                    #### On Windows:
+                    Do one of the following:
+                    - Install [Git](https://git-scm.com/) and use _Git Bash_
+                    - Run textbook image using _Docker_ (next slide)
+                    - Run your own Linux virtual machine
+                    - Connect to ITECLAB VPN and use our campus virtual machines
+
+                    #### On Mac/Linux:
+                    - Open Terminal
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+                    ### Docker image from textbook
+
+                    - Container technology
                       - Allows running multiple OS's and technologies in a Container
                       - Many pre-built containers that you can download
-                    - Install Docker, and run:
+                    - [Install Docker](https://www.docker.com/get-started), and run:
                     ```
                     docker run --rm -it datascienceworkshops/data-science-at-the-command-line
                     ```
                     - Will launch a Docker container running Unix created by the author
-    </textarea>
+            </textarea>
           </section>
           <section data-markdown>
     <textarea data-template>
                     ### IPs for ITEC Lab Machines
 
-                    - Turner - 172.20.0.144
-                    - Sarah - 172.20.0.145
-                    - Daniel - 172.20.0.146
-                    - Ruth - 172.20.0.147
+                    1. 172.20.0.144
+                    2. 172.20.0.145
+                    3. 172.20.0.146
+                    4. 172.20.0.147
     </textarea>
           </section>
           <section data-markdown>
@@ -205,36 +220,43 @@
                     - clear - Clear screen
                     - rm - delete a file
                     - mkdir - Make a directory
-                    - mv move a file or rename it
+                    - mv - move a file or rename it
                     - cp - Copy a file
-                    - printf - display a string
+                    - echo - display a string
     </textarea>
           </section>
           <section data-markdown>
-    <textarea data-template>
+            <textarea data-template>
                     ### More Advanced Commands (Unix)
 
-                    - awk, nawk, gawk
-                    - grep
-                    - cat
-                    - sudo
-                    - curl
-    </textarea>
+                    - awk, nawk, gawk - text stream processing
+                    - grep - find lines based on keyword
+                    - cat - stream file
+                    - sudo - run command with administrative power
+                    - curl - download file from web
+            </textarea>
           </section>
           <section data-markdown>
-    <textarea data-template>
-      <img src="images/awk_workflow.jpg" style="float: right; max-width: auto; height: 600px;"/>
-                    ### awk
+            <textarea data-template>
+              <img src="images/awk_workflow.jpg" style="float: right; max-width: auto; height: 400px;"/>
+              ### awk
 
-                    - BEGIN{awk commands}
-                    - Body block - applies
-                    the awk-commands
-                    on every input
-                    line. Can restrict
-                    - END{awk-commands}
-                    - [TutorialsPoint](https://www.tutorialspoint.com/awk/awk_overview.htm)
-                    - marks.txt (D2L under Content |  Files or in your directory on VM)
-                    - awk 'BEGIN{printf "No  Name    Subject  Marks\n"} {print}' marks.txt
+              <div style="width: 45%;">
+
+                `BEGIN {awk commands}`               
+
+                Body block - applies the awk-commands on every input line. 
+
+                `END {awk-commands}`
+              
+              </div>
+              
+              - Use `marks.txt` (D2L under Content>Files or in your directory on VM)
+              ```bash
+              awk 'BEGIN{printf "No  Name    Subject  Marks\n"} {print}' marks.txt
+              awk 'BEGIN{printf "Total Marks\n"; marks = 0} {marks = marks+$4} END{print marks}' marks.txt
+              ```
+              - [TutorialsPoint](https://www.tutorialspoint.com/awk/awk_overview.htm)
     </textarea>
           </section>
           <section data-markdown>
@@ -242,7 +264,10 @@
                     ### grep
 
                     - searches named input file for lines matching a pattern
-                    - grep "Kedar" marks.txt
+                    ```bash
+                    grep "Kedar" marks.txt
+                    ```
+                    
                     [TutorialsPoint](https://www.tutorialspoint.com/unix_commands/grep.htm)
     </textarea>
           </section>
@@ -250,9 +275,10 @@
     <textarea data-template>
                     ### cat
 
-                    - Concatenate file(s)
-                    - marks2.txt (D2L under Content |  Files or in your directory on VM)
-                    - cat *.txt
+                    - Concatenate file(s) to standard output (stream)
+                    - Download `marks2.txt` (D2L under Content>Files or in your directory on VM)
+                    - `cat *.txt`
+
                     [TutorialsPoint](https://www.tutorialspoint.com/unix_commands/cat.htm)
     </textarea>
           </section>
@@ -260,19 +286,23 @@
     <textarea data-template>
                     ### sudo
 
-                    - super user do
+                    - "super user do"
                     - Allows you to have root control of your Unix system
-                    - sudo <i>command</i>
-                    - [TutorialsPoint](https://www.tutorialspoint.com/unix_commands/sudo.htm)
+                    - `sudo` _command_
+
+                    [TutorialsPoint](https://www.tutorialspoint.com/unix_commands/sudo.htm)
     </textarea>
           </section>
           <section data-markdown>
     <textarea data-template>
                     ### curl
 
-                    - Transfers data from or to a server
-                      - Allows you to use different protocols
-                    - [TutorialsPoint](https://www.tutorialspoint.com/unix_commands/curl.htm)
+                    - Downloads file or HTML page from web
+                    - Allows you to use different protocols
+                    ```bash
+                    curl https://www.google.com/
+                    ```
+                    [TutorialsPoint](https://www.tutorialspoint.com/unix_commands/curl.htm)
     </textarea>
           </section>
         </section> <!-- end of vertical slides -->
