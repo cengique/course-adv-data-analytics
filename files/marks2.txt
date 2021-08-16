@@ -1,0 +1,3 @@
+6)  Harry   IT       80
+7)  Sue     History  90
+8)  Tom     Biology  90

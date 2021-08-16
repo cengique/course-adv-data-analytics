@@ -251,7 +251,7 @@
               
               </div>
               
-              - Use `marks.txt` (D2L under Content>Files or in your directory on VM)
+              - Download [marks.txt](files/marks.txt) and run one by one:
               ```bash
               awk 'BEGIN{printf "No  Name    Subject  Marks\n"} {print}' marks.txt
               awk 'BEGIN{printf "Total Marks\n"; marks = 0} {marks = marks+$4} END{print marks}' marks.txt
@@ -276,8 +276,10 @@
                     ### cat
 
                     - Concatenate file(s) to standard output (stream)
-                    - Download `marks2.txt` (D2L under Content>Files or in your directory on VM)
-                    - `cat *.txt`
+                    - Download [marks2.txt](files/marks2.txt) and run:
+                    ```bash
+                    cat *.txt
+                    ```
 
                     [TutorialsPoint](https://www.tutorialspoint.com/unix_commands/cat.htm)
     </textarea>
