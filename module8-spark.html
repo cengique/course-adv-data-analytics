@@ -20,6 +20,26 @@
   link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
   document.getElementsByTagName( 'head' )[0].appendChild( link );
   </script>
+  <style>
+  .reveal strong {
+    color: lightblue;
+  }
+  .home-link {
+    position: absolute;
+    left: 20px;
+    bottom: 20px; 
+    font-size: 24pt;
+  }
+  .reveal section.side-by-side figure {
+    position: absolute;
+  }
+  .reveal section.side-by-side figure:first-of-type {
+    left: 5%;
+  }
+  .reveal section.side-by-side figure:nth-of-type(2) {
+    right: 5%;
+  }
+</style>
   </head>
   <body>
     <div class="reveal">
@@ -255,16 +275,18 @@
             <textarea data-template>
               ### Practice time!
 
-              - Log into our ITECLAB host
-              - Start by running `docker exec -it gunayspark bin/pyspark`, which should give you:
+              Log into our ITECLAB host, and run:
+              
+              ```docker exec -it gunayspark bin/pyspark```
+
+              which will give:
 
               ```bash
               Python 3.6.15 (default, Sep 24 2021, 11:37:20) 
               [GCC 8.3.0] on linux
               Type "help", "copyright", "credits" or "license" for more information.
-              Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
               Welcome to
-                 ____              __
+                 ____             __    
                 / __/__  ___ _____/ /__
                _\ \/ _ \/ _ `/ __/  '_/
               /__ / .__/\_,_/_/ /_/\_\   version 3.1.2
@@ -536,5 +558,6 @@ result_pdf = df.select("*").toPandas()
         ]
       });
     </script>
+          <a class="home-link" href="index.html">Home</a>
   </body>
 </html>
