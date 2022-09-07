@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Module 5 - Interactive Javascript visualization - ITEC 4220 Advanced Data Analytics</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+  <style>
+  .reveal strong {
+    color: lightblue;
+  }
+  .home-link {
+    position: absolute;
+    left: 20px;
+    bottom: 20px; 
+    font-size: 16pt;
+  }
+  .reveal section.side-by-side figure {
+    position: absolute;
+  }
+  .reveal section.side-by-side figure:first-of-type {
+    left: 5%;
+  }
+  .reveal section.side-by-side figure:nth-of-type(2) {
+    right: 5%;
+  }
+</style>
+	</head>
+	<body>
+	  <div class="reveal">
+	    <div class="slides">
+	      <section data-markdown>
+		<textarea data-template>
+		  <img src="images/JS_visual_courses.png" style="float: right; max-width: auto; height: 300px;"/>
+		  ## ITEC 4220 - Advanced Data Analytics
+
+		  ### Module 6 - Interactive Javascript visualization
+
+		  #### Anca Doloc-Mihu, Fall 2022
+		</textarea>
+	      </section>
+              <section>
+                <section data-markdown>
+		  <textarea data-template>
+                    ### D3.js: Interactive Javascript visualization library
+
+                    <iframe src="https://d3js.org/" width="100%" height="600"></iframe>
+                    (Open [D3js.org](https://d3js.org/))
+		  </textarea>
+	        </section>
+
+                <!--section data-markdown>
+		  <textarea data-template>
+                    ### D3 force graph for course dependencies
+                    <iframe src="https://vida.io/embed/2o5v9Su2AarvutjRr"
+                            width="1280" height="600" seamless frameBorder="0" scrolling="no"></iframe>
+                    ([link](https://vida.io/documents/2o5v9Su2AarvutjRr))
+                  </textarea>
+                </section-->
+
+                <section data-markdown>
+		  <textarea data-template>
+                    ### Interactive Javascript visualization library
+
+                    - Already on the web
+                    - Easy to read JSON and work with it
+                    - There are many popular libraries: [ChartJS](https://www.chartjs.org/),
+                    [Plotly](https://plot.ly/javascript/),
+                    [Google Charts](https://developers.google.com/chart/), ...
+                    - Trying to be like other big data interactive dashboard programs such
+                    as [PowerBI](https://powerbi.microsoft.com/en-us/) and
+                    [Tableau](https://www.tableau.com/)
+                    - Create your own JS dashboard on [Observable](http://observablehq.com/)
+		  </textarea>
+	        </section>
+
+              </section>
+
+	    </div>
+	  </div>
+
+	  <script src="lib/js/head.min.js"></script>
+	  <script src="js/reveal.js"></script>
+
+	  <script>
+	    // More info about config & dependencies:
+	    // - https://github.com/hakimel/reveal.js#configuration
+	    // - https://github.com/hakimel/reveal.js#dependencies
+	    Reveal.initialize({
+	      // The "normal" size of the presentation, aspect ratio will be preserved
+	      // when the presentation is scaled to fit different resolutions. Can be
+	      // specified using percentage units.
+	      width: 1280, // 960
+	      height: 720, // 700
+
+	      // Factor of the display size that should remain empty around the content
+	      margin: 0.1,
+              history: true,
+
+	      // Bounds for smallest/largest possible scale to apply to content
+	      minScale: 0.2,
+	      maxScale: 1.5,
+
+	      dependencies: [
+		{ src: 'plugin/markdown/marked.js' },
+		{ src: 'plugin/markdown/markdown.js' },
+		{ src: 'plugin/notes/notes.js', async: true },
+		{ src: 'plugin/highlight/highlight.js',
+		  async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+	      ]
+	    });
+	  </script>
+          <a class="home-link" href="index.html">Home</a>
+	</body>
+</html>
