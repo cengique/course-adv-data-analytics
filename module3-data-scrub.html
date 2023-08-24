@@ -315,6 +315,30 @@
               [TutorialsPoint](https://www.tutorialspoint.com/unix_commands/curl.htm)
             </textarea>
           </section>
+          <section data-markdown>
+            <textarea data-template>
+              ### Reading and writing files: redirection
+
+              - Use `<` for reading a file:
+              ```bash
+              cat < file.txt
+              ```
+              - Use `>` for writing into a file:
+              ```bash
+              cat file.txt > newfile.txt
+              cat another-file.txt >> newfile.txt # appends
+              ```
+              - Use `|` for cascading commands, streaming, piping:  
+              ```bash
+              grep word file.txt | head
+              ```
+              - They can be combined!  
+              ```bash
+              grep word < file.txt | head > top-finds.txt
+              ```
+              [More info in DSCL Ch 2.3.5](https://jeroenjanssens.com/dsatcl/chapter-2-getting-started.html#redirecting-input-and-output)
+            </textarea>
+          </section>
         </section> <!-- end of vertical slides -->
         <section>
           <section data-markdown>
