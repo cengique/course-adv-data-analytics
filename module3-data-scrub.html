@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-  <title>Module 3 - Obtaining and scrubbing data - ITEC 4220 Advanced Data Analytics</title>
+  <title>Module 3 - Data Scrubbing in Command Line (with regular expressions) - ITEC 4220 Advanced Data Analytics</title>
 
   <link rel="stylesheet" href="css/reveal.css">
   <link rel="stylesheet" href="css/slides.css">
@@ -31,7 +31,7 @@
             <img src="images/DS_cmdline_cover.png" style="float: right; max-width: auto; height: 600px;"/>
             ## ITEC 4220 - Advanced Data Analytics
 
-            ### Module 3 - Obtaining and scrubbing data
+            ### Module 3 - Data Scrubbing in Command Line (with regular expressions)
 
             #### Credits: Cengiz Gunay, Rick Price 
 
@@ -449,8 +449,8 @@
               ### [Commands in a regexp pattern](https://www.regular-expressions.info/quickstart.html)
 
               - `/` default quoting character at start or end a regex pattern
-              - `.` matches any character
-              - `[]` denotes accepted character lists or ranges: `[abc]`, `[0-9]`, or `[a-zA-Z_]`
+              - `.` matches any single character
+              - `[]` matches a list of characters like `[abc]`, ranges like `[0-9]`, or a combination like `[a-zA-Z_]`
               - `\X` shortcut character lists: `\w` all word characters, `\s` all whitespace characters, so on
 
               #### Example:
@@ -466,9 +466,10 @@
             <textarea data-template>
               ### Repetition
 
-              - `*` 0 or more matches of _previous_ character/pattern: `a*` will match empty string or `a`, `aa`, so on
-              - `+` like `*`, but 1 or more matches: `a+` will not match empty string
+              - `*` 0 or more matches of _previous_ character/pattern: `a*` will match empty string or `a`, `aa`, so on.
+              - `+` is like `*`, but will match 1 or more: `a+` will not match empty string
               - `{}` specifies number of matches of previous pattern: `a{1,3}` will match `a`, `aa`, and `aaa`
+              - `?` is 0 or 1 matches, meaning it's optional (same as `{0,1}`). 
 
               #### Example:
               `/Gun.*/` will match text "Gunay"
@@ -483,9 +484,9 @@
             <textarea data-template>
               ### Escaping, grouping, and anchoring
 
-              - `\` will help you _escape_ the commands to search literal characters: <br>
-              `\++` will match `+`, `++`, so on
               - `^` and `$` will match beginning and end of line (or string), resp.
+              - `\` will help you _escape_ the commands to search literal characters: <br>
+              `\+` will match `+` and `\$` will match `$`
               - `()` groups subsets for repeating or replacing
               - `|` logical OR operation, matches one of the possible expressions
 
