@@ -1,0 +1,55 @@
+<html>
+<head>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+  <div id="infovizDiv"></div>
+  <svg width="510" height="510" style="border: 1px solid gray"><svg>
+      <script>
+        var testArray = [88,10000,1,75,12,35];
+        d3.min(testArray, function (el) {return el}); //returns 1
+        d3.max(testArray, function (el) {return el}); //returns 10000
+        d3.mean(testArray, function (el) {return el}); //returns 1701.833
+
+        //working with a JSON object array or CSV data file
+        d3.csv("cities.csv", function(data) {
+            console.log("min: ", d3.min(data, function (d) {return d.population})); 
+            console.log("max: ", d3.max(data, function (d) {return d.population }));
+            console.log("mean: ", d3.mean(data, function (d) {return d.population}));
+        });
+
+        //d3.extent() returns min and max in a 2-piece array
+        d3.extent(testArray, function (d) {return d;});
+
+        d3.json("tweets.json",function(data) {dataViz(data.tweets);});
+
+        function dataViz(incomingData) {
+          var nestedTweets = d3.nest()
+             .key(function(d) {return d.user})
+             .entries(incomingData);
+
+          // Step 3: Measure and scale
+          nestedTweets.forEach(function(d) {
+            d.numTweets = d.values.length; // add a new property to each object
+          });
+          
+          var maxTweets = d3.max(nestedTweets, function(d){return d.numTweets});
+          var yScale = d3.scale.linear().domain([0,maxTweets]).range([0,500]);
+
+          d3.select("svg")
+            .selectAll("rect")
+          .data(nestedTweets)
+            .enter()
+            .append("rect")
+              .attr("width", 100) // fixed value for each bar width
+              .attr("height", function(d) {return yScale(d.numTweets)})
+              .attr("x", function(d,i) {return i*110}) // fixed start for a bar box
+              .attr("y", function(d) {return 500 - yScale(d.numTweets)})
+              .style("fill","blue")
+              .style("stroke","red")
+              .style("stroke-width","1px").style("opacity",.25);
+        }
+      </script>
+</body>
+<html>

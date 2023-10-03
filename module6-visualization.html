@@ -21,6 +21,57 @@
 			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
+                <script src="http://d3js.org/d3.v4.min.js" type="text/JavaScript"></script>
+                <style>
+                  #chart rect {
+                    fill: steelblue;
+                  }
+
+                  #chart text {
+                    fill: white;
+                    font: 10px Helvetica;
+                    text-anchor: end;
+                  }
+                </style>
+                <script type="text/JavaScript">
+                      window.onLoad = (event) => {
+                        var data = [4, 5, 10, 16, 23, 35];
+
+                        var width = 500;
+                        var barHeight = 20;
+
+                        var x = d3.scale.linear()
+                            .domain([0, d3.max(data)])
+                            .range([0, width]);
+
+                        var chart = d3.select('#chart')
+                            .attr('width', width)
+                            .attr('height', barHeight * data.length);
+
+                        var bar = chart.selectAll('g')
+                            .data(data)
+                            .enter()
+                            .append('g')
+                            .attr('transform', function(d, i){
+                              return 'translate(0,' + barHeight * i + ')';
+                            });
+
+                        bar.append('rect')
+                          .attr('width', x)
+                          .attr('height', barHeight - 1);
+
+                        bar.append('text')
+                          .attr('x', function(d){
+                            return x(d) - 3;
+                          })
+                          .attr('y', barHeight / 2)
+                          .attr('dy', '.35em')
+                          .text(function(d){
+                            return d;
+                          });
+                      };
+                    </script> 
+
 	</head>
 	<body>
 	  <div class="reveal">
@@ -147,14 +198,30 @@
 			
 		<section data-markdown>
 		  <textarea data-template>
-                    ### D3.js visualizations
+                    Testing d3.js:
+                    <svg id="chart"></svg>
+
+                    
+		  </textarea>
+	        </section>
+			
+		<section data-markdown>
+		  <textarea data-template>
+                    ### Learning D3.js visualizations
 
                     - Textbook [D3.js in Action](https://www.manning.com/books/d3-js-in-action#toc)
 			  
                     - Tutorial 1: [Hello World in D3.js](http://cs.wellesley.edu/~mashups/pages/am5/d3tutorial1.html)
+
+                        1. Create a file on your computer and follow the tutorial.
+                        2. OR use [JSfiddle.net](https://jsfiddle.net/), select "D3 3.x" in the JavaScript window.
 			  
                     - Tutorial 2: [Working with Data](http://cs.wellesley.edu/~mashups/pages/am5/d3tutorial2.html)
-			  
+
+                        1. Download [VS Code](https://code.visualstudio.com/) and its [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) extension. Open a folder with VS Code and create an HTML file to work with. Then click on "Live Server" on bottom right to open in browser.
+                        2. If that's not possible, use [Plunker](https://plnkr.co). You will need to right-click in folders to create the data files. Once created, paste the data in them.
+                    
+
 		  </textarea>
 	        </section>
 		      
