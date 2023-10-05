@@ -5,8 +5,8 @@
 
 <body>
   <div id="infovizDiv"></div>
-  <svg width="510" height="510" style="border: 1px solid gray"><svg>
-      <script>
+  <svg width="510" height="510" style="border: 1px solid gray"></svg>
+  <script>
         var testArray = [88,10000,1,75,12,35];
         d3.min(testArray, function (el) {return el}); //returns 1
         d3.max(testArray, function (el) {return el}); //returns 10000
@@ -29,6 +29,8 @@
              .key(function(d) {return d.user})
              .entries(incomingData);
 
+          console.log(nestedTweets);
+
           // Step 3: Measure and scale
           nestedTweets.forEach(function(d) {
             d.numTweets = d.values.length; // add a new property to each object
@@ -38,18 +40,27 @@
           var yScale = d3.scale.linear().domain([0,maxTweets]).range([0,500]);
 
           d3.select("svg")
-            .selectAll("rect")
+          .selectAll("rect")
           .data(nestedTweets)
             .enter()
             .append("rect")
               .attr("width", 100) // fixed value for each bar width
               .attr("height", function(d) {return yScale(d.numTweets)})
               .attr("x", function(d,i) {return i*110}) // fixed start for a bar box
-              .attr("y", function(d) {return 500 - yScale(d.numTweets)})
+              .attr("y", function(d) {return 470 - yScale(d.numTweets)})
               .style("fill","blue")
               .style("stroke","red")
               .style("stroke-width","1px").style("opacity",.25);
+          
+          d3.select("svg")
+            .selectAll("text")
+            .data(nestedTweets)
+              .enter()
+              .append("text")
+              .attr("x", function(d,i) {return i*110 + 50}) // fixed start for a bar box
+              .attr("y", 500)
+              .text(function (d) { return d.key; });
         }
-      </script>
+  </script>
 </body>
 <html>
