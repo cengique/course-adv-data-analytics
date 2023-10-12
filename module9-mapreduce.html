@@ -631,11 +631,13 @@
 
                  For example:
                  ```bash
-                 $ lines=$(wc -l)
-                 $ part=100
-                 $ for (n=0; $n<10; n=$[ $n + 1 ]); do
-                     tail -$[ $lines - (n*$part) ] book.txt | head -$part > file-$n.txt
-                   done
+# example split code (OR do it manually):
+lines=$(wc -l book.txt | awk '{print $1}')
+part=1000
+# 5 pieces because my book is 5000+ lines
+for (( n=0; $n<5; n=$[ $n + 1 ] )); do
+    tail -$[ $lines - (n*$part) ] book.txt | head -$part > file-$n.txt
+done
                  ```
               </textarea>
              </section>
@@ -644,7 +646,18 @@
 
                  ### Count in partitions and then combine!
 
-                 - Use `grep -c` to count instances of a word in your book                 
+                 - Use `grep -c` to count instances of a word in your book
+
+                 Example:
+                 ```bash
+# search in all your files
+sum=0
+for file in file-*.txt; do 
+  echo $file; 
+  sum=$[ $sum + $( grep -ci wood $file ) ]  
+done
+echo $sum
+                 ```
                  
                </textarea>
              </section>
