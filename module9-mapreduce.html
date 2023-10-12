@@ -636,16 +636,15 @@
                  $ for (n=0; $n<10; n=$[ $n + 1 ]); do
                      tail -$[ $lines - (n*$part) ] book.txt | head -$part > file-$n.txt
                    done
-                 ````                 
+                 ```
               </textarea>
              </section>
              <section data-markdown>
                <textarea data-template>
 
-                 ### Do the counting in partitions and combine!
+                 ### Count in partitions and then combine!
 
-                 - Use `grep -c` to count instances of a word in your book
-                 
+                 - Use `grep -c` to count instances of a word in your book                 
                  
                </textarea>
              </section>
