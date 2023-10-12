@@ -539,7 +539,17 @@
           <section>
             <section data-markdown>
               <textarea data-template>
-                ### What is MapReduce? An example
+                ### What is MapReduce? The traditional method
+
+                <img src="images/before-mapreduce-grep.png"
+                     style="max-width: auto; height: 500px; margin: 10px;"/>
+
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+
+                ### An example of traditional method
 
                   A weather dataset from White Chapter 2
                   - Data from weather stations all around world
@@ -590,8 +600,63 @@
               </textarea>
              </section>
              <section data-markdown>
-              <textarea data-template>
-                    ### Map in Java: (ID, row of text) `$\Rightarrow$` (monthDay, temp)
+               <textarea data-template>
+
+                 ### MapReduce general case
+
+                 <img src="images/mapreduce-general-schema.png" style="max-width: auto; height: 500px; margin-left: auto;"/>
+                 (from [Medium](https://medium.com/edureka/mapreduce-tutorial-3d9535ddbe7c))
+              </textarea>
+             </section>
+          </section> <!-- end of vertical slides -->
+          <section> <!-- start of vertical slides -->
+             <section data-markdown>
+               <textarea data-template>
+
+                 ### Practice 1: Partition book file with grep+cat
+
+                 <img src="images/before-mapreduce-grep.png"
+                     style="max-width: auto; height: 300px; margin: 10px;"/>
+
+                 1. Get into my [Repl.it](https://replit.com/join/xbwujwynrm-cengique)
+                 1. Create your own folder
+                 1. Use `curl` to download your book from [Gutenberg](https://gutenberg.org/)
+                 1. I'm watching you! (click on History on bottom right)
+              </textarea>
+             </section>
+             <section data-markdown>
+               <textarea data-template>
+
+                 ### Divide your file into partitions:
+
+                 For example:
+                 ```bash
+                 $ lines=$(wc -l)
+                 $ part=100
+                 $ for (n=0; $n<10; n=$[ $n + 1 ]); do
+                     tail -$[ $lines - (n*$part) ] book.txt | head -$part > file-$n.txt
+                   done
+                 ````                 
+              </textarea>
+             </section>
+             <section data-markdown>
+               <textarea data-template>
+
+                 ### Do the counting in partitions and combine!
+
+                 - Use `grep -c` to count instances of a word in your book
+                 
+                 
+               </textarea>
+             </section>
+          </section> <!-- end of vertical slides -->
+          <section> <!-- start of vertical slides -->
+             <section data-markdown>
+               <textarea data-template>
+                 
+                 ### MapReduce in Hadoop with Java
+                 
+                    #### Map: (ID, row of text) `$\Rightarrow$` (monthDay, temp)
 
                     ```java
                     public class MaxTemperatureMapper extends MapReduceBase implements
@@ -1193,7 +1258,7 @@ public class TemperatureDriver {
                       ```
                </textarea>
              </section>
-            </section>
+            </section> <!-- end of vertical slides -->
 
           <section data-markdown>
            <textarea data-template>
