@@ -665,29 +665,28 @@ echo $sum
           <section> <!-- start of vertical slides -->
              <section data-markdown>
                <textarea data-template>
-                 
                  ### MapReduce in Hadoop with Java
                  
-                    #### Map: (ID, row of text) `$\Rightarrow$` (monthDay, temp)
-
-                    ```java
-                    public class MaxTemperatureMapper extends MapReduceBase implements
-                      Mapper<LongWritable, Text, Text, IntWritable> {
-                      @Override
-                      public void map(LongWritable key, Text value, OutputCollector<Text, IntWritable> output,
-                              Reporter reporter) throws IOException {
-                        String line = value.toString();
-                        String[] data = line.split(",");
-                        String monthDay = line.substring(10, 15);
-                        int airTemperature;
-                        String temp = "";
-                        temp = data[2].trim();
-                        airTemperature = (int) Double.parseDouble(temp);
-                        output.collect(new Text(monthDay), new IntWritable(airTemperature));
-                      }
-                    }
-                    ```
-                    <!-- .element:   -->
+                 #### Map: (ID, row of text) `$\Rightarrow$` (monthDay, temp)
+                 
+                 ```java
+                 public class MaxTemperatureMapper extends MapReduceBase implements
+                   Mapper<LongWritable, Text, Text, IntWritable> {
+                   @Override
+                   public void map(LongWritable key, Text value, OutputCollector<Text, IntWritable> output,
+                           Reporter reporter) throws IOException {
+                     String line = value.toString();
+                     String[] data = line.split(",");
+                     String monthDay = line.substring(10, 15);
+                     int airTemperature;
+                     String temp = "";
+                     temp = data[2].trim();
+                     airTemperature = (int) Double.parseDouble(temp);
+                     output.collect(new Text(monthDay), new IntWritable(airTemperature));
+                   }
+                 }
+                 ```
+                 <!-- .element:   -->
               </textarea>
              </section>
              <section data-markdown>
