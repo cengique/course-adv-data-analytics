@@ -8,6 +8,7 @@
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
+                <link rel="stylesheet" href="css/slides.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -63,7 +64,7 @@
                   });
                 </script-->
 
-  		<script>
+  		<script type="module">
 			var link = document.createElement( 'link' );
 			link.rel = 'stylesheet';
 			link.type = 'text/css';
@@ -129,14 +130,70 @@
                   #### Reading: Ch 7 from Zaki and Meira
                 </textarea>
               </section>
-	      <section style="padding: 0px;">
+	      <!--section style="padding: 0px;">
+  		<iframe style="width: 1280px; height: 720px;"
+                	src="original/DSA-course-map-fall2019.pdf"></iframe>
                 <canvas id="page-1" style="width: 1280px; height: 720px;"></canvas>
                 <script>
                   showPDFPage("original/DSA-course-map-fall2019.pdf", 1, "page-1");
-  <iframe style="width: 1280px; height: 720px;"
-                  src="slides/zaki-meira-ch7.pdf"></iframe>
-
                 </script>
+              </section-->
+              <section data-markdown>
+                <textarea data-template>
+                  ### What is dimensionality reduction?
+
+                  Curse of dimensionality:
+                  - anything more than 3 dimensions is difficult to visualize
+                  - can be hard to process computationally
+                  - relations between data points may not be visible
+
+                </textarea>
+              </section>
+	      <section data-markdown>
+                <textarea data-template>
+                  ### Dimensionality reduction idea
+                  
+                  <img src='images/Dimensionality_Reduction_GfG.jpg'
+                       style="max-width: auto; height: 500px;"><br/>                  
+                  (image credits [GeeksForGeeks](https://www.geeksforgeeks.org/dimensionality-reduction/))
+
+                  
+                </textarea>
+              </section>
+              <section>
+	      <section data-markdown>
+                <textarea data-template>
+                  ### Example dataset: Iris
+
+                  <img src='images/Iris_germanica.jpg'
+                       style="float: right; max-width: auto; height: 400px; margin: 1em;"> 
+                  [Description](https://archive.ics.uci.edu/dataset/53/iris) from the UCI Machine Learning Repository.
+
+                  Classic dataset for demonstrating hard-to-classify categories.
+
+                  Try to guess species of flowers based on measurement of properties such as petal length, etc.
+                  
+                  Download link: [Iris dataset](https://gist.github.com/curran/a08a1080b88344b0c8a7#file-iris-csv)
+                  
+                </textarea>
+              </section>
+              <section data-markdown>
+                <textarea data-template>
+                  ### Practice: Iris dataset
+
+                  Try to see if you can find groups representing the `species` column:
+                  - use histograms
+                  - scatter plots
+
+                  ```python
+                  import pandas as pd
+
+                  # download iris data and read it into a dataframe
+                  url = 'http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
+                  df = pd.read_csv(url, names=['sepal_length', 'sepal_width', 'petal_length', 'petal_width', 'class'])
+                  ```
+                </textarea>
+              </section>              
               </section>
 	      <section data-markdown>
                 <textarea data-template>
@@ -153,6 +210,8 @@
                         src="slides/zaki-meira-ch7.pdf"></iframe>
               </section>
 	      <section style="padding: 0px;">
+  		<iframe style="width: 1280px; height: 720px;"
+                	src="slides/pca-ADM-1page.pdf"></iframe>
                 <canvas id="page-adm-pca" style="width: 1280px; height: 720px;"></canvas>
                 <script>
                   showPDFPage("slides/pca-ADM-1page.pdf", 1, "page-adm-pca");
@@ -166,7 +225,7 @@
                   - not necessarily orthogonal, but *statistically* independent
                   - solution to "cocktail party problem", or "blind source separation"
 
-                  <iframe src="http://commons.wikimedia.org/wiki/File:A-Local-Learning-Rule-for-Independent-Component-Analysis-srep28073-s3.ogv?embedplayer=yes" width="636" height="480" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+                  <iframe src="https://commons.wikimedia.org/wiki/File:A-Local-Learning-Rule-for-Independent-Component-Analysis-srep28073-s3.ogv?embedplayer=yes" width="636" height="480" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
                 </textarea>
               </section>
@@ -195,6 +254,7 @@
 
 	      // Factor of the display size that should remain empty around the content
 	      margin: 0.1,
+              history: true,
 
 	      // Bounds for smallest/largest possible scale to apply to content
 	      minScale: 0.2,
@@ -211,5 +271,6 @@
 	      ]
 	    });
 	  </script>
+          <a class="home-link" href="index.html">&lt; Home</a>
 	</body>
 </html>
