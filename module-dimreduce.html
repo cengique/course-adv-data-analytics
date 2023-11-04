@@ -244,15 +244,30 @@
 	      <section data-markdown>
                 <textarea data-template>
 
-                  #### Calculating principle components
-                  
-                  - Calculate _covariance matrix_:
-                  $$ \mathrm{cov}(\mathbf{D}) = \frac{1}{n} \sum \mathbf{x}_i^T \mathbf{x}_i $$
-                  where $\mathbf{D}$ is the data matrix and $\mathbf{x}_i$ is the $i$th row vector <br>
-                  (not following the book's convention), and $n$ is the number of rows.                  
-                  - The eigenvector with the largest eigenvalue of the
-                  covariance matrix is then the first principle component.
-                  - See details in book next.
+                  #### Calculating PCA: Find covariance
+
+                  - _Center_ your data matrix $\mathbf{O}$ by subtracting the mean of columns:
+                  $$ \mathbf{D} = \mathbf{O} - \mathbf{\mu}$$
+                  (calculate $\mathbf{\mu}$ with [`pandas.DataFrame.mean`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.mean.html) )
+                  - Then calculating _covariance matrix_ only requires sum of squares:
+                  $$ \mathrm{cov}(\mathbf{D}) = \frac{1}{n-1} \sum \mathbf{x}_i^T \mathbf{x}_i $$
+                  where $\mathbf{D}$ is the centered data matrix, $\mathbf{x}_i$ is the $i$th row vector <br>
+                  (not using the book convention), and $n$ is the number of rows.
+                  - Can also be calculated by [`numpy.cov()`](https://numpy.org/doc/stable/reference/generated/numpy.cov.html) by passing $\mathbf{O}^T$.
+
+                </textarea>
+              </section>
+	      <section data-markdown>
+                <textarea data-template>
+
+                  #### Calculating PCA from covariance matrix
+
+                  - Find eigenvalues and eigenvectors of covariance matrix
+                  - The eigenvector with the **largest eigenvalue** of the
+                  covariance matrix is then the first principal component.
+                  - Rest of components come from eigenvectors sorted in
+                  decreasing order of their eigenvalues.
+                  - See more details in textbook below.
                   
                 </textarea>
               </section>
