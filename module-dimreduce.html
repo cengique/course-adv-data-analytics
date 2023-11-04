@@ -241,6 +241,21 @@
                   
                 </textarea>
               </section>
+	      <section data-markdown>
+                <textarea data-template>
+
+                  #### Calculating principle components
+                  
+                  - Calculate _covariance matrix_:
+                  $$ \mathrm{cov}(\mathbf{D}) = \frac{1}{n} \sum \mathbf{x}_i^T \mathbf{x}_i $$
+                  where $\mathbf{D}$ is the data matrix and $\mathbf{x}_i$ is the $i$th row vector <br>
+                  (not following the book's convention), and $n$ is the number of rows.                  
+                  - The eigenvector with the largest eigenvalue of the
+                  covariance matrix is then the first principle component.
+                  - See details in book next.
+                  
+                </textarea>
+              </section>
 	      <section style="padding: 0px;">
                 <iframe style="width: 1280px; height: 720px;"
                         src="slides/zaki-meira-ch7.pdf"></iframe>
