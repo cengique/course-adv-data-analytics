@@ -244,15 +244,53 @@
 	      <section data-markdown>
                 <textarea data-template>
 
-                  #### Calculating PCA: Find covariance
+                  #### PCA from _covariance_
 
-                  - _Center_ your data matrix $\mathbf{O}$ by subtracting the mean of columns:
-                  $$ \mathbf{D} = \mathbf{O} - \mathbf{\mu}$$
+                  > Covariance is about the degree to which two random variables behave similarly
+                  ([Wikipedia](https://en.wikipedia.org/wiki/Covariance)).
+
+                  **Variance** of one variable:
+                  $$\mathrm{var}(X) = \sum (x_i - \mu_X)^2/(N-1)$$
+
+                  **Covariance** between two variables:
+                  $$\mathrm{cov}(X,Y) = \sum (x_i - \mu_X)(y_i - \mu_Y)/(N_X-1)(N_Y-1)$$
+                  
+                </textarea>
+              </section>
+	      <section data-markdown>
+                <textarea data-template>
+                  From an an input matrix $\mathbf{X}$, we can find a _covariance matrix_
+                  ([Wikipedia](https://en.wikipedia.org/wiki/Covariance_matrix)):
+
+                  `$$ \mathrm{cov}(\mathbf{X}) = \left[ \begin{array}{c}
+                  \begin{array}{cccc} 
+                  \mathrm{var}(X_1) & \mathrm{cov}(X_1, X_2) & \cdots & \mathrm{cov}(X_1, X_N) \\
+                  \mathrm{cov}(X_2, X_1) & \mathrm{var}(X_2) & & \vdots \\
+                  \vdots & & \ddots & \vdots \\
+                  \mathrm{cov}(X_N, X_1) & \cdots & & \mathrm{var}(X_N) \\
+                  \end{array}
+                  \end{array} \right] 
+                  $$`
+
+                  $X_i$ is the $i$th dimension of input data matrix $\mathbf{X}$.
+
+                  $\mathrm{cov}(\mathbf{X})$ will be symmetric since
+                  $\mathrm{cov}(X_i, X_j) = \mathrm{cov}(X_j, X_i)$
+
+                </textarea>
+              </section>
+	      <section data-markdown>
+                <textarea data-template>
+
+                  #### Calculating the covariance matrix
+
+                  - _Center_ your data matrix $\mathbf{X}$ by subtracting the mean of columns:
+                  $$ \mathbf{D} = \mathbf{X} - \mathbf{\mu}$$
                   (calculate $\mathbf{\mu}$ with [`pandas.DataFrame.mean`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.mean.html) )
                   - Then calculating _covariance matrix_ only requires sum of squares:
-                  $$ \mathrm{cov}(\mathbf{D}) = \frac{1}{n-1} \sum \mathbf{x}_i^T \mathbf{x}_i $$
-                  where $\mathbf{D}$ is the centered data matrix, $\mathbf{x}_i$ is the $i$th row vector <br>
-                  (not using the book convention), and $n$ is the number of rows.
+                  $$ \mathrm{cov}(\mathbf{D}) = \frac{1}{N-1} \sum \mathbf{d}_i^T \mathbf{d}_i $$
+                  where $\mathbf{D}$ is the centered data matrix, $\mathbf{d}_i$ is the $i$th row vector <br>
+                  (not using the book convention), and $N$ is the number of rows.
                   - Can also be calculated by [`numpy.cov()`](https://numpy.org/doc/stable/reference/generated/numpy.cov.html) by passing $\mathbf{O}^T$.
 
                 </textarea>
