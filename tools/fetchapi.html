@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Fetch an API!</h1>
+<h2>Paste the URL and click fetch</h2>
+
+<form><input id="query" type="text" style="width: 85%;"></input>
+<input type="button" onClick="getText(document.getElementById('query').value);" value="Fetch" style="width: 10%;"></input>
+</form>
+
+<pre id="demo">Results will show in here.</pre>
+
+<script>
+async function getText(file) {
+  let x = await fetch(file);
+  let y = await x.text();
+  document.getElementById("demo").innerHTML = y;
+}
+</script>
+
+</body>
+</html>
