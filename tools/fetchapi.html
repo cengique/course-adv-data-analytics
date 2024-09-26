@@ -14,7 +14,7 @@
 async function getText(file) {
   let x = await fetch(file);
   let y = await x.text();
-  document.getElementById("demo").innerHTML = y;
+    document.getElementById("demo").innerHTML = JSON.stringify(JSON.parse(y), null, 2);
 }
 </script>
 
