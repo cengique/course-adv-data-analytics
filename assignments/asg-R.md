@@ -7,14 +7,17 @@ and we can provide alternatives.
 
 # Create a report to submit
 
+In data science, communication is paramount. One way to convey your
+results is to create reports that combine text and graphs. You will
+create such a report for your project and we will publish it
+publicly. Imagine that you are publishing a study about your dataset,
+so make sure to use a proper title (as opposed to "assignment") and
+briefly introduce your dataset and questions.
+
 To start, create an [R
 Markdown](https://rmarkdown.rstudio.com/lesson-1.html) document in R
-Studio and use the free Rpubs option to share it to create a link to
-post here. You will need to create a free account on
-Rpubs. Alternatively, use another [sharing
-option](https://bookdown.org/yihui/rmarkdown-cookbook/html-share.html).
-Inside your R Markdown document, start by attaching your CSV file or
-linking to your dataset source so others can replicate your
+Studio.  Inside your R Markdown document, start by attaching your CSV
+file or linking to your dataset source so others can replicate your
 analysis. Then, add more code and Markdown text blocks for answering
 the questions below. We will go over this in class (also see [Markdown
 tutorial](https://commonmark.org/help/tutorial/index.html)). If unable
@@ -52,6 +55,11 @@ it is properly formatted and reads like a real report.
    is consistent with the distribution that you observed earlier. Show
    the code and briefly explain the results. 
 
+After finishing all the questions, use the free Rpubs option to share
+your R Markdown document to create a link to post here. You will need
+to create a free account on Rpubs. Alternatively, use another [sharing
+option](https://bookdown.org/yihui/rmarkdown-cookbook/html-share.html).
+
 # Alternative submission instructions:
 
 In case you can't get an R Markdown to work for some reason, you can
@@ -76,3 +84,4 @@ for selecting an alternative to R Markdown. Select ONE of the following:
 4. Least desirable option: Make a Word doc and upload it somewhere
    (OneDrive, Dropbox, Google Drive) so you can share the link here
    (you may lose points if you select this option).
+
