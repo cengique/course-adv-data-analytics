@@ -6,19 +6,7 @@ An  important part of data science and analytics is communicating your results t
 
 We aim to do an **in-person** presentation at the CREATE event at **2-3pm on** **Thursday November 14th** (for those of you who have a valid excuse, the online spot is Fri, Nov 15th 10am or 2pm). You are required to be **present for 30 minutes** during this event. If you have a schedule conflict that you can't resolve, do let me know ASAP.
 
-You  have already published analysis results on your dataset, so it's time to refine and make a good presentation. Follow below to submit your abstract, but also post your title and abstract here:
-
-First submit abstract here, then submit to form next week after feedback and fixes.
-
-1. Open the [submission form](https://forms.office.com/r/VNunu5wm4i)
-1. Q1: Select "Hanging poster on Thursday, November 14, 2024"
-1. Q2: Title for poster presentation (scroll here below for guidance)
-1. Q3: Enter "Information Technology/Data Science and Analytics"
-1. Q4: Your  name, as you want it displayed (or omitted) in the CREATE program. 
-3. Q5: your GGC email.
-1. Q6-7: Enter my name. You can enter more professors for Q6 if you have them.
-1. Q8: leave blank (or ask me).
-4. Q9: Your abstract (scroll here below for guidance)
+You  have already published analysis results on your dataset, so it's time to refine and make a good presentation. Follow the examples and guidelines below, and then post your title and abstract here.
 
 # Answer Questions
 
