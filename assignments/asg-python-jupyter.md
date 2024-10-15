@@ -25,6 +25,7 @@ You  have already published analysis results on your dataset, so it's time to re
    1. Scrub/munge your data using _Pythonic_ expressions and [pandas workflows](https://pandas.pydata.org/docs/getting_started/intro_tutorials/03_subset_data.html). Make sure to introduce your dataset and explain its attributes after showing them in the output of notebook blocks. Briefly explain your munging steps.
    1. Recreate 2 plots from your R Markdown report, or make new ones.
    1. Run statistical tests to improve upon what you did with R. You can dig deeper into your hypothesis, or test new ones.
+   1. Implement k-means clustering but choose a different similarity metric - justify why (instead of stats?)
 
 # CREATE Abstract Content guidelines:
 
