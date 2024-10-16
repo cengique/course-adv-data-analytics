@@ -10,7 +10,7 @@ You  have already published analysis results on your dataset, so it's time to re
 
 # Answer Questions
 
-1. Read PDA chapters 5-10. There will be a quiz.
+1. Review content from PDA textbook chapters 4-10 that you learned in ITEC 3160. There will be a quiz. If you need additional support follow this LinkedIn Learning video on [Python Data Analysis](https://www.linkedin.com/learning/python-data-analysis-2/get-started-in-data-analysis-with-python?u=76116202)
 1. Create a new Jupyter notebook for your project based on the dataset you selected earlier. In the notebook, have the following:
    1. A   good, descriptive or interesting title, that drives a take-home  message  you can convey based on your previous results on your dataset
    2. Start with a text paragraph that briefly explains your motivation and dataset. You can use the abstract you created earlier.
