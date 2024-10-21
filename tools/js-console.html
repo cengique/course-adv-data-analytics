@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<body style="background-color: white;">
+<h1>Fetch an API!</h1>
+<h2>Paste the URL and click fetch</h2>
+
+<form>
+  <input id="query" type="text" style="width: 85%;"></input>
+  <input type="button" onClick="execute(document.querySelector('input#query').value);"
+         value="Run" style="width: 10%;"></input>
+</form>
+
+<pre id="demo">Results will show in here.</pre>
+
+<script>
+  function execute(cmd) {
+      result = eval(cmd);
+      document.getElementById("demo").innerHTML = document.getElementById("demo").innerHTML + "\n" + result;
+  }
+
+  const input = document.querySelector("input#query");
+  input.addEventListener("keydown", updateValue);
+
+  function updateValue(e) {
+      if ((e && e.keyCode == 13) || e == 0) {
+          e.preventDefault();
+          document.querySelector("input[type=button]").click();
+      }
+  }
+</script>
+
+</body>
+</html>
