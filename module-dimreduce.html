@@ -263,11 +263,10 @@
                   ([Wikipedia](https://en.wikipedia.org/wiki/Covariance_matrix)):
 
                   `$$ \mathrm{cov}(\mathbf{X}) = \left[ \begin{array}{c}
-                  \begin{array}{cccc} 
-                  \mathrm{var}(X_1) & \mathrm{cov}(X_1, X_2) & \cdots & \mathrm{cov}(X_1, X_N) \\
-                  \mathrm{cov}(X_2, X_1) & \mathrm{var}(X_2) & & \vdots \\
-                  \vdots & & \ddots & \vdots \\
-                  \mathrm{cov}(X_N, X_1) & \cdots & & \mathrm{var}(X_N) \\
+                  \begin{array}{ccc} 
+                  \mathrm{var}(X_1) & \cdots & \mathrm{cov}(X_1, X_N) \\
+                  \vdots & \ddots & \vdots \\
+                  \mathrm{cov}(X_N, X_1) & \cdots & \mathrm{var}(X_N) \\
                   \end{array}
                   \end{array} \right] 
                   $$`
@@ -300,7 +299,7 @@
 
                   #### Calculating PCA from covariance matrix
 
-                  - Find eigenvalues and eigenvectors of covariance matrix
+                  - Find eigenvalues and eigenvectors of covariance matrix (you can use [numpy.linalg.eig](https://numpy.org/doc/stable/reference/generated/numpy.linalg.eig.html))
                   - The eigenvector with the **largest eigenvalue** of the
                   covariance matrix is then the first principal component.
                   - Rest of components come from eigenvectors sorted in
