@@ -9,10 +9,25 @@
 
 <form>
   <h2>HTML</h2>
-  <textarea id="HTML" rows="10" style="width: 85%;"></textarea>
+  <textarea id="HTML" rows="10" style="width: 85%;"><svg style="width: 500px; height: 500px; border: 1px lightgray solid"></svg></textarea>
   
   <h2>Javascript</h2>
-  <textarea id="JS" rows="10" style="width: 85%;"></textarea>
+  <textarea id="JS" rows="10" style="width: 85%;">
+d3.csv("https://gist.githubusercontent.com/curran/a08a1080b88344b0c8a7/raw/0e7a9b0a5d22642a06d3d5b9bcbad9890c8ee534/iris.csv").then(function (data) {
+        const svg = d3.select("svg");
+        svg
+          .append("circle")
+          .attr("cx", 50)
+          .attr("cy", 50)
+          .attr("r", 20)
+          .attr("fill", "blue")
+          .transition()
+          .duration(2000)
+          .attr("cx", 150)
+          .attr("cy", 150)
+          .attr("fill", "purple");
+      });
+  </textarea>
 
   <p><input type="button"
          onClick="execute(document.querySelector('textarea#HTML').value);"
