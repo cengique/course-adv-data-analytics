@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html>
 <body style="background-color: white;">
-<h1>Fetch an API!</h1>
-<h2>Paste the URL and click fetch</h2>
+<h1>HTML + Javascript sandbox</h1>
+
 
 <form>
-  <input id="query" type="text" style="width: 85%;"></input>
-  <input type="button" onClick="execute(document.querySelector('input#query').value);"
-         value="Run" style="width: 10%;"></input>
+  <h2>HTML</h2>
+  <textarea id="HTML" rows="10" style="width: 85%;"></textarea>
+  
+  <h2>Javascript</h2>
+  <textarea id="JS" rows="10" style="width: 85%;"></textarea>
+
+  <p><input type="button"
+         onClick="execute(document.querySelector('textarea#HTML').value);"
+         value="Run" style="width: 10%;"></input></p>
 </form>
 
-<pre id="demo">Results will show in here.</pre>
+<h2>Output</h2>
+<div id="demo"></div>
 
 <script>
   function execute(cmd) {
-      result = eval(cmd);
-      document.getElementById("demo").innerHTML = document.getElementById("demo").innerHTML + "\n" + result;
+      document.getElementById("demo").innerHTML = cmd;
+       eval(document.querySelector('textarea#JS').value);
   }
 
   const input = document.querySelector("input#query");
