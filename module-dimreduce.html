@@ -286,10 +286,12 @@
                   - _Center_ your data matrix $\mathbf{X}$ by subtracting the mean of columns:
                   $$ \mathbf{D} = \mathbf{X} - \mathbf{\mu}$$
                   (calculate $\mathbf{\mu}$ with [`pandas.DataFrame.mean`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.mean.html) )
-                  - Then calculating _covariance matrix_ only requires sum of squares:
-                  $$ \mathrm{cov}(\mathbf{D}) = \frac{1}{N-1} \sum \mathbf{d}_i^T \mathbf{d}_i $$
-                  where $\mathbf{D}$ is the centered data matrix, $\mathbf{d}_i$ is the $i$th row vector <br>
-                  (not using the book convention), and $N$ is the number of rows.
+                  - Calculating _cov_ only requires sum of squares of _outer products_:
+                  $$ \mathrm{cov}(\mathbf{D}) = \sum \mathbf{d}_i^T \mathbf{d}_i / (N-1) $$
+                  where $\mathbf{D}$ is the centered data matrix, $\mathbf{d}_i$ is the $i$th
+                  row vector, and $N$ is the number of rows.
+                  - It can be simplified to a single matrix multiplication:
+                  $$ \mathrm{cov}(\mathbf{D}) = \mathbf{D}^T \mathbf{D} / (N-1) $$
                   - Can also be calculated by [`numpy.cov()`](https://numpy.org/doc/stable/reference/generated/numpy.cov.html) by passing $\mathbf{X}^T$.
 
                 </textarea>
