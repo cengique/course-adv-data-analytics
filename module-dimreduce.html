@@ -306,7 +306,43 @@
                   covariance matrix is then the first principal component.
                   - Rest of components come from eigenvectors sorted in
                   decreasing order of their eigenvalues.
+                </textarea>
+              </section>
+	      <section data-markdown>
+                <textarea data-template>
+
+                  #### Explained variance and deciding on number of PCs to use
+                  
+                  - <img src="images/pca-explained-var.png" style="float: right; max-width: auto; height: 500px; margin: 1em;"/> Magnitude of eigenvalues indicate **explained variance**
+                  by the components.
+                  - PCs whose cumulative sum of explained variance reaches
+                  90% is enough to explain data.
+                  - Rest of PCs can be ignored.
+
+                  
+                </textarea>
+              </section>
+	      <section data-markdown>
+                <textarea data-template>
+
+                  #### Explaining principal components
+
+                  - <img src="images/pca-pc1.png" style="float: right; max-width: auto; height: 500px; margin: 1em;"/> PCs have same dimensions as your original data columns.
+                  - PC coefficients that correspond to each column are called **loadings**.
+                  - Loadings indicate positive and negative correlations of original columns that make up the PC.
+
+                </textarea>
+              </section>
+	      <section data-markdown>
+                <textarea data-template>
+
+                  #### Transforming your data onto the PC space
+                  
+                  - Matrix multiplying original data with PCs will scale original columns with loadings.
+                  - Result will have dimensions of the number of PCs that you selected.
                   - See more details in textbook below.
+
+                  <img src="images/pca-scatter-orig.png" style="max-width: auto; height: 300px; margin: 1em;"/><img src="images/pca-scatter-pcs.png" style="max-width: auto; height: 300px; margin: 1em;"/>
                   
                 </textarea>
               </section>
