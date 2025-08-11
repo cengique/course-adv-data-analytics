@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Schedule - ITEC 4220 Advanced Data Analytics</title>
+
+		<style>
+		  body {
+		    background-color: lightgray;
+		  }
+		  div.content {
+		    max-width: 80em;
+		    margin-left: auto;
+		    margin-right: auto;
+		    background-color: white;
+		    box-shadow: 10px 10px 5px grey;
+		  }
+		  tr:nth-child(even) {background-color: #f2f2f2;}
+		  tr:hover {background-color: #f5f5f5;}
+		  th, td {
+		    padding: 15px;
+		    text-align: left;
+		  }
+		</style>
+	</head>
+	<body>
+	  <div class="content">
+	    <table class="schedule-table">
+	      <tr><th>#</th><th>Date</th><th>Module</th><th>Topic</th><th>Reading</th><th>Assignment</th></tr>
+	    </table>
+	  </div>
+	  
+	  <script>
+	    //Reveal.addEventListener( 'schedule', , false );
+
+	    // Fill in schedule table with JSON data
+	    var modules = [
+	      {name: "Introduction",
+	       topic: "Intro to data science. Anatomy of a data science project: hypothesis testing, model development, visualization.",
+               reading: "Skills assessment", module: 1, 
+	       assignment: "Research data sources and problem questions", days: 7},
+		{name: "Command line and regular expressions review, R language introduction",
+               topic: "History and comparison, basic navigation and commands, functions and variables, workspace, scalars, vectors, matrices, dataframes, file I/O, plotting.",
+               reading: "R in a Nutshell, Ch 3; R cheatsheet", module: 1, 
+               assignment: "Command line and Rstudio", days: 9 },
+              {name: "Linear algebra, graphing, and statistics with R",
+               topic: "Basic hypothesis testing, regression, other statistical tests. Loop vs vector operations. Vector inner and outer products, matrix multiplication. Probability distributions and statistical tests.",
+               reading: "R for Data Science, Ch 1 (Data visualization)", module: 1, 
+               assignment: "R data exploration and plotting in Gist", days: 7},
+              {name: "SQL databases",
+               topic: "Relational databases, data normalization, cloud connectivity and practice.",
+               reading: "SQL language tutorial", module: 1, 
+               assignment: "Populating SQL tables and running queries", days: 5},
+		{name: "noSQL databases and web APIs",
+		 topic: "JSON structure, web APIs, accessing and querying",
+               reading: "JSON tutorial", module: 1, 
+		 assignment: "Create Github repo and host R markdown on Pages; convert, host, and query JSON dataset", days: 7},
+	      {name: "Interactive visualization dashboards",
+               topic: "Using Tableau and Power BI; elements of style and graphing",
+               reading: "Beautiful visualization",  module: 1, 
+               assignment: "Publish Tableau/Power BI graphs", days: 7},
+            {special: "Mid-term review and exam", days: 7},
+            {name: "Creating custom visualizations",
+               topic: "using JSON web APIs; interactive visualization libraries (D3.js, chartJS, plot.ly)",
+               reading: "Javascript and DOM tutorial; D3.js interactive graphs usage",  module: 1, 
+               assignment: "Connecting to JSON/SQL data sources and visualization in JS", days: 14},
+              {name: "Clustering in Jupyter with Python",
+               topic: "Interactive Jupyter notebooks with Pandas; describe hypothesis and explore dataset; find common data clusters in dataset by writing algorithm from scratch",
+               reading: "Python for Data Analysis, Chs 5-10; Data Mining and Analysis, Ch 13-14",  module: 1, 
+            assignment: "Jupyter notebook and apply clustering", days: 14},
+            {name: "Classification",
+               topic: "Run Classification in Jupyter/Spark to explore dataset.",
+               reading: "TBA",  module: 1, 
+               assignment: "Project classification results; CREATE poster draft", days: 7},
+            /*{name: "Remote server access and Spark analysis",
+               topic: "Opening remote shells and transferring data. Convert an algorithm to use distributed computing with Spark.",
+               reading: "TBA",  module: 1, 
+            assignment: "Spark exercise and remote terminal", days: 7},*/
+            {name: "Dimensionality reduction",
+               topic: "Run PCA in Jupyter/Spark to explore dataset.",
+               reading: "TBA",  module: 1, 
+               assignment: "Project PCA results", days: 7},
+	    /*{name: "Statistics and advanced analysis",
+            topic: "Apply statistics, time series and text analysis on dataset. Apply information retrieval and prediction algorithms",
+               reading: "TBA",  module: 1, 
+               assignment: "Project hypotheses and plots; time series and text analysis assignment; submit poster", days: 7},*/
+              {name: "Finalize projects and present",
+               topic: "Practice in class and present at the CREATE Symposium",
+               reading: "None",  module: 1, 
+            assignment: "Fix project based on feedback received; update Github with results", days: 7},
+              {name: "Final exam review",
+               topic: "",
+               reading: "Final exam content",  module: 1, 
+               assignment: "None", days: 7},
+              {special: "Thanksgiving break", days: 14},
+              {special: "Final exam, 8-10:30am", days: 1},
+	    ];
+	      
+
+	    var moduleNum = 0;
+	    var startDate = new Date("2024/08/13");
+	    modules.forEach(item => {
+	      var row = document.createElement("tr");
+
+              if (item.special) {
+                row.innerHTML = "<td></td><td>"
+		  + (startDate.getMonth() + 1) + "/" + startDate.getDate() + "</td><td>"
+		  + item.special + "</td><td></td><td></td><td></td>";
+              } else {
+	        moduleNum = moduleNum + item.module;
+	        row.innerHTML = "<td>" + (item.module?moduleNum:"") + "</td><td>"
+		  + (startDate.getMonth() + 1) + "/" + startDate.getDate() + "</td><td>"
+		  + item.name + "</td><td>" + item.topic + "</td>" +
+		  "<td>" + item.reading + "</td>" +
+		  "<td>" + item.assignment + "</td>";
+              }
+	      document.getElementsByClassName("schedule-table")[0].append(row);
+	      startDate.setDate(startDate.getDate() + item.days);              
+	    });
+	      
+	  </script>
+	</body>
+</html>
