@@ -28,7 +28,7 @@
 	<body>
 	  <div class="content">
 	    <table class="schedule-table">
-	      <tr><th>#</th><th>Date</th><th>Module</th><th>Topic</th><th>Reading</th><th>Assignment</th></tr>
+	      <tr><th>Wk</th><th>Date</th><th>Module</th><th>Topic</th><th>Reading</th><th>Assignment</th></tr>
 	    </table>
 	  </div>
 	  
@@ -61,7 +61,8 @@
                topic: "Using Tableau and Power BI; elements of style and graphing",
                reading: "Beautiful visualization",  module: 1, 
                assignment: "Publish Tableau/Power BI graphs", days: 7},
-            {special: "Mid-term review and exam", days: 7},
+            {name: "Mid-term review and exam",
+            topic: "", reading: "", assignment: "", days: 7},
             {name: "Creating custom visualizations",
                topic: "using JSON web APIs; interactive visualization libraries (D3.js, chartJS, plot.ly)",
                reading: "Javascript and DOM tutorial; D3.js interactive graphs usage",  module: 1, 
@@ -94,30 +95,35 @@
                topic: "",
                reading: "Final exam content",  module: 1, 
                assignment: "None", days: 7},
-              {special: "Thanksgiving break", days: 14},
-              {special: "Final exam, 8-10:30am", days: 1},
+              {special: "Thanksgiving break", days: 14}/*,
+              {special: "Final exam, 8-10:30am", days: 1},*/
 	    ];
 	      
 
 	    var moduleNum = 0;
-	    var startDate = new Date("2024/08/13");
+	    const startDate = new Date("2025/08/12");
+            var startDay = 0;
+            var specialdays = 0;
+            var rowDate = startDate;
 	    modules.forEach(item => {
 	      var row = document.createElement("tr");
 
               if (item.special) {
                 row.innerHTML = "<td></td><td>"
-		  + (startDate.getMonth() + 1) + "/" + startDate.getDate() + "</td><td>"
-		  + item.special + "</td><td></td><td></td><td></td>";
+		  + (rowDate.getMonth() + 1) + "/" + rowDate.getDate() + "</td><td>"
+		    + item.special + "</td><td></td><td></td><td></td>";
+                specialdays += item.days;
               } else {
-	        moduleNum = moduleNum + item.module;
-	        row.innerHTML = "<td>" + (item.module?moduleNum:"") + "</td><td>"
-		  + (startDate.getMonth() + 1) + "/" + startDate.getDate() + "</td><td>"
+	          moduleNum = moduleNum + item.module;
+	        row.innerHTML = "<td>" + ( Math.floor((startDay - specialdays)/7) + 1) + "</td><td>"
+		  + (rowDate.getMonth() + 1) + "/" + rowDate.getDate() + "</td><td>"
 		  + item.name + "</td><td>" + item.topic + "</td>" +
 		  "<td>" + item.reading + "</td>" +
 		  "<td>" + item.assignment + "</td>";
               }
 	      document.getElementsByClassName("schedule-table")[0].append(row);
-	      startDate.setDate(startDate.getDate() + item.days);              
+              startDay = startDay + item.days;
+	      rowDate.setDate(rowDate.getDate() + item.days);              
 	    });
 	      
 	  </script>
