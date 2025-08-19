@@ -1,20 +1,23 @@
 # Assignment 2: Manipulate your CSV dataset and import into R (midnight Mon Aug 26) 
 
-# Reddit instructions
+## Instructions
 
 - Post your answers below in a **single reply** so we can see your results. 
 - You can start by answering one of the questions and edit/reply to it later to add more. 
-- Use the **formatting** options in Reddit, especially the "code block" to make your answers more readable. 
-- **Screenshots:** Note that you can't paste images in your replies on Reddit, but you can give links to image files you uploaded elsewhere ([imgur](https://imgur.com/), OneDrive, Google Drive, etc). 
-- **Upvote** answers of others that you find interesting by pressing the up arrow button. 
+- Use Markdown **formatting**, especially the "code block" to make your answers more readable like this: 
+\`\`\`
+code
+\`\`\` 
+- **Screenshots:** you can paste images in your replies or you can give links to image files you uploaded elsewhere ([imgur](https://imgur.com/), OneDrive, Google Drive, etc). 
+- **React** to answers of others that you find interesting by putting an emoji. 
 - **Reply to others** and give feedback for extra credit.
 
-# Assignment 
+## Assignment 
 
 This assignment is intended to practice command line and get started with R. Follow the steps:
 
 1. Start by downloading the CSV file of your dataset.
-1. Open a command line on your computer: Command Prompt or PowerShell on Windows and Terminal on Mac (On Windows, it may be better to download Git to have Git Bash, which is more compatible with Linux shells that we will use later in class).
+1. Open a command line on your computer: Command Prompt or PowerShell on Windows and Terminal on Mac (On Windows, it may be better to [download Git](https://git-scm.com/downloads) to have Git Bash, which is more compatible with Linux shells that we will use later in class).
 1. Post the commands you typed on your computer and the outputs you received from them in multiple code blocks in your response. Do all of the following using the command line (see D2L Resources section and [slides](https://cengique.github.io/course-adv-data-analytics/module3-data-scrub.html#/4)):
     1. In your command line prompt, show which location you are on your computer (use the `pwd` command)
     1. Create a new folder on your computer for your project work (use the `mkdir` command). Show the output of the `ls` command to confirm it.
