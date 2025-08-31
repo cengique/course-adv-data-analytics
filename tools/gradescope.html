@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Python submit to Gradescope demo</title>
+  </head>
+<body style="background-color: white;">
+<h1>Python submit to Gradescope demo</h1>
+
+<form>
+  <h2>HTML</h2>
+  <textarea id="Python" rows="10" style="width: 85%;">print("hello")</textarea>
+  
+  <p><input type="button"
+         onClick="execute(document.querySelector('textarea#Python').value);"
+         value="Run" style="width: 10%;"></input><input type="reset"
+         style="width: 10%;" value="Reset"></input></p>
+</form>
+
+<h2>Output</h2>
+<div id="demo"></div>
+
+<script>
+  async function execute(contents) {
+    // Get textarea contents as Blob
+    const file = new Blob([contents], {
+      type: 'text/plain;charset=utf-8',
+    });
+    console.log(file);
+    
+    // Create a FormData
+    const formData = new FormData();
+    formData.append('travel_time.py', file, 'travel_time.py');
+    console.log(formData);
+
+    try {
+      // https://cors-anywhere.herokuapp.com/
+      // `https://api.allorigins.win/get?url=${encodeURIComponent('https://www.gradescope.com/courses/1106756/assignments/6617143/submissions/')}`
+      // CORS-anywhere requires logging in first
+      const response = await fetch(`https://cors-anywhere.herokuapp.com/https://www.gradescope.com/courses/1106756/assignments/6617143/submissions/`, { // Replace with your server endpoint
+        method: 'POST',
+        headers: { 'Origin': 'https://www.gradescope.com' },
+        body: formData,
+        });
+
+        if (response.ok) {
+            const result = await response.json(); // Or response.text() if not JSON
+            console.log('File uploaded successfully:', result);
+            alert('File uploaded successfully!');
+        } else {
+            console.error('File upload failed:', response.statusText);
+            alert('File upload failed!');
+        }
+    } catch (error) {
+        console.error('Error during file upload:', error);
+        alert('An error occurred during file upload.');
+    }
+    
+    //document.getElementById("demo").innerHTML = contents;
+    //eval(document.querySelector('textarea#JS').value);
+  }
+
+  const input = document.querySelector("input#query");
+  input.addEventListener("keydown", updateValue);
+
+  function updateValue(e) {
+      if ((e && e.keyCode == 13) || e == 0) {
+          e.preventDefault();
+          document.querySelector("input[type=button]").click();
+      }
+  }
+</script>
+
+</body>
+</html>
