@@ -1,5 +1,15 @@
 // A failed attempt to upload static contents as code assignment submission to Gradescope
 
+/* Potential solution:
+
+   - Create backend that logs in as instructor and submits in the name of student
+   - Security issue: check if user is logged into D2L?
+   - Write backend in Express/vite/next.js
+   - env file for secrets
+   - student and assignment ID passed as GET request
+   - runs in iframe inside D2L
+ */
+
 const data = 'print("hello")';
 var blob = new Blob([data], {
   type: 'application/octet-stream' //text/plain;charset=utf-8
