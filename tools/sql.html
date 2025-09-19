@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<!--Simple Read eval print loop for SQL-->
+
+<head>
+	<meta charset="utf8">
+	<title>SQL REPL</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.13.0/sql-wasm.js" integrity="sha512-Yra4xuTWinXfBpG2ftgDX8MVmMiOev1FtqiYs51+kEna/5peD0kZqAL1syYCH61f9gxmAFidIJz42IKcRhWMkw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+  <h1>Enter SQL command to execute:</h1>
+        <textarea id="input" rows="10" style="width: 85%;"
+                  placeholder="ENTER SOME SQL"
+                  value="CREATE TABLE test(val);INSERT INTO test VALUES (666); SELECT * FROM test">
+          </textarea>
+
+	<button id='submit'>Execute</button>
+
+  <h1>Results:</h1>      
+	<pre id='result'></pre>
+  <h1>Errors:</h1>
+	<pre id='error'></pre>
+	<script>
+
+	  var db;
+          window.onload = (event) => {
+        	//Open a blank database
+		initSqlJs({ locateFile: filename => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.13.0/sql-wasm.wasm` }).then(function (SQL) {
+		  db = new SQL.Database();
+		});
+            console.log("page is fully loaded");
+          };
+	
+	  document.getElementById('submit').onclick = function () {
+	    var sql = document.getElementById('input').value;
+	    var result = '', error = '';
+	    try { result = db.exec(sql); }
+	    catch (e) { error = e; }
+	    document.getElementById('result').innerHTML = JSON.stringify(result, null, '  ');
+	    document.getElementById('error').innerHTML = error;
+	  };
+	</script>
+</body>
