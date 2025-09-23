@@ -238,6 +238,7 @@
 
                     - `awk, nawk, gawk` - text stream processing
                     - `grep` - find lines based on keyword
+                    - `sed` - search and replace streaming data
                     - `cat` - stream file
                     - `head/tail` - get beginning and end of file/stream
                     - `sudo` - run command with administrative power
@@ -290,6 +291,29 @@
               ```
 
               [TutorialsPoint](https://www.tutorialspoint.com/unix_commands/cat.htm)
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ### sed
+
+              - searches and replace matching patterns:
+              ```bash
+              sed -e 's/search/replace/flags' FILE
+              ```
+
+              Example: replace "book" with "toy" globally (multiple times)
+
+              ```bash
+              sed -e 's/book/toy/g' < file.txt
+              ```
+
+              Example: grouping two words and swithing them around
+              ```bash
+              sed -e 's/^(\w+) = (\w+)/\2 equals \1/g'
+              ```
+              
+              [TutorialsPoint](https://www.tutorialspoint.com/unix_commands/sed.htm)
             </textarea>
           </section>
           <section data-markdown>
