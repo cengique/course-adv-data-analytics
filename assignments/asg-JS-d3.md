@@ -30,6 +30,7 @@
     - Once your visualization is working, export and then upload your
       files into a new folder on your Github repository and link their
       Github Pages URL from your README.
+
 2. We will switch to a more complete JavaScript visualization
    publication platform,
    [ObservableHQ](https://observablehq.com/). Here, we will create
