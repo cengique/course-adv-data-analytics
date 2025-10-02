@@ -1,32 +1,35 @@
-# Assignment 8: Interactive Javascript visualization (due midnight Wed Oct 9)
+# Assignment 8: Interactive Javascript visualization (due midnight Wed Oct 7)
 
 # Questions:
 
-1. Based on the D3.js Tutorial 1 content we completed in class, create
-   your own visualization. Instead of creating a local file, fork my
-   [JSFiddle](https://jsfiddle.net/cengique/sj4e0qzL/) page from the
-   top menu, then publish and share your link. You do NOT need to
-   include the `<html>` and `<body>` tags in the HTML window and you
-   can put Javascript directly in the Javascript window as in my
-   example. Include the following elements in your visualization:
+1. Based on the D3.js tutorial we followed in class, create your own
+   visualization with few basic shapes. Instead of creating a local
+   HTML file, **fork** my
+   [CodePen](https://codepen.io/cengique/pen/OPMRjVo) page from the
+   right side of the bottom menu. You do NOT need to include the
+   `<html>` and `<body>` tags in the HTML window and you can put
+   Javascript directly in the Javascript window as in my example. To
+   submit, **save** and **share** your link from the bottom
+   menu. Include the following elements in your visualization:
     - Circles, rectangles, and text
     - Use transitions to change color, text, and position
-    - Extra credit: Any other elements from the [D3.js 3.x
-      API](https://github.com/d3/d3-3.x-api-reference/blob/master/API-Reference.md). Highlight
+    - Extra credit: Any other elements from the [D3.js 7.x
+      API](https://d3js.org/d3-shape). Highlight
       in the text that you did this so I can give you points.
-1. Based on the Tutorial 2 content, load your CSV dataset into
-   Javascript and use D3.js to visualize one or more columns. View and
-   **fork** [my Code
-   Sandbox](https://codesandbox.io/p/sandbox/ksdf9k). The fork button
-   is on the top right and it will ask you to create a free
-   account. In your fork, start by editing my example in the
-   `index.html` file. Upload your data file and include the following
-   elements in your visualization:
+1. Make a new visualization by loading your CSV or JSON dataset from
+   your Github Pages link with D3.js to visualize one or more
+   columns. View and **fork** [my
+   CodePen](https://codepen.io/cengique/pen/OPMRjba). In your fork,
+   start by editing my example in the Javascript box. Include the
+   following elements in your visualization:
     - For one column from your dataset, create circles, rectangles, or
       text elements.
     - Create a second set of elements from another column, but
       position them close to the first one, or change one of its
       attributes with it (for instance, position or color).
+    - Once your visualization is working, export and then upload your
+      files into a new folder on your Github repository and link their
+      Github Pages URL from your README.
 2. We will switch to a more complete JavaScript visualization
    publication platform,
    [ObservableHQ](https://observablehq.com/). Here, we will create
