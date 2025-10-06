@@ -228,16 +228,16 @@
                     - [jq](https://jqlang.org/) allows extracting content from JSON strings automatically.
                     - You can download and install on your computer.
 
-                    Example:
-                    ```sh
-                    curl 'https://api.github.com/repos/jqlang/jq/commits?per_page=5' | jq '.'
-                    ```
-                    
                     Basic commands:
                     - `.`: Display JSON unchanged.
                     - `.item`: Extract attribute `item` from JSON object
                     - `.data[2].name`: Get the second item in the `data` list and extract its `name` attribute.
 
+                    Example:
+                    ```sh
+                    curl 'https://api.github.com/repos/jqlang/jq/commits?per_page=5' | jq '.'
+                    ```
+                    
                     See more in [tutorial](https://jqlang.org/tutorial/).                    
                     
                   </textarea>
