@@ -11,10 +11,10 @@ Answer all of the questions inside your R Markdown document check its output reg
    data. Plot a graph out of any of the ones we reviewed in class. Make sure axes, lines are annotated and it has a
    title. Briefly explain what your graph shows. Show the R code that resulted in the graph.
 2. Do a simple statistical calculation (e.g. mean, standard deviation, mode, median, etc.) with R that aligns with your hypothesis and plot/report results. Explain what the result means in terms of your question.
-3. We will apply statistical tests to your dataset to gain insight in answering your questions. Start by first applying a correlation or regression analysis to detect a relationship. Display the results by graphing the same variables using a scatter plot. Explain how the relationship aligns with your questions.
+3. We will apply statistical tests to your dataset to gain insight in answering your questions. Start by first applying a correlation or regression analysis to detect a relationship and report statistics such as R^2 and p values. Display the results by graphing the same variables using a scatter plot and add the regression line to it. Explain how the relationship aligns with your questions.
 4. For the second statistical test, select a numerical column that you want to check. First, plot a histogram of it and discuss about its distribution. As you did with the above graph, make sure the histogram is properly annotated. 
 5. Then, divide your dataset into two groups of rows based on another column that matters for your question and apply a test that we discussed in class (t-test, ANOVA, ...) to test for significant differences between the two groups. Make sure the test you selected is consistent with the distribution that you observed earlier. Show the code and briefly explain the results. 
-6. After finishing all the questions, use the free Rpubs option to share your R Markdown document to create a link to post here.  You will need to create a free account on Rpubs. Alternatively, use another [sharing option](https://bookdown.org/yihui/rmarkdown-cookbook/html-share.html).
+6. After finishing all the questions, attach your R Markdown document here. Then, use the free Rpubs option to share your Rmd file and share its link in your post.  You will need to create a free account on Rpubs. Alternatively, use another [sharing option](https://bookdown.org/yihui/rmarkdown-cookbook/html-share.html).
 
 ## Alternative submission instructions:
 
