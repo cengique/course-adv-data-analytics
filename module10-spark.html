@@ -30,9 +30,9 @@
             <img src="images/Spark_cover.png" style="float: right; max-width: auto; height: 500px; margin: 1em;"/>
               ## ITEC 4220 - Advanced Data Analytics
 
-              ### Module 10 - Big Data algorithms and tools: Spark
+              ### Module - Big Data algorithms and tools: Spark
 
-              #### Cengiz Gunay, Rick Price, Fall 2020
+              #### Cengiz Gunay, Rick Price
               #### Reading: Ch 2 Spark - The definitive guide
           </textarea>
         </section>
@@ -256,11 +256,32 @@
             <textarea data-template>
               ### Practice time!
 
-              Log into our ITECLAB host, and run:
-              
-              ```docker exec -it gunayspark bin/pyspark```
+              #### Installing PySpark
 
-              which will give:
+              Simplest solution to install Spark is with pip ([alternatives](https://spark.apache.org/downloads.html)):
+              ```sh
+              pip install pyspark
+              ```
+              <!-- .element: style="width: 50%;" -->
+              
+              If you can't install it, log into our ITECLAB host, and run:
+              
+              ```sh
+              docker exec -it gunayspark bin/pyspark
+              ```
+              <!-- .element: style="width: 50%;" -->
+
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+
+              #### Running PySpark
+              
+              Once installed, type `pyspark` to enter command mode, or
+              simply `import spark` in your code.
+
+              Running `pyspark` will invoke the REPL:
 
               ```bash
               Python 3.6.15 (default, Sep 24 2021, 11:37:20) 
