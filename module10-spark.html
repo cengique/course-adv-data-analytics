@@ -276,12 +276,59 @@
           <section data-markdown>
             <textarea data-template>
 
-              #### Running PySpark
-              
-              Once installed, type `pyspark` to enter command mode, or
-              simply `import spark` in your code.
+              #### Installing PySpark into your notebook
 
-              Running `pyspark` will invoke the REPL:
+              In Jupyter notebooks (local or cloud in Colab or Deepnote), you can run:
+              ```python
+              !pip install pyspark
+              ```
+              <!-- .element: style="width: 50%;" -->
+              (note the exclamation mark at the beginning)
+
+              On Deepnote, you may also need to install the Java requirement:
+              ```
+              !apt update
+              !apt install openjdk-17-jre
+              ```
+              <!-- .element: style="width: 50%;" -->
+              
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+
+              #### Running PySpark in your notebook
+              
+              Import Spark in your code with:
+              ```python
+              from pyspark.sql import SparkSession
+
+              spark = SparkSession.builder \
+                .appName("MySparkApp") \
+                .getOrCreate()
+              spark
+              ```
+              which should give an output of:
+              ```
+                SparkSession - in-memory
+            SparkContext
+            Spark UI
+              Version
+                v3.5.1
+              Master
+                local[*]
+              AppName
+                MySparkApp
+              ```
+
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+
+              #### Running PySpark in the command shell
+
+              Once installed, type `pyspark` to enter interactive mode:
 
               ```bash
               Python 3.6.15 (default, Sep 24 2021, 11:37:20) 
