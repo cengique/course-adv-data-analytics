@@ -647,13 +647,31 @@
                 index=[10, 20, 30, 40, 50, 60])
               ```
 
-              Pandas objects can be converted with `from_pandas()`:
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+
+              ### More with Pandas-on-Spark
+
+              Pandas objects can be obtained with `from_pandas()`:
               ```python
               pdf = pd.DataFrame(np.random.randn(6, 4), index=dates, columns=list('ABCD'))
 
               psdf = ps.from_pandas(pdf)
               ```
-              
+
+              Custom functions for tapping into NumPy and Pandas capabilities:
+              ```python
+              from pyspark.sql.functions import pandas_udf
+
+              @pandas_udf('long')
+              def pandas_plus_one(series: pd.Series) -> pd.Series:
+              # Simply plus one by using pandas Series.
+              return series + 1
+
+              df.select(pandas_plus_one(df.a)).show()
+              ```
             </textarea>
           </section>
         </section> <!-- end SQL and DataFrame -->
