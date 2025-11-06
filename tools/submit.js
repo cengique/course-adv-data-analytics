@@ -3,11 +3,12 @@
 /* Potential solution:
 
    - Create backend that logs in as instructor and submits in the name of student
-   - Security issue: check if user is logged into D2L?
+   - Security issue: check if user is logged into D2L? Or simply pass a hash from D2L quiz.
    - Write backend in Express/vite/next.js
    - env file for secrets
-   - student and assignment ID passed as GET request
-   - runs in iframe inside D2L
+   - student and assignment ID passed as GET request.
+   - Get those from D2L using: https://community.d2l.com/brightspace/kb/articles/6105-automatically-customize-course-content-using-replace-strings
+   - runs in iframe inside D2L, provides link to Gradescope?
  */
 
 const data = 'print("hello")';
