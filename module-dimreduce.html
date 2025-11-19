@@ -271,7 +271,7 @@
                   \end{array} \right] 
                   $$`
 
-                  $X_i$ is the $i$th dimension of input data matrix $\mathbf{X}$.
+                  $X_i$ is the $i$th column of input data matrix $\mathbf{X}$.
 
                   $\mathrm{cov}(\mathbf{X})$ will be symmetric since
                   $\mathrm{cov}(X_i, X_j) = \mathrm{cov}(X_j, X_i)$
@@ -283,16 +283,15 @@
 
                   #### Calculating the covariance matrix
 
-                  - _Center_ your data matrix $\mathbf{X}$ by subtracting the mean of columns:
-                  $$ \mathbf{D} = \mathbf{X} - \mathbf{\mu}$$
-                  (calculate $\mathbf{\mu}$ with [`pandas.DataFrame.mean`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.mean.html) )
-                  - Calculating _cov_ only requires sum of squares of _outer products_:
-                  $$ \mathrm{cov}(\mathbf{D}) = \sum \mathbf{d}_i^T \mathbf{d}_i / (N-1) $$
-                  where $\mathbf{D}$ is the centered data matrix, $\mathbf{d}_i$ is the $i$th
-                  row vector, and $N$ is the number of rows.
+                  - _Center_ and _normalize_ your data matrix $\mathbf{X}$:
+                  $$ \mathbf{D} = ( \mathbf{X} - \mathbf{\mu} ) / \mathbf{\sigma} $$
+                  (calculate $\mathbf{\mu}$ and $\mathbf{\sigma}$ with [`mean`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.mean.html) and [`std`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.std.html), respectively)
+                  - Covariance matrix values are _inner products_ of its data column vectors:
+                  $$ \mathrm{cov}(\mathbf{D})_{ij} = \sum \mathbf{d}_i \mathbf{d}_j^T / (N-1) $$
+                  where $\mathbf{d}_x$ is the $x$th column vector and $N$ is the number of rows.
                   - It can be simplified to a single matrix multiplication:
                   $$ \mathrm{cov}(\mathbf{D}) = \mathbf{D}^T \mathbf{D} / (N-1) $$
-                  - Can also be calculated by [`numpy.cov()`](https://numpy.org/doc/stable/reference/generated/numpy.cov.html) by passing $\mathbf{X}^T$.
+                  - Can also be calculated by [`numpy.cov()`](https://numpy.org/doc/stable/reference/generated/numpy.cov.html) by passing $\mathbf{D}^T$.
 
                 </textarea>
               </section>
