@@ -41,7 +41,6 @@
 	       topic: "Intro to data science. Anatomy of a data science project: hypothesis testing, model development, visualization.",
                reading: "Skills assessment", module: 1, 
 	       assignment: "Research data sources and problem questions", days: 7},
-            {special: "MLK Day", days: 2},
 		{name: "Command line and regular expressions review, R language introduction",
                topic: "History and comparison, basic navigation and commands, functions and variables, workspace, scalars, vectors, matrices, dataframes, file I/O, plotting.",
                reading: "R in a Nutshell, Ch 3; R cheatsheet", module: 1, 
@@ -64,15 +63,10 @@
                assignment: "Publish Tableau/Power BI graphs", days: 7},
             {name: "Mid-term review and exam",
             topic: "", reading: "", assignment: "", days: 7},
-            {name: "Custom interactive visualization with basic blocks",
-               topic: "interactive visualization libraries (D3.js, chartJS, plot.ly)",
-               reading: "Javascript and DOM tutorial",  module: 1, 
-            assignment: "Build basic visualization", days: 7},
-            {special: "Spring break", days: 7},
-            {name: "Custom interactive visualization using your dataset",
-               topic: "using JSON web APIs",
-               reading: "D3.js interactive graphs usage",  module: 1, 
-               assignment: "Connecting to JSON/SQL data sources and visualization in JS", days: 7},
+            {name: "Creating custom visualizations",
+               topic: "using JSON web APIs; interactive visualization libraries (D3.js, chartJS, plot.ly)",
+               reading: "Javascript and DOM tutorial; D3.js interactive graphs usage",  module: 1, 
+               assignment: "Connecting to JSON/SQL data sources and visualization in JS", days: 14},
               {name: "Clustering in Jupyter with Python",
                topic: "Interactive Jupyter notebooks with Pandas; describe hypothesis and explore dataset; find common data clusters in dataset by writing algorithm from scratch",
                reading: "Python for Data Analysis, Chs 5-10; Data Mining and Machine Learning, Ch 13-14",  module: 1, 
@@ -105,12 +99,13 @@
                topic: "Present in class and at the CREATES Symposium",
                reading: "Final exam content",  module: 1, 
                assignment: "None", days: 7},
-              {special: "Final exam, 2 - 4:30pm", days: 1},
+              {special: "Thanksgiving break", days: 14},
+              {special: "Final exam, 8-10:30am", days: 1},
 	    ];
 	      
 
 	    var moduleNum = 0;
-	    const startDate = new Date("2026/01/12");
+	    const startDate = new Date("2025/08/12");
             var startDay = 0;
             var specialdays = 0;
             var rowDate = startDate;
