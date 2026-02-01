@@ -16,6 +16,8 @@ Answer all of the questions inside your R Markdown document check its output reg
 5. Then, divide your dataset into two groups of rows based on another column that matters for your question and apply a test that we discussed in class (t-test, ANOVA, ...) to test for significant differences between the two groups. Make sure the test you selected is consistent with the distribution that you observed earlier. Show the code and briefly explain the results. 
 6. After finishing all the questions, attach your R Markdown document here. Then, use the free Rpubs option to share your Rmd file and share its link in your post.  You will need to create a free account on Rpubs. Alternatively, use another [sharing option](https://bookdown.org/yihui/rmarkdown-cookbook/html-share.html).
 
+--------------
+
 ## Alternative submission instructions:
 
 In case you can't get an R Markdown to work for some reason, you can try one of the following, listed with most preferred first. If you post your report online, you can start having an online presence demonstrating your data science skills, which will help you find employment later. I may cut points if you don't have a valid reason for selecting an alternative to R Markdown. Select ONE of the following:
