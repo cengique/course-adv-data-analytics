@@ -472,6 +472,29 @@
                     <!-- .element: class="fragment" data-fragment-index="3" -->
                   </textarea>
                 </section>
+                <section data-markdown>
+                  <textarea data-template>
+                    ### Another `aggregate()` example
+
+                    Find min and max:
+
+                    ```python
+                    rdd = sc.parallelize([10, 2, 45, 1, 30], 2)
+                    
+                    # Initial zero value: (current_min, current_max)
+                    zeroValue = (float('inf'), float('-inf'))
+
+                    # seqOp: Compare partition elements against current min/max
+                    seqOp = (lambda acc, x: (min(acc[0], x), max(acc[1], x)))
+
+                    # combOp: Merge min/max results from different partitions
+                    combOp = (lambda acc1, acc2: (min(acc1[0], acc2[0]), max(acc1[1], acc2[1])))
+
+                    print(rdd.aggregate(zeroValue, seqOp, combOp)) 
+                    # Output: (1, 45)
+                    ```
+                  </textarea>
+                </section>
 
         </section> <!-- end spark coding -->
         <section> <!-- SQL and DataFrame -->
