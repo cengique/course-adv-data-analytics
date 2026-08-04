@@ -41,13 +41,12 @@
 	       topic: "Intro to data science. Anatomy of a data science project: hypothesis testing, model development, visualization.",
                reading: "Skills assessment", module: 1, 
 	       assignment: "Research data sources and problem questions", days: 7},
-              {special: "MLK Day", days: 2},
 	      {name: "Command line and regular expressions review, R language introduction",
                topic: "History and comparison, basic navigation and commands, functions and variables, workspace, scalars, vectors, matrices, dataframes, file I/O, plotting.",
                reading: "R in a Nutshell, Ch 3; R cheatsheet", module: 1, 
                assignment: "Command line and Rstudio", days: 7 },
               {name: "",
-               topic: "Quiz", reading: "Command line, regex, R reading", assignment: "", days: 5},
+               topic: "Quiz", reading: "Command line, regex, R reading", assignment: "", days: 2},
               {name: "Linear algebra, graphing, and statistics with R",
                topic: "Basic hypothesis testing, regression, other statistical tests. Loop vs vector operations. Vector inner and outer products, matrix multiplication. Probability distributions and statistical tests.",
                reading: "R for Data Science, Ch 1 (Data visualization)", module: 1, 
@@ -59,7 +58,8 @@
 	    {name: "noSQL databases and web APIs",
 	    topic: "JSON structure, web APIs, accessing and querying",
             reading: "JSON and JQ tutorials", module: 1, 
-	    assignment: "Create Github repo and host R markdown on Pages; convert, host, and query JSON dataset", days: 7},
+	    assignment: "Create Github repo and host R markdown on Pages; convert, host, and query JSON dataset", days: 5},
+            {special: "Labor Day", days: 7},
             {name: "",
             topic: "Quiz", reading: "More R, JSON, and APIs", assignment: "", days: 2},
 	    {name: "Interactive visualization dashboards",
@@ -72,7 +72,6 @@
             topic: "interactive visualization libraries (D3.js, chartJS, plot.ly)",
             reading: "Javascript and DOM tutorial",  module: 1, 
             assignment: "Build basic visualization", days: 7},
-            {special: "Spring break", days: 7},
             {name: "Custom interactive visualization using your dataset",
             topic: "using JSON web APIs",
             reading: "D3.js interactive graphs usage",  module: 1, 
@@ -109,17 +108,20 @@
             assignment: "Fix project based on feedback received; update Github with results", days: 5},
             {name: "",
             topic: "Quiz", reading: "Python, Clustering, Classification, Spark", assignment: "", days: 2},
-            {name: "Class Presentations & Final exam review",
+            {name: "Class Presentations",
             topic: "Present in class and at the CREATES Symposium",
-            reading: "Final exam content",  module: 1, 
-            assignment: "None", days: 2},
-            {special: "CREATES Presentation: 1:45-3pm", days: 5},
-            {special: "Final exam, 4 - 6:30pm", days: 1},
+            reading: "",  module: 1, 
+            assignment: "None", days: 4},
+            /*{special: "CREATES Presentation: 1:45-3pm", days: 2},*/
+            {special: "Thanksgiving break", days: 7},
+            {name: "Final exam review", topic: "", reading: "Final exam content",
+            assignment: "None", module: 1, days: 7},
+            /*{special: "Final exam, 4:00 - 6:30pm", days: 1},*/
 	    ];
 	      
 
 	    var moduleNum = 0;
-	    const startDate = new Date("2026/01/12");
+	    const startDate = new Date("2026/08/10");
             var startDay = 0;
             var specialdays = 0;
             var rowDate = startDate;
