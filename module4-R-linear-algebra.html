@@ -401,8 +401,8 @@
 		  <textarea data-template>
                     #### Investigating data distribution: histogram and density plots
 
-                    <img src="images/R-plot-example-hist.png" style="float: left; width: '20%';"/>
-                    <img src="images/R-plot-example-density.png" style="float: right; width: '20%';"/>
+                    <img src="images/R-plot-example-hist.png" style="width: '20%';"/>
+                    <img src="images/R-plot-example-density.png" style="width: '20%';"/>
                     1. Histogram (left): Quick distribution graph, but dependent on bin size
                     ```R
                     hist(mtcars$mpg, breaks=5)
@@ -411,14 +411,16 @@
                     ```R
                     plot(density(mtcars$mpg))
                     ```
+
+                    which is better? What is the ideal bin size (sqrt)?
 		  </textarea>
 	        </section>
       	        <section data-markdown>
 		  <textarea data-template>
                     #### Simple line plots
 
-                    <img src="images/R-plot-example-plot-1D.png" style="float: left; width: 400px;"/>
-                    <img src="images/R-plot-example-plot-2D.png" style="float: right; width: 400px;"/>
+                    <img src="images/R-plot-example-plot-1D.png" style="width: 400px;"/>
+                    <img src="images/R-plot-example-plot-2D.png" style="width: 400px;"/>
                     - 1-D line (left): Just one variable, x-axis is index
                     ```R
                     a=c(1,2,3,4)
@@ -429,6 +431,15 @@
                     b=c(4,3,2,1)
                     plot(a,b, type="l")
                     ```
+		  </textarea>
+	        </section>
+      	        <section data-markdown>
+		  <textarea data-template>
+                    #### Bar plots and ggplot2
+
+                    [Bar plots](https://r-graph-gallery.com/barplot.html)
+
+                    [Grouped and stacked bars](https://r-graph-gallery.com/48-grouped-barplot-with-ggplot2)
 		  </textarea>
 	        </section>
               </section>
