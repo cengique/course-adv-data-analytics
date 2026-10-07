@@ -272,6 +272,35 @@
 	        </section>
 		<section data-markdown>
 		  <textarea data-template>
+                    ### Javascript: Functions
+                    ```js
+                    function add(a, b) {
+                      return a + b;
+                    }
+                    add(5, 10)
+                    ```
+                    
+                    Anonymous (lambda) functions:
+                    ```js
+                    const var = function (a, b) {
+                      return a + b;
+                    }
+                    var(5, 10)
+                    ```
+
+                    Arrow notation for lambda functions:
+                    ```js
+                    const var = (a, b) => { return a + b; };
+                    ```
+
+                    Simpler notation if only returning a value:
+                    ```js
+                    const var = (a, b) => a + b;
+                    ```
+		  </textarea>
+	        </section>
+		<section data-markdown>
+		  <textarea data-template>
                     ### Tutorial with live examples: [D3 in Depth](https://www.d3indepth.com/gettingstarted/)
 
                     Sections:
