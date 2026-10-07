@@ -197,6 +197,7 @@
                     - Like [PowerBI](https://powerbi.microsoft.com/en-us/) and
                     [Tableau](https://www.tableau.com/), but build **custom** graphs
                     - Already on the web, can read CSV/JSON
+                    - Challenges: Needs knowledge of [HTML/CSS/Javascript](https://developer.mozilla.org/en-US/)
                     - Popular libraries:
                     [Vega-Lite](https://vega.github.io/vega-lite/),
                     [ChartJS](https://www.chartjs.org/),
@@ -222,7 +223,7 @@
 
                     Or on [CodeSandBox](https://codesandbox.io)/[CodePen](https://codepen.io/pen)/[MDN](https://developer.mozilla.org/en-US/play)/[W3Schools](https://www.w3schools.com/js/tryit.asp?filename=tryjs_editor).
 
-                    Official documentation on [D3js.org](https://d3js.org/what-is-d3)
+                    Official documentation on [D3js.org](https://d3js.org/what-is-d3) and [MDN](https://developer.mozilla.org/en-US/) 
 
 		  </textarea>
 	        </section>
@@ -243,6 +244,30 @@
                         - lambda functions and callbacks
                         - arrays, JSON: `forEach`, `map`, `filter`, `find`
                     
+		  </textarea>
+	        </section>
+		<section data-markdown>
+		  <textarea data-template>
+                    ### Javascript: Method chaining
+                    
+                    Original code:
+                    ```js
+                    selected = d3.select("body");
+                    div = selected.append("div");
+                    div.text("hello world");
+                    ```
+
+                    No need for one time-use variables!
+                    ```js
+                    d3.select("body").append("div").text("hello world");
+                    ```
+                    Cleaner:
+                    ```js
+                    d3.select("body")
+                      .append("div")
+                      .text("hello world");
+                    ```
+
 		  </textarea>
 	        </section>
 		<section data-markdown>
