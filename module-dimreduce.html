@@ -125,7 +125,7 @@
                   ## Module - Dimensionality reduction
 
                   ### ITEC 4220 - Advanced Data Analytics
-                  #### Cengiz Gunay, updated Fall 2023
+                  #### Cengiz Gunay
 
                   #### Reading: [Ch 7](https://dataminingbook.info/book_html/chap7/book.html) from [Zaki and Meira](https://dataminingbook.info/)
                 </textarea>
@@ -249,8 +249,8 @@
                   > Covariance is about the degree to which two random variables behave similarly
                   ([Wikipedia](https://en.wikipedia.org/wiki/Covariance)).
 
-                  **Variance** of one variable:
-                  $$\mathrm{var}(X) = \sum (x_i - \mu_X)^2/(N-1)$$
+                  Standard deviation squared, **variance** of one variable:
+                  $$\sigma^2 = \mathrm{var}(X) = \sum (x_i - \mu_X)^2/(N-1)$$
 
                   **Covariance** between two variables with $N$ observations:
                   $$\mathrm{cov}(X,Y) = \sum (x_i - \mu_X)(y_i - \mu_Y)/(N-1)$$
@@ -287,7 +287,7 @@
                   $$ \mathbf{D} = ( \mathbf{X} - \mathbf{\mu} ) / \mathbf{\sigma} $$
                   (calculate $\mathbf{\mu}$ and $\mathbf{\sigma}$ with [`mean`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.mean.html) and [`std`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.std.html), respectively)
                   - Covariance matrix values are _inner products_ of its data column vectors:
-                  $$ \mathrm{cov}(\mathbf{D})_{ij} = \sum \mathbf{d}_i \mathbf{d}_j^T / (N-1) $$
+                  $$ \mathrm{cov}(\mathbf{D})_{ij} = \mathbf{d}_i^T \cdot \mathbf{d}_j / (N-1) $$
                   where $\mathbf{d}_x$ is the $x$th column vector and $N$ is the number of rows.
                   - It can be simplified to a single matrix multiplication:
                   $$ \mathrm{cov}(\mathbf{D}) = \mathbf{D}^T \mathbf{D} / (N-1) $$
